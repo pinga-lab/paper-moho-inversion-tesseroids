@@ -1,1 +1,3 @@
-The intro citing \citet{Reguzzoni_2013}
+\sectionn{Introduction}
+
+The intro citing \citet{Reguzzoni_2013}.
