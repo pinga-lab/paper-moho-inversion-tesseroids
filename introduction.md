@@ -1,1 +1,1 @@
-The intro citing \citet{10.1093/gji/ggt247}
+The intro citing \citet{Reguzzoni_2013}
