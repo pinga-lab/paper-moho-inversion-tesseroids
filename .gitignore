@@ -1,4 +1,5 @@
 .ipynb_checkpoints
 notebooks/*.png
 notebooks/profiling.txt
+*.pyc
 *~
