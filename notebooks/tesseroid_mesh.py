@@ -1,4 +1,8 @@
+"""
+Defines a TesseroidRelief object.
 
+A mesh discretizing a relief that ondulates around a reference level.
+"""
 from __future__ import division
 import copy
 import numpy as np
@@ -16,9 +20,9 @@ class TesseroidRelief(object):
         assert area[0] < area[1] and area[2] < area[3]
         self.area = area
         self.shape = shape
-        x1, x2, y1, y2 = area
-        ny, nx = shape
-        self.spacing = ((x2 - x1)/nx, (y2 - y1)/ny)
+        w, e, s, n = area
+        nlat, nlon = shape
+        self.spacing = ((e - w)/nlon, (n - s)/nlat)
         self._relief = relief
         self.reference = reference
         self.set_top_bottom()
@@ -72,21 +76,21 @@ class TesseroidRelief(object):
         return cell
     
     def __getitem__(self, index):
-        ny, nx = self.shape
-        x1, x2, y1, y2 = self.area
-        dx, dy = self.spacing
-        j = index//nx
-        i = index - j*nx
-        w = x1 + i*dx
-        e = w + dx
-        s = y1 + j*dy
-        n = s + dy
+        nlat, nlon = self.shape
+        w, e, s, n = self.area
+        dlon, dlat = self.spacing
+        j = index//nlon
+        i = index - j*nlon
+        cw = w + j*dlon
+        ce = cw + dlon
+        cs = s + i*dlat
+        cn = cs + dlat
         top = self.top[index]
         bottom = self.bottom[index]
         props = {}
         for p in self.props:
             props[p] = self.props[p][index]
-        cell = Tesseroid(w, e, s, n, top, bottom, props)
+        cell = Tesseroid(cw, ce, cs, cn, top, bottom, props)
         return cell
     
     def copy(self, deep=False):
