@@ -1,4 +1,10 @@
+"""
+Defines classes and functions to load and manipulate the CRUST1.0 model.
 
+Use *fetch_crust1* to load the model from the zip archive
+(you can download it from http://igppweb.ucsd.edu/~gabi/crust1.html ).
+The function will return a *Crust1* object.
+"""
 from __future__ import division
 import tarfile
 import hashlib
@@ -7,6 +13,11 @@ from fatiando.mesher import Tesseroid
     
 
 class Crust1(object):
+    """
+    The CRUST1.0 model.
+    
+    Allows you to get the layers, slice and get properties from the model.
+    """
     
     layers = """
     water 
@@ -20,6 +31,10 @@ class Crust1(object):
     mantle
     """.split()
     
+    # The SHA256 hash of the model file downloaded from
+    # http://igppweb.ucsd.edu/~gabi/crust1.html
+    # Used to check if the file used is the correct one
+    # or if it's been corrupted.
     sha256 = '0b41b46fc3e1a76debbbcb66ab407febaeee4dc3033db7a0a24d2bb7c7adfe3e'
     
     def __init__(self, lons, lats, topo, vp, vs, density):
@@ -42,6 +57,9 @@ class Crust1(object):
         
     @property
     def sediment_thickness(self):
+        """
+        A 2D array with the total sediment thickness.
+        """
         thick = (self.upper_sediments.thickness 
                  + self.middle_sediments.thickness 
                  + self.lower_sediments.thickness)
@@ -49,6 +67,9 @@ class Crust1(object):
     
     @property
     def crustal_thickness(self):
+        """
+        A 2D array with the total crustal thickness.
+        """
         thick = (self.sediment_thickness
                  + self.upper_crust.thickness 
                  + self.middle_crust.thickness 
@@ -57,9 +78,17 @@ class Crust1(object):
     
     @property
     def moho_depth(self):
+        """
+        A 2D array with the Moho depth.
+        """
         return -self.lower_crust.bottom
     
     def cut(self, area):
+        """
+        Extract a subset of the model contained in the given area.
+        
+        *area* should be (w, e, s, n) in degrees.
+        """
         w, e, s, n = area
         imin = np.searchsorted(self.lats, s)
         imax = np.searchsorted(self.lats, n)
@@ -76,6 +105,10 @@ class Crust1(object):
 
     
 class _Layer(object):
+    """
+    Store a single layer of the model.
+    """
+    
     def __init__(self, lon, lat, top, bottom=None, **kwargs):
         self.lon = lon
         self.lat = lat
@@ -87,12 +120,18 @@ class _Layer(object):
     
     @property
     def thickness(self):
+        """
+        2D array with the thickness of this layer.
+        """
         if self.bottom is None:
             raise ValueError('This layer has no bottom')
         return self.top - self.bottom
     
     @property
     def tesseroids(self):
+        """
+        Get a tesseroid representation of this layer.
+        """
         ds = (self.lon[0, 1] - self.lon[0, 0])/2
         arrays = [self.lon, self.lat, self.top, self.bottom,
                   self.vp, self.vs, self.density]
@@ -105,6 +144,22 @@ class _Layer(object):
 
 
 def fetch_crust1(fname):
+    """
+    Load the CRUST1.0 model from a file.
+    
+    You can download the file from http://igppweb.ucsd.edu/~gabi/crust1.html
+    
+    Parameters:
+    
+    * fname : string
+        The file name (or full path) of the .zip file.
+        
+    Returns:
+    
+    * crust1 : Crust1
+        The model in a *Crust1* class.
+        
+    """
     _check_hash_crust1(fname)
     with tarfile.open(fname, 'r:gz') as arc:
         topo = _extract_file(arc, 'bnds')
@@ -117,6 +172,7 @@ def fetch_crust1(fname):
     
 
 def _check_hash_crust1(fname):
+    "Check the hash of the file agains the one recorded in  the class."
     sha = _stream_sha(fname)
     msg = ' '.join([
         'Error reading model from file "{}".'.format(fname),
@@ -127,6 +183,7 @@ def _check_hash_crust1(fname):
         
 
 def _stream_sha(fname, chunksize=65536):
+    "Calculate the SHA256 hash of a file in chunks"
     hasher = hashlib.sha256()
     with open(fname, 'rb') as f:
         buf = f.read(chunksize)
@@ -137,6 +194,7 @@ def _stream_sha(fname, chunksize=65536):
 
     
 def _extract_file(archive, ext):
+    "Extract the data from a file in the zip. Returns in numpy array."
     f = archive.extractfile('crust1.{}'.format(ext))
     shape = (9, 180, 360)
     # Convert from km, g/cm^3 and km/s to m, kg/m^3 and m/s
