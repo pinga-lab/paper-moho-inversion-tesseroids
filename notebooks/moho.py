@@ -26,7 +26,6 @@ class MohoGravityInvSpherical(Misfit):
         # on the optimization method used. This will not be 
         # much of a problem because they take little time to build.
         self.predicted = CachedMethod(self, 'predicted')
-        assert mesh.size == data.size
         assert field in ['gz']
         self.lon = lon
         self.lat = lat
