@@ -97,7 +97,7 @@ class TesseroidRelief(object):
         nlat, nlon = self.shape
         dlat, dlon = self.spacing
         i = index//nlon
-        j = index - i*nlat
+        j = index - i*nlon
         w = self.lons[j]
         e = w + dlon
         s = self.lats[i]
