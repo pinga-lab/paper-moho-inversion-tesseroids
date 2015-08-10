@@ -20,11 +20,13 @@ class TesseroidRelief(object):
         assert area[0] < area[1] and area[2] < area[3]
         self.area = area
         self.shape = shape
-        w, e, s, n = area
+        s, n, w, e = area
         nlat, nlon = shape
-        self.spacing = ((e - w)/nlon, (n - s)/nlat)
+        self.lons = np.linspace(w, e, nlon, endpoint=False)
+        self.lats = np.linspace(s, n, nlat, endpoint=False)
+        self.spacing = self.lats[1] - self.lats[0], self.lons[1] - self.lons[0]
         self._relief = relief
-        self.reference = reference
+        self.reference = reference*np.ones_like(relief)
         self.set_top_bottom()
         if props is None:
             self.props = {}
@@ -32,11 +34,27 @@ class TesseroidRelief(object):
             self.props = props
         self._i = 0
         
+    def addprop(self, prop, values):
+        """
+        Add physical property values to the mesh.
+        
+        Different physical properties of the grid are stored in a dictionary.
+        
+        Parameters:
+        
+        * prop : str
+            Name of the physical property.
+        * values :  list or array
+            Value of this physical property in each point of the grid
+            
+        """
+        self.props[prop] = values
+        
     def set_top_bottom(self):
         self._top = self.relief.copy()
-        self._bottom = self.reference*np.ones_like(self.relief)
+        self._bottom = self.reference.copy()
         isbelow = self._top <= self.reference
-        self._top[isbelow] = self.reference
+        self._top[isbelow] = self.reference[isbelow]
         self._bottom[isbelow] = self.relief[isbelow]
         
     @property
@@ -77,20 +95,19 @@ class TesseroidRelief(object):
     
     def __getitem__(self, index):
         nlat, nlon = self.shape
-        w, e, s, n = self.area
-        dlon, dlat = self.spacing
-        j = index//nlon
-        i = index - j*nlon
-        cw = w + j*dlon
-        ce = cw + dlon
-        cs = s + i*dlat
-        cn = cs + dlat
+        dlat, dlon = self.spacing
+        i = index//nlon
+        j = index - i*nlat
+        w = self.lons[j]
+        e = w + dlon
+        s = self.lats[i]
+        n = s + dlat
         top = self.top[index]
         bottom = self.bottom[index]
         props = {}
         for p in self.props:
             props[p] = self.props[p][index]
-        cell = Tesseroid(cw, ce, cs, cn, top, bottom, props)
+        cell = Tesseroid(w, e, s, n, top, bottom, props)
         return cell
     
     def copy(self, deep=False):

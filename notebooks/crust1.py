@@ -37,7 +37,7 @@ class Crust1(object):
     # or if it's been corrupted.
     sha256 = '0b41b46fc3e1a76debbbcb66ab407febaeee4dc3033db7a0a24d2bb7c7adfe3e'
     
-    def __init__(self, lons, lats, topo, vp, vs, density):
+    def __init__(self, lats, lons, topo, vp, vs, density):
         self.lons, self.lats = lons, lats
         self.topo = topo
         self.vp = vp
@@ -48,10 +48,10 @@ class Crust1(object):
         
     def _make_layers(self):
         for i in range(len(self.layers) - 1):
-            layer = _Layer(self.lon, self.lat, self.topo[i], self.topo[i + 1],
+            layer = _Layer(self.lat, self.lon, self.topo[i], self.topo[i + 1],
                            vp=self.vp[i], vs=self.vs[i], density=self.density[i])
             setattr(self, self.layers[i], layer)
-        layer = _Layer(self.lon, self.lat, self.topo[-1], None,
+        layer = _Layer(self.lat, self.lon, self.topo[-1], None,
                        vp=self.vp[-1], vs=self.vs[-1], density=self.density[-1])
         setattr(self, self.layers[-1], layer)
         
@@ -89,7 +89,7 @@ class Crust1(object):
         
         *area* should be (w, e, s, n) in degrees.
         """
-        w, e, s, n = area
+        s, n, w, e = area
         imin = np.searchsorted(self.lats, s)
         imax = np.searchsorted(self.lats, n)
         jmin = np.searchsorted(self.lons, w)
@@ -109,7 +109,7 @@ class _Layer(object):
     Store a single layer of the model.
     """
     
-    def __init__(self, lon, lat, top, bottom=None, **kwargs):
+    def __init__(self, lat, lon, top, bottom=None, **kwargs):
         self.lon = lon
         self.lat = lat
         self.top = top
@@ -168,7 +168,7 @@ def fetch_crust1(fname):
         vs = _extract_file(arc, 'vs')
     lons = np.linspace(-179.5, 179.5, 360)
     lats = np.linspace(-89.5, 89.5, 180)
-    return Crust1(lons, lats, topo, vp, vs, density)
+    return Crust1(lats, lons, topo, vp, vs, density)
     
 
 def _check_hash_crust1(fname):

@@ -6,7 +6,8 @@ Uses the base classes from *fatiando.inversion*.
 from __future__ import division
 from fatiando.inversion import Misfit, CachedMethodPermanent, CachedMethod
 from fatiando.gravmag import tesseroid
-from fatiando import constants, utils
+from fatiando import constants, utils, gridder
+from tesseroid_mesh import TesseroidRelief
 import scipy.sparse
 import numpy as np
 import copy
@@ -14,12 +15,47 @@ import multiprocessing
 import warnings
 
 
+def make_mesh(area, shape, relief=None, reference=None):
+    """
+    Make a TesseroidRelief mesh for use in MohoGravityInvSpherical.
+    
+    This functions will create a mesh that has one tesseroid below each 
+    data point. Data is considered to be on a regular grid.
+    
+    Parameters:
+    
+    * area : list = (s, n, w, e)
+        The dimensions of the data grid in degrees.
+    * shape : list = (nlat, nlon)
+        The number of data points in latitude and longitude, respectively.
+    * relief : 1d-array
+        The relief of the interface. If None, will use a constant of 1.
+    * reference : float
+        The reference level. If None, will use a constant of 0.
+        
+    Returns:
+    
+    * mesh : TesseroidRelief
+        The generated mesh.
+        
+    """
+    dlat, dlon = gridder.spacing(area, shape)
+    s, n, w, e = area
+    modelarea = (s - dlat/2, n + dlat/2, w - dlon/2, e + dlon/2)
+    if relief is None:
+        relief = np.ones(shape).ravel()
+    if reference is None:
+        reference = 0
+    mesh = TesseroidRelief(modelarea, shape, relief, reference)
+    return mesh
+
+
 class MohoGravityInvSpherical(Misfit):
     """
     Gravity inversion for the relief of the Moho using tesseroids.
     """
     
-    def __init__(self, lon, lat, height, data, mesh, njobs=1, field='gz'):
+    def __init__(self, lat, lon, height, data, mesh, njobs=1, field='gz'):
         super(MohoGravityInvSpherical, self).__init__(data=data, nparams=mesh.size, 
                                                       islinear=False, cache=False)
         # Not caching the Jacobian and Hessian because
