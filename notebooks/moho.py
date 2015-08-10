@@ -11,6 +11,7 @@ import scipy.sparse
 import numpy as np
 import copy
 import multiprocessing
+import warnings
 
 
 class MohoGravityInvSpherical(Misfit):
@@ -26,6 +27,12 @@ class MohoGravityInvSpherical(Misfit):
         # on the optimization method used. This will not be 
         # much of a problem because they take little time to build.
         self.predicted = CachedMethod(self, 'predicted')
+        if mesh.size != data.size:
+            msg = ("The mesh size ({}) is different".format(mesh.size)
+                   + " from the data size ({}).".format(data.size)
+                   + " The mesh elements should be below each data point."
+                   + " Make sure you know what you're doing.")
+            warnings.warn(msg, RuntimeWarning)
         assert field in ['gz']
         self.lon = lon
         self.lat = lat
