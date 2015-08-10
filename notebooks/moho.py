@@ -164,3 +164,46 @@ class MohoGravityInvSpherical(Misfit):
         """
         self.kernel_kwargs = kwargs
         return self
+    
+    
+def _fit_test(args):
+    """
+    Fit the solver and get the RMS for the test dataset.
+    """
+    solver, test_set = args
+    solver.fit()
+    rms = test_set.value(solver.p_)/test_set.ndata
+    return rms, solver
+
+
+def cross_validation(misfit, regul, regul_params, config, test_set, njobs=1):
+    """
+    Performs the cross-validation to find the best regularization parameter.
+        
+    Returns:
+    
+    * ibest : int
+        Index of the best regularization parameter
+    * best : Objective function class
+        The objective function (misfit + mu*regularization) corresponding
+        to the best solution
+    * scores : list
+        The Residual Mean Square errors for the test dataset per
+        regularization parameter used.
+    * solvers : list
+        List of all objetive functions tried.    
+        
+    """
+    args = [[(misfit + mu*regul).config(**config), test_set]
+            for mu in regul_params]
+    if njobs > 1:
+        pool = multiprocessing.Pool(njobs)
+        results = pool.map(_fit_test, args)
+        pool.close()
+        pool.join()
+    else:
+        results = map(_fit_test, args)
+    scores, solvers = zip(*results)
+    ibest = np.argmin(scores)
+    best = solvers[ibest]
+    return ibest, best, scores, solvers
