@@ -24,6 +24,7 @@ class TesseroidRelief(object):
         nlat, nlon = shape
         self.lons = np.linspace(w, e, nlon, endpoint=False)
         self.lats = np.linspace(s, n, nlat, endpoint=False)
+        self.lon, self.lat = np.meshgrid(self.lons, self.lats)
         self.spacing = self.lats[1] - self.lats[0], self.lons[1] - self.lons[0]
         self._relief = relief
         self.reference = reference*np.ones_like(relief)
