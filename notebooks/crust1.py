@@ -38,20 +38,36 @@ class Crust1(object):
     sha256 = '0b41b46fc3e1a76debbbcb66ab407febaeee4dc3033db7a0a24d2bb7c7adfe3e'
     
     def __init__(self, lats, lons, topo, vp, vs, density):
+        assert np.allclose(lons[1:] - lons[0:-1], 1), "Spacing in lon is not 1"
+        assert np.allclose(lats[1:] - lats[0:-1], 1), "Spacing in lat is not 1"
+        # Longitude and latitude of the SW corner of the cells
         self.lons, self.lats = lons, lats
+        self.lon, self.lat = np.meshgrid(lons, lats)
+        # Longitude and latitude of the center of each cell
+        self.clons = lons + 0.5 
+        self.clats = lats + 0.5 
+        self.clon = self.lon + 0.5 
+        self.clat = self.lat + 0.5 
         self.topo = topo
         self.vp = vp
         self.vs = vs
         self.density = density
-        self.lon, self.lat = np.meshgrid(lons, lats)
         self._make_layers()
+        
+    @property
+    def area(self):
+        s = self.lats[0]
+        n = self.lats[-1] + 1
+        w = self.lons[0]
+        e = self.lons[-1] + 1
+        return [s, n, w, e]
         
     def _make_layers(self):
         for i in range(len(self.layers) - 1):
-            layer = _Layer(self.lat, self.lon, self.topo[i], self.topo[i + 1],
+            layer = _Layer(self.clat, self.clon, self.topo[i], self.topo[i + 1],
                            vp=self.vp[i], vs=self.vs[i], density=self.density[i])
             setattr(self, self.layers[i], layer)
-        layer = _Layer(self.lat, self.lon, self.topo[-1], None,
+        layer = _Layer(self.clat, self.clon, self.topo[-1], None,
                        vp=self.vp[-1], vs=self.vs[-1], density=self.density[-1])
         setattr(self, self.layers[-1], layer)
         
@@ -166,8 +182,8 @@ def fetch_crust1(fname):
         density = _extract_file(arc, 'rho')
         vp = _extract_file(arc, 'vp')
         vs = _extract_file(arc, 'vs')
-    lons = np.linspace(-179.5, 179.5, 360)
-    lats = np.linspace(-89.5, 89.5, 180)
+    lons = np.linspace(-180, 180, 360, endpoint=False)
+    lats = np.linspace(-90, 90, 180, endpoint=False)
     return Crust1(lats, lons, topo, vp, vs, density)
     
 
