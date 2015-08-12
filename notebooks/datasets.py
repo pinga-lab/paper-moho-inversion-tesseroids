@@ -1,9 +1,22 @@
-"""
-Defines classes and functions to load and manipulate the CRUST1.0 model.
+# -*- coding: utf-8 -*-
+u"""
+Defines classes and functions to load and manipulate the datasets we use.
 
-Use *fetch_crust1* to load the model from the zip archive
-(you can download it from http://igppweb.ucsd.edu/~gabi/crust1.html ).
-The function will return a *Crust1* object.
+All datasets are provided in the 'data' directory of this repository.
+
+CRUST1.0 model
+--------------
+
+* ``fetch_crust1``: loads the model from the zip archive (you can download 
+  it from http://igppweb.ucsd.edu/~gabi/crust1.html ). The function will 
+  return a *Crust1* object which you can use to interact with the model.
+
+Moho depth
+----------
+
+* ``fetch_assumpcao_moho_points``: loads the point data from the
+  seismic crustal thickness compilation of Assumpção et al. (2012).
+  
 """
 from __future__ import division
 import tarfile
@@ -11,7 +24,114 @@ import hashlib
 import numpy as np
 from fatiando.mesher import Tesseroid
     
+    
+# The SHA256 has of the Assumpção et al dataset archive file
+# Used to verify that the given file is not corrupted.
+ASSUMPCAO_HASH = '80bf7f3be4b4cc8899d403b95ee8d1cc874c7eb70d8e83151b2cbfa353c00179'
 
+
+def fetch_assumpcao_moho_points(fname, todepth=True):
+    u"""
+    Extract the point seismic data of Assumpção et al. (2012) from the 
+    tar.gz archive.
+    
+    Parameters:
+    
+    * fname : string
+        The name (or full path) of the tar.gz archive with the data.
+    * todepth : True or False
+        If True, will convert the crustal thickness data to Moho depth
+        (in meters)
+        
+    Returns:
+    
+    * lat, lon, height, data : 1d-arrays
+        The latitude, longitude, and altitude coordinates of each data 
+        point, the corresponding crustal thickness or Moho depth (in meters),
+        and the corresponding uncertainty.
+        
+    """
+    _check_hash(fname, ASSUMPCAO_HASH)
+    with tarfile.open(fname, 'r:gz') as archive:
+        # Need to get the data separate because there is a break in the format
+        # when the Marcelo and Andres files are concatenated into the SAm file
+        f1 = archive.extractfile('Moho_Map_SAm2013_data/Compilation_SAm.06NOV2012.IXYEHU.dat')
+        data1 = np.genfromtxt(f1.readlines()[:754], usecols=[1, 2, 3, 4, 5])
+        f2 = archive.extractfile('Moho_Map_SAm2013_data/Compilation_Andres.XYEHU.dat')
+        data2 = np.genfromtxt(f2.readlines(), usecols=[0, 1, 2, 3, 4])
+        data = np.vstack([data1, data2]).T
+    lon, lat, height, crustal_thick, uncert = data
+    # Convert from km to meters
+    crustal_thick *= 1000
+    uncert *= 1000
+    if todepth:
+        crustal_thick -= height
+    return lat, lon, height, crustal_thick, uncert
+    
+
+def fetch_crust1(fname):
+    """
+    Load the CRUST1.0 model from a file.
+    
+    You can download the file from http://igppweb.ucsd.edu/~gabi/crust1.html
+    
+    Parameters:
+    
+    * fname : string
+        The file name (or full path) of the .zip file.
+        
+    Returns:
+    
+    * crust1 : Crust1
+        The model in a *Crust1* class.
+        
+    """
+    _check_hash(fname, Crust1.sha256)
+    with tarfile.open(fname, 'r:gz') as arc:
+        topo = _extract_file_crust1(arc, 'bnds')
+        density = _extract_file_crust1(arc, 'rho')
+        vp = _extract_file_crust1(arc, 'vp')
+        vs = _extract_file_crust1(arc, 'vs')
+    lons = np.linspace(-180, 180, 360, endpoint=False)
+    lats = np.linspace(-90, 90, 180, endpoint=False)
+    model = Crust1(lats, lons, topo, vp, vs, density)
+    assert model.shape == (180, 360), \
+        "Model shape mismatch: {}".format(model.shape)
+    return model
+    
+
+def _check_hash(fname, true_hash):
+    "Check the hash of the file agains the one recorded in  the class."
+    sha = _stream_sha(fname)
+    msg = '\n'.join([
+        'Error reading model from file "{}". Possibly corrupted file.'.format(fname),
+        '  - Calculated SHA256 hash: {}'.format(sha),
+        '  - Known (recorded) SHA256 hash: {}'.format(true_hash)])
+    assert sha == true_hash, msg
+        
+
+def _stream_sha(fname, chunksize=65536):
+    "Calculate the SHA256 hash of a file in chunks"
+    hasher = hashlib.sha256()
+    with open(fname, 'rb') as f:
+        buf = f.read(chunksize)
+        while len(buf) > 0:
+            hasher.update(buf)
+            buf = f.read(chunksize)
+    return hasher.hexdigest()
+
+    
+def _extract_file_crust1(archive, ext):
+    "Extract the data from the CRUST1.0 file in the zip. Returns in numpy array."
+    f = archive.extractfile('crust1.{}'.format(ext))
+    shape = (9, 180, 360)
+    # Convert from km, g/cm^3 and km/s to m, kg/m^3 and m/s
+    # The slice is to invert the latitude axis. CRUST uses lat from +89.5 to -89.5
+    # (North to South). We use South to North.
+    data = 1000*np.loadtxt(f, unpack=True).reshape(shape)[:, ::-1, :]
+    return data       
+    
+    
 class Crust1(object):
     """
     The CRUST1.0 model.
@@ -161,67 +281,3 @@ class _Layer(object):
                for lon, lat, top, bottom, vp, vs, density in args
                if abs(top - bottom) > 10)
         return gen
-
-
-def fetch_crust1(fname):
-    """
-    Load the CRUST1.0 model from a file.
-    
-    You can download the file from http://igppweb.ucsd.edu/~gabi/crust1.html
-    
-    Parameters:
-    
-    * fname : string
-        The file name (or full path) of the .zip file.
-        
-    Returns:
-    
-    * crust1 : Crust1
-        The model in a *Crust1* class.
-        
-    """
-    _check_hash_crust1(fname)
-    with tarfile.open(fname, 'r:gz') as arc:
-        topo = _extract_file(arc, 'bnds')
-        density = _extract_file(arc, 'rho')
-        vp = _extract_file(arc, 'vp')
-        vs = _extract_file(arc, 'vs')
-    lons = np.linspace(-180, 180, 360, endpoint=False)
-    lats = np.linspace(-90, 90, 180, endpoint=False)
-    model = Crust1(lats, lons, topo, vp, vs, density)
-    assert model.shape == (180, 360), \
-        "Model shape mismatch: {}".format(model.shape)
-    return model
-    
-
-def _check_hash_crust1(fname):
-    "Check the hash of the file agains the one recorded in  the class."
-    sha = _stream_sha(fname)
-    msg = ' '.join([
-        'Error reading model from file "{}".'.format(fname),
-        'Possibly corrupted file',
-        '(invalid SHA256 hash "{}").'.format(sha)
-        ])
-    assert sha == Crust1.sha256, msg
-        
-
-def _stream_sha(fname, chunksize=65536):
-    "Calculate the SHA256 hash of a file in chunks"
-    hasher = hashlib.sha256()
-    with open(fname, 'rb') as f:
-        buf = f.read(chunksize)
-        while len(buf) > 0:
-            hasher.update(buf)
-            buf = f.read(chunksize)
-    return hasher.hexdigest()
-
-    
-def _extract_file(archive, ext):
-    "Extract the data from a file in the zip. Returns in numpy array."
-    f = archive.extractfile('crust1.{}'.format(ext))
-    shape = (9, 180, 360)
-    # Convert from km, g/cm^3 and km/s to m, kg/m^3 and m/s
-    # The slice is to invert the latitude axis. CRUST uses lat from +89.5 to -89.5
-    # (North to South). We use South to North.
-    data = 1000*np.loadtxt(f, unpack=True).reshape(shape)[:, ::-1, :]
-    return data       
