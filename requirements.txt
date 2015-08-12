@@ -7,3 +7,4 @@ numba=0.18.2
 ipython
 ipython-notebook
 mayavi
+seaborn
