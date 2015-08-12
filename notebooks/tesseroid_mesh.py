@@ -34,6 +34,26 @@ class TesseroidRelief(object):
         else:
             self.props = props
         self._i = 0
+    
+    @property
+    def clons(self):        
+        dlon = self.spacing[1]
+        return self.lons + dlon/2
+        
+    @property
+    def clats(self):        
+        dlat = self.spacing[0]
+        return self.lats + dlat/2
+    
+    @property
+    def clon(self):        
+        dlon = self.spacing[1]
+        return self.lon + dlon/2
+        
+    @property
+    def clat(self):        
+        dlat = self.spacing[0]
+        return self.lat + dlat/2
         
     def addprop(self, prop, values):
         """
