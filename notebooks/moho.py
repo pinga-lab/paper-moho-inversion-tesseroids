@@ -188,7 +188,7 @@ def cross_validation(misfit, regul, regul_params, config, test_set, njobs=1):
         The objective function (misfit + mu*regularization) corresponding
         to the best solution
     * scores : list
-        The Residual Mean Square errors for the test dataset per
+        The Mean Square Error (MSE) for the test dataset per
         regularization parameter used.
     * solvers : list
         List of all objetive functions tried.    
