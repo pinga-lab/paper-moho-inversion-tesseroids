@@ -55,6 +55,10 @@ class Crust1(object):
         self._make_layers()
         
     @property
+    def shape(self):
+        return (len(self.lats), len(self.lons))
+        
+    @property
     def area(self):
         s = self.lats[0]
         n = self.lats[-1] + 1
@@ -184,7 +188,10 @@ def fetch_crust1(fname):
         vs = _extract_file(arc, 'vs')
     lons = np.linspace(-180, 180, 360, endpoint=False)
     lats = np.linspace(-90, 90, 180, endpoint=False)
-    return Crust1(lats, lons, topo, vp, vs, density)
+    model = Crust1(lats, lons, topo, vp, vs, density)
+    assert model.shape == (180, 360), \
+        "Model shape mismatch: {}".format(model.shape)
+    return model
     
 
 def _check_hash_crust1(fname):
