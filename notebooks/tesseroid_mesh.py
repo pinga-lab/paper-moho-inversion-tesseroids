@@ -27,7 +27,7 @@ class TesseroidRelief(object):
         self.lon, self.lat = np.meshgrid(self.lons, self.lats)
         self.spacing = self.lats[1] - self.lats[0], self.lons[1] - self.lons[0]
         self._relief = relief
-        self.reference = reference*np.ones_like(relief)
+        self._reference = reference*np.ones_like(relief)
         self.set_top_bottom()
         if props is None:
             self.props = {}
@@ -94,6 +94,15 @@ class TesseroidRelief(object):
     def relief(self, z):
         assert z.size == self.size
         self._relief = z
+        self.set_top_bottom()
+    
+    @property
+    def reference(self):
+        return self._reference
+    
+    @reference.setter
+    def reference(self, reference):
+        self._reference = np.ones_like(self.relief)*reference
         self.set_top_bottom()
         
     @property

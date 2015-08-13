@@ -79,7 +79,6 @@ class MohoGravityInvSpherical(Misfit):
         self.njobs = njobs
         self.pool = None
         # The value that will go in the Jacobian
-        self.step = utils.si2mgal(2*np.pi*constants.G*self.mesh.props['density'])
         self.kernel_kwargs = dict()
         
     def predicted(self, p):
@@ -111,7 +110,7 @@ class MohoGravityInvSpherical(Misfit):
         and 1/(2*2*Pi*G*rho) if using Steepest Descent.
         """
         method = getattr(self, 'fit_method', None)
-        step = self.step
+        step = utils.si2mgal(2*np.pi*constants.G*self.mesh.props['density'])
         if method is not None and method == 'steepest':
             step = 1/(2*step)
         # Use a sparse matrix for the Jacobian in Compressed Sparse Row (CSR)
@@ -131,6 +130,22 @@ class MohoGravityInvSpherical(Misfit):
         dens[(~should_b_pos) & (dens > 0)] *= -1
         mesh.props['density'] = dens
         return mesh
+    
+    def set_reference(self, reference):
+        """
+        Set the reference level of the mesh.
+        """
+        self.mesh.reference = reference
+        self.fix_density(self.mesh)
+        return self
+    
+    def set_density(self, density):
+        """
+        Set the density constrast along the mesh.
+        """
+        self.mesh.props['density'] = np.ones(self.mesh.size)*density
+        self.fix_density(self.mesh)
+        return self
         
     def fit(self):
         """
