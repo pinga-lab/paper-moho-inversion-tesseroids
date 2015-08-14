@@ -187,8 +187,10 @@ def _fit_test(args):
     """
     solver, test_set = args
     solver.fit()
-    rms = test_set.value(solver.p_)/test_set.ndata
-    return rms, solver
+    lat, lon, h, data = test_set
+    predicted = tesseroid.gz(lon, lat, h, solver.estimate_)
+    score = np.sum((data - predicted)**2)/data.size
+    return score, solver
 
 
 def cross_validation(misfit, regul, regul_params, config, test_set, njobs=1):
