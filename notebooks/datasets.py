@@ -81,7 +81,7 @@ def load_icgem_gdf(fname, usecols=None):
                 attributes = line.strip().split()
                 attr_line = False
         # Read the numerical values
-        rawdata = np.loadtxt(f, usecols=usecols, unpack=True)
+        rawdata = np.loadtxt(f, usecols=usecols, ndmin=2, unpack=True)
     # Sanity checks
     assert all(n is not None for n in shape), "Couldn't read shape of grid."
     assert size is not None, "Couldn't read size of grid."
