@@ -1,5 +1,6 @@
 .ipynb_checkpoints
 notebooks/*.png
+notebooks/*.pickle
 notebooks/profiling.txt
 *.pyc
 *~
