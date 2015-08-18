@@ -150,7 +150,7 @@ def load_icgem_gdf(fname, usecols=None):
 ASSUMPCAO_HASH = '80bf7f3be4b4cc8899d403b95ee8d1cc874c7eb70d8e83151b2cbfa353c00179'
 
 
-def fetch_assumpcao_moho_points(fname, todepth=True):
+def fetch_assumpcao_moho_points(fname, todepth=True, return_height=True):
     u"""
     Extract the point seismic data of Assumpção et al. (2012) from the 
     tar.gz archive.
@@ -162,13 +162,16 @@ def fetch_assumpcao_moho_points(fname, todepth=True):
     * todepth : True or False
         If True, will convert the crustal thickness data to Moho depth
         (in meters)
+    * return_height : True or False
+        If True, will return the height of each data point as well.
         
     Returns:
     
-    * lat, lon, height, data : 1d-arrays
-        The latitude, longitude, and altitude coordinates of each data 
-        point, the corresponding crustal thickness or Moho depth (in meters),
-        and the corresponding uncertainty.
+    * lat, lon, height, data, uncert : 1d-arrays
+        lat, lon: latitude, longitude, and altitude coordinates of each data point.
+        height: the height of each point. Only returned if ``return_height=True``.
+        data: crustal thickness or Moho depth (in meters)
+        uncert: crustal thickness uncertainty (in meters)
         
     """
     _check_hash(fname, ASSUMPCAO_HASH)
@@ -186,7 +189,12 @@ def fetch_assumpcao_moho_points(fname, todepth=True):
     uncert *= 1000
     if todepth:
         crustal_thick -= height
-    return lat, lon, height, crustal_thick, uncert
+        crustal_thick *= -1
+    if return_height:
+        results = [lat, lon, height, crustal_thick, uncert]
+    else:
+        results = [lat, lon, crustal_thick, uncert]
+    return results
     
 
 def fetch_crust1(fname):
