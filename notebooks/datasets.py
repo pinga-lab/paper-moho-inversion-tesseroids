@@ -30,7 +30,7 @@ import hashlib
 import numpy as np
 from fatiando.mesher import Tesseroid
     
-
+    
 def load_icgem_gdf(fname, usecols=None):
     """
     Load data from an ICGEM .gdf file.
@@ -99,7 +99,10 @@ def load_icgem_gdf(fname, usecols=None):
     # that we got from the file.
     data = dict(shape=shape, area=area, metadata=''.join(metadata))
     for attr, value in zip(attributes, rawdata):
-        data[attr] = value
+        # Need to invert the data matrices in latitude "[::-1]"
+        # because the ICGEM grid gets varies latitude from N to S
+        # and the TesseroidRelief expects the opposite.
+        data[attr] = value.reshape(shape)[::-1].ravel()
     if (height is not None) and ('height' not in attributes):
         data['height'] = height*np.ones(size)
     if 'latitude' in attributes and 'longitude' in attributes:
