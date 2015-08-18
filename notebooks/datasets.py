@@ -28,6 +28,7 @@ ICGEM data files
 from __future__ import division
 import tarfile
 import hashlib
+import copy
 import numpy as np
 from fatiando.mesher import Tesseroid
     
@@ -349,6 +350,10 @@ class Crust1(object):
         *area* should be (s, n, w, e) in degrees.
         """
         s, n, w, e = area
+        if w > 180:
+            w -= 360
+        if e > 180:
+            e -= 360
         imin = np.searchsorted(self.lats, s)
         imax = np.searchsorted(self.lats, n)
         jmin = np.searchsorted(self.lons, w)
@@ -376,6 +381,30 @@ class _Layer(object):
         self.props = kwargs
         for p in self.props:
             setattr(self, p, kwargs[p])
+            
+    def contrast(self, prop, value):
+        """
+        Calculate the contrast of the given property with *value*.
+        
+        The contrast is the value of the property *prop* minus *value*.
+        
+        Parameters:
+        
+        * prop : string
+            The physical property, e.g., ``'density'``, ``'vp'``
+        * value : float or 2d-array
+            The contrast background value.
+            
+        Returns:
+        
+        * layer
+            A shallow copy of this layer but with the contrast value as a property.
+            
+        """
+        props = self.props.copy()
+        props[prop] = self.props[prop] - value
+        layer = _Layer(self.lat, self.lon, self.top, self.bottom, **props)
+        return layer
     
     @property
     def thickness(self):
@@ -391,6 +420,7 @@ class _Layer(object):
         """
         Get a tesseroid representation of this layer.
         """
+        assert self.bottom is not None, "Bottomless layer cannot be converted to tesseroids."
         ds = (self.lon[0, 1] - self.lon[0, 0])/2
         arrays = [self.lon, self.lat, self.top, self.bottom,
                   self.vp, self.vs, self.density]
