@@ -1,0 +1,153 @@
+\documentclass[]{article}
+\usepackage{natbib}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\newcommand{\mbf}[1]{\mathbf{{#1}}}
+
+\usepackage{todonotes}
+
+% Document metadata
+% =================
+\newcommand{\Title}{
+    Non-linear gravity inversion in spherical coordinates:
+    application to the South American Moho
+}
+\newcommand{\Keywords}{
+        Moho;
+        gravity inversion;
+        spherical coordinates;
+        tesseroid;
+        South America
+}
+\title{\Title}
+\author{
+    Leonardo Uieda \\ \texttt{leo@leouieda.com}
+    \and
+    Val\'eria C. F. Barbosa
+}
+
+\usepackage[pdftex,colorlinks=true,hidelinks]{hyperref}
+\hypersetup{
+    pdftitle={\Title},
+    pdfauthor={Leonardo Uieda (leo@leouieda.com)},
+    pdfsubject={},
+    pdfkeywords={\Keywords},
+    pdfcreator={pdfTeX}
+}
+
+
+
+\begin{document}
+
+\maketitle
+
+\noindent \textbf{Keywords:} \Keywords
+
+\begin{abstract}
+\end{abstract}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Methodology}
+
+\subsection{Parametrization}
+
+Remove the Normal Earth from observations to get disturbance.
+Remove topography using Bouguer and correct crustal sources.
+Leaves the relief of the Moho undulating around the Normal Earth Moho
+(reference level).
+Reference level is the Moho of the Normal Earth.
+
+Assume all other sources were removed.
+Only Moho topography around a reference level.
+\todo{Include figure of Moho with all else  removed.}
+Discretize into tesseroids.
+Parameters are the Moho depths.
+Establish that the reference level ($h_{ref}$)  and density contrast
+($\Delta\rho_j$) are hyper-parameters.
+
+\subsection{Inverse problem}
+
+Formulate regularized inversion using Gauss-Newton and Steepest Descent.
+Use full Jacobian.
+
+\subsection{Bott's method}
+
+Bott as Gauss-Newton.
+Jacobian is diagonal.
+Approximate the Jacobian by making tesseroid size tend to infinity to get
+Bouguer slab.
+This approximation is good for tesseroids because each will cover a large
+enough area.
+Show case for the Steepest Descent.
+Extend the Jacobian to include lateral density variation.
+Important because density-contrast is positive or negative depending if the
+Moho is above or below the reference level.
+Enforce that the use of a particular
+
+Biggest computation time is in forward modeling.
+All matrices involved are sparse.
+Solve the sparse linear system with a conjugate gradient method.
+\todo{Check which conjugate gradient scipy.space.linalg.solve uses.}
+Use the regularized inversion because multiplying and solving the linear system
+are fast compared to forward modeling.
+Not using step size optimization because forward modeling is very slow so
+increased convergence doesn't justify the extra time spent on the discarded
+step attempts.
+
+\subsection{Determination of hyper-parameters}
+
+
+
+\subsection{Software implementation}
+
+\todo{Cite packages in the references.txt file.}
+
+\subsection{Satellite gravity data}
+
+
+Explain where data came from and what was done to  it.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Application to synthetic data from a simple model}
+
+%\begin{figure}
+    %\centering
+    %\includegraphics[width=\columnwidth]{figures/figure}
+    %\caption{This is a figure caption.}
+    %\label{fig:myfig}
+%\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Application to synthetic data from the CRUST1.0 model}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Application to the South American Moho}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Discussion}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Conclusions}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Acknowledgments}
+
+
+\bibliographystyle{gji}
+\bibliography{biblio}
+
+\newpage
+\listoftodos[Notes]
+
+\end{document}

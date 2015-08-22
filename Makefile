@@ -24,7 +24,7 @@
 PROJECT = moho-inversion
 
 # Folder with the Latex source files
-SRC = manuscript
+SRC = .
 
 # Folder where the figure files are (will assume they are EPS format)
 FIGS = figures/paper
