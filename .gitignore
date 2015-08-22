@@ -5,3 +5,5 @@ notebooks/tmp
 notebooks/profiling.txt
 *.pyc
 *~
+output/
+figures/paper/*-eps-converted-to.pdf
