@@ -39,11 +39,11 @@ STYLES = $(SRC)
 OUTPUT = output
 
 ### File Types (for dependencies)
-TEX_FILES = $(shell find $(SRC) -name '*.tex')
-BIB_FILES = $(shell find $(BIB) -name '*.bib')
-STY_FILES = $(shell find $(STYLES) -name '*.sty')
-CLS_FILES = $(shell find $(STYLES) -name '*.cls')
-BST_FILES = $(shell find $(STYLES) -name '*.bst')
+TEX_FILES = $(shell find $(SRC) -maxdepth 1 -name '*.tex')
+BIB_FILES = $(shell find $(BIB) -maxdepth 1 -name '*.bib')
+STY_FILES = $(shell find $(STYLES) -maxdepth 1 -name '*.sty')
+CLS_FILES = $(shell find $(STYLES) -maxdepth 1 -name '*.cls')
+BST_FILES = $(shell find $(STYLES) -maxdepth 1 -name '*.bst')
 EPS_FILES = $(shell find $(FIGS) -name '*.eps')
 
 ### Compilation Flags
