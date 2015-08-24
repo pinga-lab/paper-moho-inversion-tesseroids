@@ -1,9 +1,11 @@
 %\documentclass[]{article}
 %\usepackage{natbib}
-\documentclass[extra,mreferee]{gji}
+%\documentclass[extra,mreferee]{gji}
+\documentclass[extra]{gji}
 \usepackage{timet}
 \usepackage{amsmath}
 \usepackage{graphicx}
+\usepackage{url}
 \usepackage[utf8]{inputenc}
 \newcommand{\mbf}[1]{\mathbf{{#1}}}
 
@@ -43,17 +45,26 @@
 }
 
 
+% Useful commands
+% ===============
+\newcommand{\fig}[1]{Fig.~\ref{fig:#1}}
+\newcommand{\figs}[2]{Figs.\ref{fig:#1}-\ref{fig:#2}}
+\newcommand{\subfig}[2]{Fig.~\ref{fig:#1}#2}
+\newcommand{\subfigs}[3]{Figs.\ref{fig:#1}#2-\ref{fig:#1}#3}
+\newcommand{\eq}[1]{Eq.~\ref{eq:#1}}
+\newcommand{\eqs}[2]{Eqs.~\ref{eq:#1}-\ref{eq:#2}}
+
 
 \begin{document}
 
 %\label{firstpage}
 \maketitle
 
-\noindent \textbf{Keywords:} \Keywords
 
 \begin{abstract}
 \end{abstract}
 
+\noindent\textbf{Key words:} \Keywords
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -63,14 +74,17 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Methodology}
 
-We must first isolate the target anomalous density distribution.
+In potential field methods,
+we must isolate the target anomalous density distribution prior to modeling and
+inversion.
 In our case, the target is the relief of the real Moho undulating around a
 reference Moho.
 We do this by removing all other effects from the gravity observations.
-The first correction is to remove the gravity\footnote{The term ``gravity''
-refers the sum of the gravitational and centripetal accelerations.}
+The first correction is to remove the
+gravity\footnote{The term ``gravity'' refers the sum of the gravitational and
+centripetal accelerations.}
 of an ellipsoidal Earth (the Normal Earth or reference ellipsoid).
-This is done using the formula presented in \citet{li_ellipsoid_2001}.
+This is done using the closed-form solution presented in \citet{li_ellipsoid_2001}.
 The resulting quantity is known as the gravity disturbance,
 
 \begin{equation}
@@ -82,7 +96,7 @@ and $\gamma(P)$ is the gravity of the Normal Earth (the Normal Gravity)
 calculated on point $P$.
 
 We assume that the crust of our Normal Earth has a standard density of
-$\rho_{crust} = 2670\ kg.m^{-3}$ and depth $z_{ref}$.
+$\rho_{crust} = 2670\ kg.m^{-3}$ and a depth to the Moho of $z_{ref}$.
 The disturbance contains only the gravitational effects of density
 distributions that are anomalous with respect to the Normal Earth.
 This includes all masses above the surface of the ellipsoid (the topography),
@@ -93,17 +107,27 @@ heterogeneities below the upper mantle,
 and
 the mass excesses and deficiencies caused by differences between the real Moho
 topography and the reference Moho ($z_{ref}$).
-The last is what we are interested in.
-All effects must either be removed or assumed negligible.
-The input data for the inversion is assumed to be the isolated gravitational
-effect of the anomalous Moho.
-
+The latter is what we are interested in.
+In order to invert for the Moho topography, all effects must either be removed
+or assumed negligible.
+The gravitational effects of topography and sedimentary basins is
+removed using the models
+ETOPO1\footnote{\url{http://dx.doi.org/10.7289/V5C8276M}}
+\citep{amante_c._and_b._w._eakins_etopo1_2009}
+and CRUST1.0\footnote{\url{http://igppweb.ucsd.edu/~gabi/rem.html}}
+\citep{laske_update_2013}.
+Lateral variations in density along the Moho cannot be properly accounted for
+in regions where information coverage is sparse and readily accessible models
+are not available, like in the South American and African continents.
 
 
 \subsection{Parametrization}
 
 
-Assume all other sources were removed.
+We parameterize the forward problem by discretizing the Moho undulation around
+the reference depth into tesseroids.
+
+
 Only Moho topography around a reference level.
 \todo{Include figure of Moho with all else  removed.}
 Discretize into tesseroids.
@@ -115,6 +139,8 @@ Establish that the reference level ($h_{ref}$)  and density contrast
 
 Formulate regularized inversion using Gauss-Newton and Steepest Descent.
 Use full Jacobian.
+Steepest has poor convergence when close to the solution
+\citep{kelley_iterative_1987}.
 
 \subsection{Bott's method}
 
@@ -160,12 +186,6 @@ Explain where data came from and what was done to  it.
 
 Meh.
 
-%\begin{figure}
-    %\centering
-    %\includegraphics[width=\columnwidth]{figures/figure}
-    %\caption{This is a figure caption.}
-    %\label{fig:myfig}
-%\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Application to synthetic data from the CRUST1.0 model}
@@ -190,7 +210,7 @@ Meh.
     \label{fig:sam-sed}
 \end{figure*}
 
-Fig.~\ref{fig:sam-data}.
+\fig{sam-data}, \figs{sam-data}{sam-sed}, \subfigs{sam-data}{a}{f}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Discussion}
