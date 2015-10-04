@@ -94,8 +94,8 @@ The resulting quantity is known as the gravity disturbance,
 \end{equation}
 
 \noindent in which $g(P)$ is the measured gravity at an observation point $P$
-and $\gamma(P)$ is the gravity of the Normal Earth (the Normal Gravity)
-calculated on point $P$.
+and $\gamma(P)$ is the gravity of the Normal Earth
+calculated at point $P$.
 
 We assume that the crust of our Normal Earth has a standard density of
 $\rho_{crust} = 2670\ kg.m^{-3}$ and a depth to the Moho of $z_{ref}$.
@@ -107,21 +107,10 @@ the mass deficiency of sedimentary basins,
 crustal sources (e.g., igneous intrusions, lateral density changes, etc),
 heterogeneities below the upper mantle,
 and
-the mass excesses and deficiencies caused by differences between the real Moho
+the effect of the difference between the real Moho
 topography and the reference Moho ($z_{ref}$).
-The latter is what we are interested in.
 In order to invert for the Moho topography, all effects must either be removed
 or assumed negligible.
-The gravitational effects of topography and sedimentary basins is
-removed using the models
-ETOPO1\footnote{\url{http://dx.doi.org/10.7289/V5C8276M}}
-\citep{amante_c._and_b._w._eakins_etopo1_2009}
-and CRUST1.0\footnote{\url{http://igppweb.ucsd.edu/~gabi/rem.html}}
-\citep{laske_update_2013}.
-Lateral variations in density along the Moho cannot be properly accounted for
-in regions where information coverage is sparse and readily accessible models
-are not available, like in the South American and African continents.
-
 
 \subsection{Parametrization}
 
@@ -162,7 +151,7 @@ data vector $\mbf{d}$, $\mbf{p}$ is the $M$-dimensional parameter vector
 containing the Moho depths ($z_k$),
 and $f_i$ is the $i$th non-linear function that maps the parameters onto the
 data.
-
+\todo{Say something about tesseroid forward modeling and cite paper.}
 
 
 \subsection{Inverse problem}
@@ -175,7 +164,6 @@ The least-squares estimate is the one that minimizes the data-misfit function
     \phi(\mbf{p}) = \|\mbf{d}^o - \mbf{d}(\mbf{p})\|_2^2
     = [\mbf{d}^o - \mbf{d}(\mbf{p})]^T[\mbf{d}^o - \mbf{d}(\mbf{p})].
 \end{equation}
-
 
 \noindent However, non-linear inversions for the relief of an interface (like
 the Moho) are ill-posed and required additional constraints in the form of
@@ -209,17 +197,18 @@ The update at the $k$th iteration $\mbf{\Delta p} = \mbf{p}^{k+1} - \mbf{p}^k$
 for Gauss-Newton method is
 
 \begin{equation}
-    \mbf{H}(\mbf{p}^k)\mbf{\Delta p} = -\mbf{\nabla}\Gamma(\mbf{p}^k),
+    \mbf{H}^k\mbf{\Delta p} = -\mbf{\nabla}\Gamma^k,
 \end{equation}
 
 \noindent in which
-$\mbf{\nabla}\Gamma$ is the gradient vector and
-$\mbf{H}$ is the Hessian matrix of $\Gamma$.
+$\mbf{\nabla}\Gamma^k$ is the gradient vector and
+$\mbf{H}^k$ is the Hessian matrix of $\Gamma$.
+
 The gradient is given by
 
 \begin{equation}
-    \mbf{\nabla}\Gamma(\mbf{p}^k) =
-    -2\mbf{A}^T[\mbf{d}^o - \mbf{d}] +
+    \mbf{\nabla}\Gamma^k =
+    -2\mbf{A}^T[\mbf{d}^o - \mbf{d}(\mbf{p}^k)] +
     2\mu\mbf{R}^T\mbf{R}\mbf{p}^k,
     \label{eq:gradient}
 \end{equation}
@@ -229,12 +218,10 @@ $\mbf{A}$ is the Jacobian or sensitivity matrix,
 
 \begin{equation}
     A_{ij} = \dfrac{\partial f_i}{\partial p_j}(\mbf{p^k}).
+    \label{eq:jacobian}
 \end{equation}
 
 \noindent
-In practice, the derivative above is often calculated through a first-order
-finite-difference approximation.
-
 The first term of \eq{gradient} is the gradient of the data-misfit
 function $\phi$ and the second term is the gradient of the regularizing
 function $\theta$.
@@ -242,7 +229,7 @@ function $\theta$.
 The Hessian matrix is given by
 
 \begin{equation}
-    \mbf{H}(\mbf{p}^k) = 2\mbf{A}^T\mbf{A} +
+    \mbf{H}^k = 2\mbf{A}^T\mbf{A} +
     2\mu\mbf{R}^T\mbf{R}.
     \label{eq:hessian}
 \end{equation}
@@ -255,7 +242,7 @@ The Steepest Descent method uses only the gradient direction to
 update the initial estimate,
 
 \begin{equation}
-    \mbf{\Delta p} = -\mbf{\nabla}\Gamma(\mbf{p}^k).
+    \mbf{\Delta p} = -\mbf{\nabla}\Gamma^k.
 \end{equation}
 
 \noindent
@@ -265,7 +252,14 @@ current solution is close to the minimum of the goal function
 
 Both methods require the computationally expensive evaluation of the Jacobian
 matrix $\mbf{A}$.
-\todo{Talk a bit about why this is slow and difficult}
+In practice, the derivative in \eq{jacobian} is often calculated through a
+first-order finite-difference approximation.
+Thus, evaluating $\mbf{A}$ requires $2\times M \times N$ forward modeling
+operations for each iteration of the gradient descent algorithm.
+When using tesseroids, forward modeling requires several trigonometric function
+evaluations as well as adaptive discretization.
+\todo{Cite forward modeling paper}
+Both factor contribute significantly to the total computation time.
 
 
 \subsection{Bott's method}
@@ -300,11 +294,6 @@ step attempts.
 
 \todo{Cite packages in the references.txt file.}
 
-\subsection{Satellite gravity data}
-
-
-Explain where data came from and what was done to  it.
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Application to synthetic data from a simple model}
@@ -322,6 +311,25 @@ Meh.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Application to the South American Moho}
 
+
+\subsection{Gravity data}
+
+The gravitational effect of the topography
+is removed using the
+ETOPO1\footnote{\url{http://dx.doi.org/10.7289/V5C8276M}}
+digital terrain model
+\citep{amante_c._and_b._w._eakins_etopo1_2009}.
+The effect of sedimentary basins is removed using the
+CRUST1.0\footnote{\url{http://igppweb.ucsd.edu/~gabi/rem.html}} model
+by
+\citet{laske_update_2013}.
+Lateral variations in density along the Moho cannot be properly accounted for
+in regions where information coverage is sparse and readily accessible models
+are not available, like in the South American and African continents.
+For the purposes of this study, we will assume that all other crustal sources
+and lateral variations in density are negligible.
+
+
 \begin{figure*}
     \centering
     \includegraphics[width=\textwidth]{figures/paper/sam-gravity-data}
@@ -337,6 +345,8 @@ Meh.
 \end{figure*}
 
 \fig{sam-data}, \figs{sam-data}{sam-sed}, \subfigs{sam-data}{a}{f}.
+
+\subsection{Inversion results}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Discussion}
