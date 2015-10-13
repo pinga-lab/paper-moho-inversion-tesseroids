@@ -233,18 +233,6 @@ $\mbf{A}$ is the Jacobian or sensitivity matrix,
     \label{eq:jacobian}
 \end{equation}
 
-The computation and storage of the dense matrix $\mbf{A}$ is time consuming
-and is often times the bottleneck of an inversion algorithm.
-In practice, the derivative in \eq{jacobian} is often calculated through a
-first-order finite-difference approximation.
-Thus, evaluating $\mbf{A}$ requires $2\times M \times N$ forward modeling
-operations for each iteration of the gradient descent algorithm.
-Forward modeling using tesseroids requires several trigonometric function
-evaluations and numerical integration.
-\todo{Cite forward modeling paper}
-Both factors contribute significantly to the total computation time required to
-evaluate $\mbf{A}$.
-
 
 
 \subsection{Regularization}
@@ -294,19 +282,16 @@ The gradient vector and Hessian matrix of the goal function are, respectively,
 
 
 
-
-
 \subsection{Bott's method}
 
 \citet{bott_use_1960} developed an efficient method to determined the basement
 relief of a sedimentary basin from gravity observations.
 The method requires data on a regular grid of $N_x \times N_y = N$
 observations.
-The method discretizes the basement relief into an equal grid of $N_x \times
-N_y$ elements.
-The method starts with an initial estimate of the basement relief
+The basement relief is then discretized into an equal grid of $M_x \times
+M_y = M$ elements with $M_x = N_x$ and $M_y = N_y$.
+Bott's iterative method starts with an initial estimate of the basement relief
 $\mbf{p}^0$ equal to the null vector and updates the estimate using the formula
-
 
 \begin{equation}
     \mbf{\Delta p} = \dfrac{\mbf{d}^o - \mbf{d}(\mbf{p}^k)}{2\pi G \Delta \rho},
@@ -321,8 +306,8 @@ $\mbf{r} = \mbf{d}^o - \mbf{d}(\mbf{p}^k)$ fall below the assumed noise level
 of the data.
 
 \citet{silva_fast_2014} showed that Bott's method can be formulated as
-the Gauss-Newton method (\eq{gaussnewton})
-by setting the Jacobian matrix to
+a special case of the Gauss-Newton method (\eq{gaussnewton})
+by setting the Jacobian matrix (\eq{jacobian}) to
 
 \begin{equation}
     \mbf{A} = 2\pi G \Delta \rho \mbf{I},
@@ -331,23 +316,37 @@ by setting the Jacobian matrix to
 
 \noindent
 in which $\mbf{I}$ is the identity matrix.
-In this framework, Bott's method uses a Bouguer plate approximation to
+In this framework,
+Bott's method uses a Bouguer plate approximation of the relief to
 linearize the Jacobian matrix.
-Bott's method maintains the non-linearity of the predicted data
-$\mbf{d}(\mbf{p}^k)$.
+However, the non-linearity of the predicted data $\mbf{d}(\mbf{p}^k)$ is
+preserved.
 
-
-Bott's method can also be formulated as the Steepest Descent method
-(\eq{steepest}) by setting the Jacobian matrix to
+We propose that Bott's method can also be formulated as a special case of the
+Steepest Descent method (\eq{steepest}) by setting the Jacobian matrix to
 
 \begin{equation}
     \mbf{A} = \dfrac{1}{4 \pi G \Delta \rho}\mbf{I}.
     \label{eq:bott-steepest}
 \end{equation}
 
+One of the advantages of Bott's method over the traditional Gauss-Newton or
+Steepest Descent is eliminating the computation and storage of the dense
+Jacobian matrix $\mbf{A}$.
+In practice, the derivatives in \eq{jacobian} are often calculated through a
+first-order finite-difference approximation.
+Thus, evaluating $\mbf{A}$ requires $2\times M \times N$ forward modeling
+operations for each iteration of the gradient descent algorithm.
+Bott's method also does not require the solution of equation systems.
 
-Bott as Gauss-Newton.
-Jacobian is diagonal.
+A disadvantage of Bott's method is that it suffers from instability
+\citep{silva_fast_2014}.
+A common approach to solve this issue is to apply a smoothing filter, like a
+moving average, to the unstable estimate.
+
+
+\subsection{Regularized Bott's method in spherical coordinates}
+
 Approximate the Jacobian by making tesseroid size tend to infinity to get
 Bouguer slab.
 This approximation is good for tesseroids because each will cover a large
