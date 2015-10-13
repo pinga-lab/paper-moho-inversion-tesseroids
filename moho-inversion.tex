@@ -86,11 +86,13 @@ The first correction is to remove the
 gravity\footnote{The term ``gravity'' refers the sum of the gravitational and
 centripetal accelerations.}
 of an ellipsoidal Earth (the Normal Earth or reference ellipsoid).
-This is done using the closed-form solution presented in \citet{li_ellipsoid_2001}.
+This is done using the closed-form solution presented in
+\citet{li_ellipsoid_2001}.
+\todo{Needs review}
 The resulting quantity is known as the gravity disturbance,
 
 \begin{equation}
-    \delta g(P) = g(P) - \gamma(P)
+    \delta(P) = g(P) - \gamma(P)
 \end{equation}
 
 \noindent in which $g(P)$ is the measured gravity at an observation point $P$
@@ -151,7 +153,13 @@ data vector $\mbf{d}$, $\mbf{p}$ is the $M$-dimensional parameter vector
 containing the Moho depths ($z_k$),
 and $f_i$ is the $i$th non-linear function that maps the parameters onto the
 data.
-\todo{Say something about tesseroid forward modeling and cite paper.}
+$f_i$ is the radial component of the gravitational attraction of the tesseroid
+model.
+The gravitational attraction of a tesseroid is calculated using the
+Gauss-Legendre Quadrature (GLQ) integration.
+The accuracy of the GLQ integration is improved by an adaptive discretization
+scheme.
+\todo{Cite tesseroids paper.}
 
 
 \subsection{Inverse problem}
@@ -256,10 +264,11 @@ In practice, the derivative in \eq{jacobian} is often calculated through a
 first-order finite-difference approximation.
 Thus, evaluating $\mbf{A}$ requires $2\times M \times N$ forward modeling
 operations for each iteration of the gradient descent algorithm.
-When using tesseroids, forward modeling requires several trigonometric function
-evaluations as well as adaptive discretization.
+Forward modeling using tesseroids requires several trigonometric function
+evaluations and numerical integration.
 \todo{Cite forward modeling paper}
-Both factor contribute significantly to the total computation time.
+Both factors contribute significantly to the total computation time required to
+evaluate $\mbf{A}$.
 
 
 \subsection{Bott's method}
