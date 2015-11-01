@@ -81,6 +81,7 @@ This effect is calculated on the same point $P$ where the observation was made
 using the closed-form solution presented by \citet{li_2001}.
 The difference between the observed gravity ($g$) and Normal gravity
 is known as the gravity disturbance,
+\todo{Figura do seminário acompanha}
 
 \begin{equation}
     \delta(P) = g(P) - \gamma(P).
@@ -107,7 +108,6 @@ Gauss-Legendre Quadrature (GLQ) integration \citep{asgharzadeh_2007}.
 The accuracy of the GLQ integration is improved by the adaptive discretization
 scheme of \citet{uieda_2016}.
 
-\subsection{Parametrization}
 
 \begin{figure}
     \centering
@@ -123,15 +123,19 @@ scheme of \citet{uieda_2016}.
     \label{fig:tesseroid}
 \end{figure}
 
+
+
+\subsection{Parametrization}
+
 We parameterize the forward problem by discretizing the Moho undulation
-into a grid of $M_{lon} \times M_{lat} = M$ juxtaposed tesseroids
-(Fig.~\ref{fig:tesseroid}).
+into a grid of $M_{lon} \times M_{lat} = M$ juxtaposed tesseroids.
 In cases where the Moho is above the reference depth ($z_{ref}$),
 the top of the tesseroid is the Moho depth at the location of the $k$-eth
 tesseroid ($z_{k}$),
 the bottom is $z_{ref}$, and the density-contrast is positive.
 If the Moho is below the $z_{ref}$, the top of the tesseroid is $z_{ref}$,
 the bottom is the Moho depth, and the density-contrast is negative.
+\todo{Figura do seminário}
 
 Considering that the density-contrast of each tesseroid is fixed,
 the predicted gravity anomaly of the Moho is a non-linear function of the
@@ -143,11 +147,12 @@ parameters $z_k$, $k=1, \ldots, M$,
 
 \noindent in which $d_i$ is the $i$th element of the $N$-dimensional predicted
 data vector $\mathbf{d}$, $\mathbf{p}$ is the $M$-dimensional parameter vector
-containing the Moho depths ($z_k$),
+containing the $M$ Moho depths ($z_k$),
 and $f_i$ is the $i$th non-linear function that maps the parameters onto the
 data.
-$f_i$ is the radial component of the gravitational attraction of the tesseroid
-model of the anomalous Moho.
+The functions $f_i$ are the radial component of the gravitational attraction
+of the tesseroid Moho model.
+
 
 
 \subsection{Inverse problem}
