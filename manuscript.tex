@@ -75,24 +75,17 @@ In our case, the target is the relief of the real Moho undulating around a
 reference Moho.
 We do this by removing all other effects from the gravity observations.
 The first correction is to remove the
-gravity\footnote{The term ``gravity'' refers the sum of the gravitational and
-centripetal accelerations.}
-of an ellipsoidal Earth (the Normal Earth or reference ellipsoid).
-This is done using the closed-form solution presented in
-\citet{li_ellipsoid_2001}.
-\todo{Needs review}
-The resulting quantity is known as the gravity disturbance,
+scalar gravity of an ellipsoidal reference Earth (the Normal Earth),
+hereafter denoted as $\gamma$.
+This effect is calculated on the same point $P$ where the observation was made
+using the closed-form solution presented by \citet{li_2001}.
+The difference between the observed gravity ($g$) and Normal gravity
+is known as the gravity disturbance,
 
 \begin{equation}
-    \delta(P) = g(P) - \gamma(P)
+    \delta(P) = g(P) - \gamma(P).
 \end{equation}
 
-\noindent in which $g(P)$ is the measured gravity at an observation point $P$
-and $\gamma(P)$ is the gravity of the Normal Earth
-calculated at point $P$.
-
-We assume that the crust of our Normal Earth has a standard density of
-$\rho_{crust} = 2670\ kg.m^{-3}$ and a depth to the Moho of $z_{ref}$.
 The disturbance contains only the gravitational effects of density
 distributions that are anomalous with respect to the Normal Earth.
 This includes all masses above the surface of the ellipsoid (the topography),
@@ -100,11 +93,19 @@ the mass deficiency of the oceans,
 the mass deficiency of sedimentary basins,
 crustal sources (e.g., igneous intrusions, lateral density changes, etc),
 heterogeneities below the upper mantle,
-and
-the effect of the difference between the real Moho
-topography and the reference Moho ($z_{ref}$).
-In order to invert for the Moho topography, all effects must either be removed
-or assumed negligible.
+and the effect of the difference between the real Moho
+topography and the Moho of the Normal Earth.
+
+All effects must either be removed or assumed negligible
+to invert for the anomalous Moho.
+The gravitational attraction of the topography, oceans, and basins are
+calculated in a spherical Earth approximation by forward modeling using
+tesseroids
+(Fig.~\ref{fig:tesseroid}).
+The tesseroid effects are calculated numerically using
+Gauss-Legendre Quadrature (GLQ) integration \citep{asgharzadeh_2007}.
+The accuracy of the GLQ integration is improved by the adaptive discretization
+scheme of \citet{uieda_2016}.
 
 \subsection{Parametrization}
 
@@ -115,16 +116,16 @@ or assumed negligible.
         system (X, Y, Z).
         Observations are made at point P with respect to it's local
         North-oriented coordinate system (x, y, z).
-        After \citet{uieda_tesserioid_2015},
+        After \citet{uieda_2015},
         available at
         \url{http://dx.doi.org/10.6084/m9.figshare.1495525}.
     }
-    \label{fig:tess}
+    \label{fig:tesseroid}
 \end{figure}
 
 We parameterize the forward problem by discretizing the Moho undulation
-into a grid of $M_{lon} \times M_{lat} = M$ juxtaposed tesseroids (Fig.~\ref{fig:tess}).
-\todo{Cite source separation figure}
+into a grid of $M_{lon} \times M_{lat} = M$ juxtaposed tesseroids
+(Fig.~\ref{fig:tesseroid}).
 In cases where the Moho is above the reference depth ($z_{ref}$),
 the top of the tesseroid is the Moho depth at the location of the $k$-eth
 tesseroid ($z_{k}$),
@@ -146,12 +147,7 @@ containing the Moho depths ($z_k$),
 and $f_i$ is the $i$th non-linear function that maps the parameters onto the
 data.
 $f_i$ is the radial component of the gravitational attraction of the tesseroid
-model.
-The gravitational attraction of a tesseroid is calculated using the
-Gauss-Legendre Quadrature (GLQ) integration.
-The accuracy of the GLQ integration is improved by an adaptive discretization
-scheme.
-\todo{Cite tesseroids paper.}
+model of the anomalous Moho.
 
 
 \subsection{Inverse problem}
@@ -199,7 +195,7 @@ Thus, it does not require the computation and storage of the Hessian matrix
 nor the solution of linear systems.
 However, the Steepest Descent method has poor convergence when the
 current solution is close to the minimum of the goal function
-\citep{kelley_iterative_1987}.
+\citep{kelley_1987}.
 
 The gradient vector and the Gauss-Newton approximation of the Hessian matrix
 of $\phi(\mathbf{p})$ are, respectively,
@@ -231,7 +227,7 @@ $\mathbf{A}$ is the Jacobian or sensitivity matrix,
 
 Non-linear inversions for the relief of an interface (like
 the Moho) are ill-posed and required additional constraints in the form of
-regularization \citep{silva_potential-field_2001}.
+regularization \citep{silva_2001}.
 A common approach is to use the first-order Tikhonov regularization to impose
 smoothness on the solution,
 
@@ -276,7 +272,7 @@ The gradient vector and Hessian matrix of the goal function are, respectively,
 
 \subsection{Bott's method}
 
-\citet{bott_use_1960} developed an efficient method to determined the basement
+\citet{bott_1960} developed an efficient method to determined the basement
 relief of a sedimentary basin from gravity observations.
 The method requires data on a regular grid of $N_x \times N_y = N$
 observations.
@@ -297,7 +293,7 @@ The iterative process stops when the inversion residuals
 $\mathbf{r} = \mathbf{d}^o - \mathbf{d}(\mathbf{p}^k)$ fall below the assumed noise level
 of the data.
 
-\citet{silva_fast_2014} showed that Bott's method can be formulated as
+\citet{silva_2014} showed that Bott's method can be formulated as
 a special case of the Gauss-Newton method (Eq.~\ref{eq:gaussnewton})
 by setting the Jacobian matrix (Eq.~\ref{eq:jacobian}) to
 
@@ -332,7 +328,7 @@ operations for each iteration of the gradient descent algorithm.
 Bott's method also does not require the solution of equation systems.
 
 A disadvantage of Bott's method is that it suffers from instability
-\citep{silva_fast_2014}.
+\citep{silva_2014}.
 A common approach to solve this issue is to apply a smoothing filter, like a
 moving average, to the unstable estimate.
 
@@ -391,11 +387,11 @@ The gravitational effect of the topography
 is removed using the
 ETOPO1\footnote{\url{http://dx.doi.org/10.7289/V5C8276M}}
 digital terrain model
-\citep{amante_c._and_b._w._eakins_etopo1_2009}.
+\citep{amante_2009}.
 The effect of sedimentary basins is removed using the
 CRUST1.0\footnote{\url{http://igppweb.ucsd.edu/~gabi/rem.html}} model
 by
-\citet{laske_update_2013}.
+\citet{laske_2013}.
 Lateral variations in density along the Moho cannot be properly accounted for
 in regions where information coverage is sparse and readily accessible models
 are not available, like in the South American and African continents.
