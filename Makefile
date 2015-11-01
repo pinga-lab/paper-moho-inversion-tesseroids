@@ -21,7 +21,7 @@
 
 # The name of the main .tex file to build.
 # Other files can be included into this one.
-PROJECT = moho-inversion
+PROJECT = manuscript
 
 # Folder with the Latex source files
 SRC = .
