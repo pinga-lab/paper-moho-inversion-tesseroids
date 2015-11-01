@@ -47,15 +47,7 @@
 
 % Useful commands
 % ===============
-\newcommand{\fig}[1]{Fig.~\ref{fig:#1}}
-\newcommand{\figs}[2]{Figs.\ref{fig:#1}-\ref{fig:#2}}
-\newcommand{\subfig}[2]{Fig.~\ref{fig:#1}#2}
-\newcommand{\subfigs}[3]{Figs.\ref{fig:#1}#2-\ref{fig:#1}#3}
-\newcommand{\eq}[1]{Eq.~\ref{eq:#1}}
-\newcommand{\eqs}[2]{Eqs.~\ref{eq:#1}-\ref{eq:#2}}
 
-%\newcommand{\mbf}[1]{\mathbf{{#1}}}
-\newcommand{\mbf}[1]{\hbox{\mathversion{bold}$#1$}}
 
 \begin{document}
 
@@ -131,7 +123,7 @@ or assumed negligible.
 \end{figure}
 
 We parameterize the forward problem by discretizing the Moho undulation
-into a grid of $M_{lon} \times M_{lat} = M$ juxtaposed tesseroids (\fig{tess}).
+into a grid of $M_{lon} \times M_{lat} = M$ juxtaposed tesseroids (Fig.~\ref{fig:tess}).
 \todo{Cite source separation figure}
 In cases where the Moho is above the reference depth ($z_{ref}$),
 the top of the tesseroid is the Moho depth at the location of the $k$-eth
@@ -145,11 +137,11 @@ the predicted gravity anomaly of the Moho is a non-linear function of the
 parameters $z_k$, $k=1, \ldots, M$,
 
 \begin{equation}
-    d_i = f_i(\mbf{p}),
+    d_i = f_i(\mathbf{p}),
 \end{equation}
 
 \noindent in which $d_i$ is the $i$th element of the $N$-dimensional predicted
-data vector $\mbf{d}$, $\mbf{p}$ is the $M$-dimensional parameter vector
+data vector $\mathbf{d}$, $\mathbf{p}$ is the $M$-dimensional parameter vector
 containing the Moho depths ($z_k$),
 and $f_i$ is the $i$th non-linear function that maps the parameters onto the
 data.
@@ -164,41 +156,41 @@ scheme.
 
 \subsection{Inverse problem}
 
-We wish to estimate the parameter vector $\mbf{p}$ from a set of observed
-gravity anomaly data $\mbf{d}^o$.
+We wish to estimate the parameter vector $\mathbf{p}$ from a set of observed
+gravity anomaly data $\mathbf{d}^o$.
 The least-squares estimate is the one that minimizes the data-misfit function
 
 \begin{equation}
-    \phi(\mbf{p}) =
-    [\mbf{d}^o - \mbf{d}(\mbf{p})]^T[\mbf{d}^o - \mbf{d}(\mbf{p})].
+    \phi(\mathbf{p}) =
+    [\mathbf{d}^o - \mathbf{d}(\mathbf{p})]^T[\mathbf{d}^o - \mathbf{d}(\mathbf{p})].
     \label{eq:data-misfit}
 \end{equation}
 
-Function $\phi(\mbf{p})$ is non-linear with respect to $\mbf{p}$.
+Function $\phi(\mathbf{p})$ is non-linear with respect to $\mathbf{p}$.
 Thus, we can find its minimum using gradient-based
 iterative optimization
 methods like the Gauss-Newton or Steepest Descent methods.
-Such methods start from an initial estimate $\mbf{p}^0$ and repeatedly update
+Such methods start from an initial estimate $\mathbf{p}^0$ and repeatedly update
 the estimate until a minimum is reached.
 
 For the Gauss-Newton method,
-the update at the $k$th iteration $\mbf{\Delta p} = \mbf{p}^{k+1} - \mbf{p}^k$
+the update at the $k$th iteration $\mathbf{\Delta p} = \mathbf{p}^{k+1} - \mathbf{p}^k$
 is the solution of the linear system
 
 \begin{equation}
-    \mbf{H}^k\mbf{\Delta p} = -\mbf{g}^k,
+    \mathbf{H}^k\mathbf{\Delta p} = -\mathbf{g}^k,
     \label{eq:gaussnewton}
 \end{equation}
 
 \noindent in which
-$\mbf{g}^k$ and $\mbf{H}^k$ are, respectively,
-the gradient vector and the Hessian matrix of $\phi(\mbf{p})$.
+$\mathbf{g}^k$ and $\mathbf{H}^k$ are, respectively,
+the gradient vector and the Hessian matrix of $\phi(\mathbf{p})$.
 
 The Steepest Descent method uses only the gradient direction
 to update the initial estimate
 
 \begin{equation}
-    \mbf{\Delta p} = -\mbf{g}^k.
+    \mathbf{\Delta p} = -\mathbf{g}^k.
     \label{eq:steepest}
 \end{equation}
 
@@ -210,10 +202,10 @@ current solution is close to the minimum of the goal function
 \citep{kelley_iterative_1987}.
 
 The gradient vector and the Gauss-Newton approximation of the Hessian matrix
-of $\phi(\mbf{p})$ are, respectively,
+of $\phi(\mathbf{p})$ are, respectively,
 
 \begin{equation}
-    \mbf{g}^k = -2\mbf{A}^T[\mbf{d}^o - \mbf{d}(\mbf{p}^k)],
+    \mathbf{g}^k = -2\mathbf{A}^T[\mathbf{d}^o - \mathbf{d}(\mathbf{p}^k)],
     \label{eq:gradient}
 \end{equation}
 
@@ -221,15 +213,15 @@ of $\phi(\mbf{p})$ are, respectively,
 and
 
 \begin{equation}
-    \mbf{H}^k = 2\mbf{A}^T\mbf{A},
+    \mathbf{H}^k = 2\mathbf{A}^T\mathbf{A},
     \label{eq:hessian}
 \end{equation}
 
 \noindent in which
-$\mbf{A}$ is the Jacobian or sensitivity matrix,
+$\mathbf{A}$ is the Jacobian or sensitivity matrix,
 
 \begin{equation}
-    A_{ij} = \dfrac{\partial f_i}{\partial p_j}(\mbf{p^k}).
+    A_{ij} = \dfrac{\partial f_i}{\partial p_j}(\mathbf{p^k}).
     \label{eq:jacobian}
 \end{equation}
 
@@ -244,39 +236,39 @@ A common approach is to use the first-order Tikhonov regularization to impose
 smoothness on the solution,
 
 \begin{equation}
-    \theta(\mbf{p}) = \mbf{p}^T\mbf{R}^T\mbf{R}\mbf{p},
+    \theta(\mathbf{p}) = \mathbf{p}^T\mathbf{R}^T\mathbf{R}\mathbf{p},
 \end{equation}
 
-\noindent where $\mbf{R}$ is an $L \times M$ finite-difference matrix
+\noindent where $\mathbf{R}$ is an $L \times M$ finite-difference matrix
 representing the $L$ first-order differences between adjacent tesseroids.
 
-The solution $\hat{\mbf{p}}$ to the regularized inverse problem is the one that
+The solution $\hat{\mathbf{p}}$ to the regularized inverse problem is the one that
 minimizes the goal function
 
 \begin{equation}
-    \Gamma(\mbf{p}) = \phi(\mbf{p}) + \mu\theta(\mbf{p}).
+    \Gamma(\mathbf{p}) = \phi(\mathbf{p}) + \mu\theta(\mathbf{p}).
 \end{equation}
 
 \noindent
 The regularization parameter $\mu$ controls the balance between fitting the
 observed data and obeying the smoothness constraint.
 
-The goal function $\Gamma(\mbf{p})$ is also non-linear with respect to
-$\mbf{p}$ and can be minimized using the Gauss-Newton or Steepest Descent
+The goal function $\Gamma(\mathbf{p})$ is also non-linear with respect to
+$\mathbf{p}$ and can be minimized using the Gauss-Newton or Steepest Descent
 methods.
 The gradient vector and Hessian matrix of the goal function are, respectively,
 
 \begin{equation}
-    \mbf{g}^k =
-        -2\mbf{A}^T[\mbf{d}^o - \mbf{d}(\mbf{p}^k)] +
-        2\mu\mbf{R}^T\mbf{R}\mbf{p}^k,
+    \mathbf{g}^k =
+        -2\mathbf{A}^T[\mathbf{d}^o - \mathbf{d}(\mathbf{p}^k)] +
+        2\mu\mathbf{R}^T\mathbf{R}\mathbf{p}^k,
     \label{eq:gradient-regul}
 \end{equation}
 
 \noindent and
 
 \begin{equation}
-    \mbf{H}^k = 2\mbf{A}^T\mbf{A} + 2\mu\mbf{R}^T\mbf{R}.
+    \mathbf{H}^k = 2\mathbf{A}^T\mathbf{A} + 2\mu\mathbf{R}^T\mathbf{R}.
     \label{eq:hessian-regul}
 \end{equation}
 
@@ -291,10 +283,10 @@ observations.
 The basement relief is then discretized into an equal grid of $M_x \times
 M_y = M$ elements with $M_x = N_x$ and $M_y = N_y$.
 Bott's iterative method starts with an initial estimate of the basement relief
-$\mbf{p}^0$ equal to the null vector and updates the estimate using the formula
+$\mathbf{p}^0$ equal to the null vector and updates the estimate using the formula
 
 \begin{equation}
-    \mbf{\Delta p} = \dfrac{\mbf{d}^o - \mbf{d}(\mbf{p}^k)}{2\pi G \Delta \rho},
+    \mathbf{\Delta p} = \dfrac{\mathbf{d}^o - \mathbf{d}(\mathbf{p}^k)}{2\pi G \Delta \rho},
     \label{eq:bott}
 \end{equation}
 
@@ -302,40 +294,40 @@ $\mbf{p}^0$ equal to the null vector and updates the estimate using the formula
 in which $G$ is the gravitational constant and $\Delta \rho$ is the basin
 density contrast.
 The iterative process stops when the inversion residuals
-$\mbf{r} = \mbf{d}^o - \mbf{d}(\mbf{p}^k)$ fall below the assumed noise level
+$\mathbf{r} = \mathbf{d}^o - \mathbf{d}(\mathbf{p}^k)$ fall below the assumed noise level
 of the data.
 
 \citet{silva_fast_2014} showed that Bott's method can be formulated as
-a special case of the Gauss-Newton method (\eq{gaussnewton})
-by setting the Jacobian matrix (\eq{jacobian}) to
+a special case of the Gauss-Newton method (Eq.~\ref{eq:gaussnewton})
+by setting the Jacobian matrix (Eq.~\ref{eq:jacobian}) to
 
 \begin{equation}
-    \mbf{A} = 2\pi G \Delta \rho \mbf{I},
+    \mathbf{A} = 2\pi G \Delta \rho \mathbf{I},
     \label{eq:bott-jacobian}
 \end{equation}
 
 \noindent
-in which $\mbf{I}$ is the identity matrix.
+in which $\mathbf{I}$ is the identity matrix.
 In this framework,
 Bott's method uses a Bouguer plate approximation of the relief to
 linearize the Jacobian matrix.
-However, the non-linearity of the predicted data $\mbf{d}(\mbf{p}^k)$ is
+However, the non-linearity of the predicted data $\mathbf{d}(\mathbf{p}^k)$ is
 preserved.
 
 We propose that Bott's method can also be formulated as a special case of the
-Steepest Descent method (\eq{steepest}) by setting the Jacobian matrix to
+Steepest Descent method (Eq.~\ref{eq:steepest}) by setting the Jacobian matrix to
 
 \begin{equation}
-    \mbf{A} = \dfrac{1}{4 \pi G \Delta \rho}\mbf{I}.
+    \mathbf{A} = \dfrac{1}{4 \pi G \Delta \rho}\mathbf{I}.
     \label{eq:bott-steepest}
 \end{equation}
 
 One of the advantages of Bott's method over the traditional Gauss-Newton or
 Steepest Descent is eliminating the computation and storage of the dense
-Jacobian matrix $\mbf{A}$.
-In practice, the derivatives in \eq{jacobian} are often calculated through a
+Jacobian matrix $\mathbf{A}$.
+In practice, the derivatives in Eq.~\ref{eq:jacobian} are often calculated through a
 first-order finite-difference approximation.
-Thus, evaluating $\mbf{A}$ requires $2\times M \times N$ forward modeling
+Thus, evaluating $\mathbf{A}$ requires $2\times M \times N$ forward modeling
 operations for each iteration of the gradient descent algorithm.
 Bott's method also does not require the solution of equation systems.
 
@@ -425,7 +417,6 @@ and lateral variations in density are negligible.
     \label{fig:sam-sed}
 \end{figure*}
 
-\fig{sam-data}, \figs{sam-data}{sam-sed}, \subfigs{sam-data}{a}{f}.
 
 \subsection{Inversion results}
 
