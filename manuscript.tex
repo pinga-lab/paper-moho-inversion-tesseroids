@@ -233,11 +233,12 @@ $\mathbf{A}$ is the Jacobian or sensitivity matrix,
 
 \subsection{Regularization}
 
-Non-linear inversions for the relief of an interface (like
-the Moho) are ill-posed and required additional constraints in the form of
+Non-linear inversions for the relief of an interface (like the Moho)
+are ill-posed and require additional constraints in the form of
 regularization \citep{silva2001}.
 A common approach is to use the first-order Tikhonov regularization to impose
-smoothness on the solution,
+smoothness on the solution.
+The cost function for smoothness regularization is given by
 
 \begin{equation}
     \theta(\mathbf{p}) = \mathbf{p}^T\mathbf{R}^T\mathbf{R}\mathbf{p},
@@ -250,12 +251,12 @@ The solution $\hat{\mathbf{p}}$ to the regularized inverse problem is the one th
 minimizes the goal function
 
 \begin{equation}
-    \Gamma(\mathbf{p}) = \phi(\mathbf{p}) + \mu\theta(\mathbf{p}).
+    \Gamma(\mathbf{p}) = \phi(\mathbf{p}) + \mu\theta(\mathbf{p}),
 \end{equation}
 
 \noindent
-The regularization parameter $\mu$ controls the balance between fitting the
-observed data and obeying the smoothness constraint.
+in which $\mu$ is the regularization parameter that controls the balance
+between fitting the observed data and obeying the smoothness constraint.
 
 The goal function $\Gamma(\mathbf{p})$ is also non-linear with respect to
 $\mathbf{p}$ and can be minimized using the Gauss-Newton or Steepest Descent
@@ -276,6 +277,17 @@ The gradient vector and Hessian matrix of the goal function are, respectively,
     \label{eq:hessian-regul}
 \end{equation}
 
+Producing the regularized solution is computationally costly because of two
+main factors:
+(1) the evaluation and storage of the dense $N \times M$ Jacobian matrix
+$\mathbf{A}$
+and (2) the solution of the resulting $M \times M$ equation system
+(not required for Steepest Descent).
+In practice, the derivatives in the Jacobian (Eq.~\ref{eq:jacobian})
+are often calculated through a first-order finite-difference approximation.
+Thus, evaluating $\mathbf{A}$ requires $2\times M \times N$ forward modeling
+operations for each iteration of the gradient descent algorithm.
+These computations are performed for each iteration of the optimization.
 
 
 \subsection{Bott's method}
@@ -329,10 +341,6 @@ Steepest Descent method (Eq.~\ref{eq:steepest}) by setting the Jacobian matrix t
 One of the advantages of Bott's method over the traditional Gauss-Newton or
 Steepest Descent is eliminating the computation and storage of the dense
 Jacobian matrix $\mathbf{A}$.
-In practice, the derivatives in Eq.~\ref{eq:jacobian} are often calculated through a
-first-order finite-difference approximation.
-Thus, evaluating $\mathbf{A}$ requires $2\times M \times N$ forward modeling
-operations for each iteration of the gradient descent algorithm.
 Bott's method also does not require the solution of equation systems.
 
 A disadvantage of Bott's method is that it suffers from instability
