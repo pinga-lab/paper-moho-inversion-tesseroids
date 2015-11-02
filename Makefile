@@ -111,13 +111,13 @@ $(OUTPUT)/:
 	mkdir -p $(OUTPUT)/
 
 $(OUTPUT)/$(PROJECT).aux: $(TEX_FILES) $(STY_FILES) $(CLS_FILES) $(EPS_FILES) | $(OUTPUT)/
-	pdflatex $(LATEX_FLAGS) $(SRC)/$(PROJECT) 1>/dev/null
+	pdflatex $(LATEX_FLAGS) $(SRC)/$(PROJECT)
 
 $(OUTPUT)/$(PROJECT).bbl: $(BIB_FILES) $(BST_FILES) | $(OUTPUT)/$(PROJECT).aux
 	cp $(BIB_FILES) $(OUTPUT)
 	cp $(BST_FILES) $(OUTPUT)
-	cd $(OUTPUT) && bibtex $(PROJECT) 1>/dev/null
-	pdflatex $(LATEX_FLAGS) $(SRC)/$(PROJECT) 1>/dev/null
+	cd $(OUTPUT) && bibtex $(PROJECT)
+	pdflatex $(LATEX_FLAGS) $(SRC)/$(PROJECT)
 
 $(OUTPUT)/$(PROJECT).pdf: $(OUTPUT)/$(PROJECT).aux $(OUTPUT)/$(PROJECT).bbl
 	pdflatex $(LATEX_FLAGS) $(SRC)/$(PROJECT) 1>/dev/null
