@@ -81,7 +81,7 @@ This effect is calculated on the same point $P$ where the observation was made
 using the closed-form solution presented by \citet{li2001}.
 The difference between the observed gravity ($g$) and Normal gravity
 is known as the gravity disturbance,
-\todo{Figura do seminário acompanha}
+\todo{Seminar figure here}
 
 \begin{equation}
     \delta(P) = g(P) - \gamma(P).
@@ -127,17 +127,19 @@ scheme of \citet{uieda2016}.
 
 \subsection{Parametrization}
 
-We parameterize the forward problem by discretizing the Moho undulation
+We parameterize the forward problem by discretizing the anomalous Moho
 into a grid of $M_{lon} \times M_{lat} = M$ juxtaposed tesseroids.
-In cases where the Moho is above the reference depth ($z_{ref}$),
-the top of the tesseroid is the Moho depth at the location of the $k$-eth
-tesseroid ($z_{k}$),
-the bottom is $z_{ref}$, and the density-contrast is positive.
-If the Moho is below the $z_{ref}$, the top of the tesseroid is $z_{ref}$,
-the bottom is the Moho depth, and the density-contrast is negative.
-\todo{Figura do seminário}
+The true (real Earth) Moho varies in depth
+with respect to the Moho of the Normal Earth.
+Hereafter we will refer to the depth of the Normal Earth Moho as $z_{ref}$.
+In cases where the true Moho is above $z_{ref}$,
+the top of the $k$th tesseroid is the Moho depth $z_{k}$,
+the bottom is $z_{ref}$, and the density-contrast ($\Delta\rho$) is positive.
+If the Moho is below $z_{ref}$, the top of the tesseroid is $z_{ref}$,
+the bottom is $z_k$, and $\Delta\rho$ is negative.
+\todo{Seminar figure here}
 
-Considering that the density-contrast of each tesseroid is fixed,
+Considering that the density-contrasts of the tesseroids are fixed parameters,
 the predicted gravity anomaly of the Moho is a non-linear function of the
 parameters $z_k$, $k=1, \ldots, M$,
 
@@ -393,10 +395,12 @@ However, the computational cost of forward modeling is still present.
 Particularly, forward modeling using tesseroids is more computationally
 intensive than using right-rectangular prisms
 because of the numerical integration and adaptive discretization.
-Benchmarks suggest that forward modeling accounts for approximately $99\%$ of
-\todo{Checar esse número}
-the computation time for a Gauss-Newton inversion
-(see supplementary material)\todo{Referência melhor pra isso}.
+Benchmarks suggest that
+forward modeling accounts for approximately $99\%$
+\todo{Check this number}
+of the computation time for a Gauss-Newton inversion
+(see supplementary material).
+\todo{Better reference}
 Hence, this formulation allows us to retain the efficiency of Bott's method
 while stabilizing the solution through the well established formalism of
 Tikhonov regularization.
@@ -405,7 +409,10 @@ Tikhonov regularization.
 
 \subsection{Determination of hyper-parameters}
 
-
+There are three hyper-parameters that control the inversion results:
+(1) the regularization parameter $\mu$
+(2) the depth of the Moho of the reference ellipsoid
+(3) the density-contrast between the
 
 \subsection{Software implementation}
 
