@@ -277,8 +277,28 @@ The gradient vector and Hessian matrix of the goal function are, respectively,
     \label{eq:hessian-regul}
 \end{equation}
 
-Producing the regularized solution is computationally costly because of two
-main factors:
+\noindent The parameter updates for the regularized Gauss-Newton and Steepest
+Descent methods, respectively, then become
+
+\begin{equation}
+    \left[\mathbf{A}^T\mathbf{A} + \mu\mathbf{R}^T\mathbf{R}\right]
+    \mathbf{\Delta p} =
+        \mathbf{A}^T[\mathbf{d}^o - \mathbf{d}(\mathbf{p}^k)] -
+        \mu\mathbf{R}^T\mathbf{R}\mathbf{p}^k,
+    \label{eq:gaussnewton-regul}
+\end{equation}
+
+\noindent and
+
+\begin{equation}
+    \mathbf{\Delta p} =
+        \mathbf{A}^T[\mathbf{d}^o - \mathbf{d}(\mathbf{p}^k)] -
+        \mu\mathbf{R}^T\mathbf{R}\mathbf{p}^k,
+    \label{eq:steepest-regul}
+\end{equation}
+
+Producing the regularized solution using the above equations is computationally
+costly because of two main factors:
 (1) the evaluation and storage of the dense $N \times M$ Jacobian matrix
 $\mathbf{A}$
 and (2) the solution of the resulting $M \times M$ equation system
@@ -351,6 +371,7 @@ However, a disadvantage of Bott's method is that it suffers from instability
 \citep{silva2014}.
 A common approach to counter this issue is to apply a smoothing filter after
 the inversion to the unstable estimate, as in \citet{silva2014}.
+
 
 
 \subsection{Regularized Bott's method in spherical coordinates}
