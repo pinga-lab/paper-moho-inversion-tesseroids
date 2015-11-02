@@ -464,18 +464,30 @@ The algorithm for the hold-out cross-validation is summarized as follows:
         smallest $MSE_k$.
 \end{enumerate}
 
-Bott's method requires the same number of observed data ($N$)
-and model parameters ($M$).
-Limited ways to separate the training and testing data sets.
-Data and model must be on a regular grid.
-Cannot randomly separate.
-Use a dense data grid.
-Take for the training set a sub grid with double the original grid spacing.
-Every other point is included in the testing data set.
-The testing data set will have more points than training data set.
-One can generate observed data on a grid with half of the desired grid spacing.
-This is easy for data generated from spherical harmonic models.
+The separation of the training and testing data sets is commonly done by taking
+random samples from the full data set.
+However, we cannot perform the separation in this way because
+Bott's method requires data on a regular grid as well as having model elements
+directly below each data point.
+Thus, we take as our training set the points from the observed data grid that
+fall on a similar grid but with twice the grid spacing
+(see Fig.~\ref{fig:grid_separation}).
+\todo{Include fig from seminar}
+All other points from the original data grid
+make up the testing data set.
+This separation will lead to
+a testing data set with more points than the training data set.
+A way to balance this loss of data in the inversion
+is to generate a data grid with half of the desired grid spacing,
+either through interpolation
+or from a spherical harmonic model.
 
+\begin{figure}
+    \centering
+    %\includegraphics[width=\columnwidth]{figures/paper/sam-gravity-data}
+    \caption{This is a figure caption.}
+    \label{fig:grid_separation}
+\end{figure}
 
 
 \subsection{Estimating $z_{ref}$ and $\Delta\rho$}
