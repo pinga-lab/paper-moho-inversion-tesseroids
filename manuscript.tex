@@ -563,12 +563,23 @@ though in a less formalized way.
 
 \subsection{Software implementation}
 
-Scipy and numpy \citet{jones2001}
-seaborn \citet{waskom2015}
-matplotlib \citet{hunter2007}
-Jupyter (formerly IPython) \citet{perez2007}
+The implementation relies on the open-source libraries
+scipy and numpy \citep[][ \url{http://scipy.org}]{jones2001}
+for array-based computations,
+matplotlib \citep[][ \url{http://matplotlib.org}]{hunter2007}
+and seaborn
+\citep[][ \url{http://stanford.edu/~mwaskom/software/seaborn}]{waskom2015}
+for plots and maps,
+and Fatiando a Terra \citep[][ \url{http://www.fatiando.org}]{uieda2013}
+for geophysics specific tasks (e.g., forward modeling).
 
-\todo{Check which conjugate gradient scipy.space.linalg.solve uses.}
+The computational experiments
+(e.g., data processing, synthetic tests, real data application)
+were performed in
+Jupyter (formerly IPython) notebooks
+\citep[][ \url{http://jupyter.org/}]{perez2007}.
+
+\todo{Check which conjugate gradient scipy uses}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Application to synthetic data from a simple model}
@@ -635,7 +646,8 @@ Meh.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Acknowledgments}
 
-Meh.
+The authors are indebted to the developers and maintainers of the open-source
+software without which this work would not have been possible.
 
 \bibliographystyle{gji}
 \bibliography{biblio}
