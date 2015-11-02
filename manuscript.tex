@@ -490,10 +490,74 @@ or from a spherical harmonic model.
 \end{figure}
 
 
+
 \subsection{Estimating $z_{ref}$ and $\Delta\rho$}
 
+The depth of the Normal Earth Moho ($z_{ref}$)
+and the density-contrast of the anomalous Moho ($\Delta\rho$)
+are other hyper-parameters of the inversion.
+That is, their value influences the final solution
+but they are not estimated during the inversion.
+Both hyper-parameters cannot be determined from the gravity data alone.
+Estimating $z_{ref}$ and $\Delta\rho$ requires
+information that is independent of the gravity data,
+such as knowledge of the parameters at certain points.
+This information can be used in a manner similar to
+the cross-validation described in the previous section.
+In this study, we use point estimates of the Moho depth
+to determine the optimal values of $z_{ref}$ and $\Delta\rho$.
+These points will generally come from seismologic studies,
+like receiver functions, surface wave dispersion, and deep refraction
+experiments.
 
+Let $\mathbf{z}_s^o$ be a vector of $N_s$ known Moho depths.
+We use the mean square error (MSE)
+as a measure of how well a given inversion output $\mathbf{\hat{p}}^k$
+fits the know depths.
+The optimal values of $z_{ref}$ and $\Delta\rho$
+are the ones that best fit the independent known Moho depths
+(i.e., produce the smallest MSE).
+However, the points do not necessarily coincide
+with the model elements of the inversion.
+Before computing the MSE,
+we interpolate $\mathbf{\hat{p}}^k$ on the known points
+to obtain the predicted depths $\mathbf{z}_s^k$.
+The MSE is defined as
 
+\begin{equation}
+    MSE = \dfrac{\|\mathbf{z}^o_s - \mathbf{z}^k_{s}\|^2}{N_s}.
+    \label{eq:msehyper}
+\end{equation}
+
+The algorithm for estimating $z_{ref}$ and $\Delta\rho$ is:
+
+\begin{enumerate}
+    \item For each combination of
+        $z_{ref,l} \in [z_{ref,1},z_{ref,2},\ldots,z_{ref,N_z}]$ and
+        $\Delta\rho_m \in
+         [\Delta\rho_1,\Delta\rho_2,\ldots,\Delta\rho_{N_{\rho}}]$:
+    \begin{enumerate}
+        \item Perform the inversion on the training data set
+            $\mathbf{d}^o_{inv}$ using $z_{ref,l}$, $\Delta\rho_m$, and
+            the previously estimated value of $\mu$.
+            The inversion output is the vector $\mathbf{\hat{p}}^{l,m}$.
+        \item Interpolate $\mathbf{\hat{p}}^{l,m}$
+            on the known points to obtain the predicted depths
+            $\mathbf{z}_s^{l,m}$.
+        \item Calculate the MSE between $\mathbf{z}_s^o$ and
+            $\mathbf{z}_s^{l,m}$ using Eq.~\ref{eq:msehyper}.
+    \end{enumerate}
+    \item The final solution is the $\mathbf{\hat{p}}^{l,m}$ corresponding to
+        the smallest MSE.
+\end{enumerate}
+
+A similar approach was used by \citet{martins2010}
+to estimate the parameters defining
+the density-contrast variation with depth
+of a sedimentary basin.
+\citet{vandermeijde2013} also had
+a similar methodology for dealing with the hyper-parameters,
+though in a less formalized way.
 
 
 
