@@ -407,12 +407,83 @@ Tikhonov regularization.
 
 
 
-\subsection{Determination of hyper-parameters}
+\subsection{Estimating the regularization parameter}
 
-There are three hyper-parameters that control the inversion results:
-(1) the regularization parameter $\mu$
-(2) the depth of the Moho of the reference ellipsoid
-(3) the density-contrast between the
+The regularization parameter $\mu$ controls how much smoothness is applied to
+the inversion result.
+An optimal value of $\mu$ will stabilize and smooth the solution while not
+compromising the fit to the observed data.
+Two widely used methods to estimate an optimal $\mu$ are
+the L-curve criterion and cross-validation \citep{hansen1992}.
+Here, we will adopt the hold-out method of cross-validation \citep{kim2009}.
+\todo{Not the best reference}
+The hold-out method consists of splitting the observed data set into two
+independent parts:
+a training set $\mathbf{d}^o_{inv}$
+and a testing set $\mathbf{d}^o_{test}$.
+The training set is used in the inversion
+while the testing set is kept back
+and used to judge the quality of the chosen value of $\mu$.
+For a value of the regularization parameter $\mu_k$,
+the training set is inverted using $\mu_k$
+to obtain an estimate $\mathbf{\hat{p}}^k$.
+This estimate is used to calculate predicted data
+on the same points as the testing set
+via forward modeling
+($\mathbf{d}_{test}^k = \mathbf{f}(\mathbf{\hat{p}}^k$)).
+The metric chosen to evaluate $\mu_k$ is
+the mean square error (MSE) of the misfit
+between the observed and predicted testing data sets,
+
+\begin{equation}
+    MSE_k = \dfrac{\|\mathbf{d}^o_{test} - \mathbf{d}^k_{test}\|^2}{N_{test}},
+    \label{eq:msemu}
+\end{equation}
+
+\noindent
+in which $N_{test}$ is the number of data in the testing set.
+The optimal value of $\mu$ will be the one that minimizes the MSE,
+i.e. the one that best predicts the testing data.
+We emphasize that the inversion is performed only on the training data set.
+
+The algorithm for the hold-out cross-validation is summarized as follows:
+
+\begin{enumerate}
+    \item Divide the observed data into
+        the training ($\mathbf{d}^o_{inv}$)
+        and testing ($\mathbf{d}^o_{test}$) sets.
+    \item For each $\mu_k \in [\mu_1, \mu_2, \ldots, \mu_{N_{\mu}}]$:
+    \begin{enumerate}
+        \item Estimate $\mathbf{\hat{p}}^k$ by inverting the training set
+            $\mathbf{d}^o_{inv}$.
+        \item Use $\mathbf{\hat{p}}^k$ to calculate the predicted testing set
+            $\mathbf{d}^k_{test}$.
+        \item Calculate the mean square error $MSE_k$ using Eq.~\ref{eq:msemu}.
+    \end{enumerate}
+    \item The final solution is the $\mathbf{\hat{p}}^k$ corresponding to the
+        smallest $MSE_k$.
+\end{enumerate}
+
+Bott's method requires the same number of observed data ($N$)
+and model parameters ($M$).
+Limited ways to separate the training and testing data sets.
+Data and model must be on a regular grid.
+Cannot randomly separate.
+Use a dense data grid.
+Take for the training set a sub grid with double the original grid spacing.
+Every other point is included in the testing data set.
+The testing data set will have more points than training data set.
+One can generate observed data on a grid with half of the desired grid spacing.
+This is easy for data generated from spherical harmonic models.
+
+
+
+\subsection{Estimating $z_{ref}$ and $\Delta\rho$}
+
+
+
+
+
 
 \subsection{Software implementation}
 
