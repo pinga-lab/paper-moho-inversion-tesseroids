@@ -339,7 +339,7 @@ by setting the Jacobian matrix (Eq.~\ref{eq:jacobian}) to
 
 \begin{equation}
     \mathbf{A} = 2\pi G \Delta \rho \mathbf{I},
-    \label{eq:bott-jacobian}
+    \label{eq:bott-gaussnewton}
 \end{equation}
 
 \noindent
@@ -376,25 +376,32 @@ the inversion to the unstable estimate, as in \citet{silva2014}.
 
 \subsection{Regularized Bott's method in spherical coordinates}
 
-Approximate the Jacobian by making tesseroid size tend to infinity to get
-Bouguer slab.
-This approximation is good for tesseroids because each will cover a large
-enough area.
-Show case for the Steepest Descent.
-Extend the Jacobian to include lateral density variation.
-Important because density-contrast is positive or negative depending if the
-Moho is above or below the reference level.
-Enforce that the use of a particular
+We propose a regularized version of Bott's method to invert for the relief of
+the anomalous Moho in spherical coordinates.
+Our formulation maintains the regularized solutions
+for Gauss-Newton (Eq.~\ref{eq:gaussnewton-regul}) and
+Steepest Descent (Eq.~\ref{eq:steepest-regul})
+but replaces the full Jacobian matrix with the Bouguer plate approximations
+(respectively, Eq.~\ref{eq:bott-gaussnewton} and \ref{eq:bott-steepest}).
+This linearizes the Jacobian matrix and reduces it to a sparse diagonal matrix,
+thus eliminating the cost of computing and storing $\mathbf{A}$.
+Matrix arithmetic operations can be performed efficiently by taking advantage
+of the sparse nature of matrices $\mathbf{A}$ and $\mathbf{R}$.
+The same is true for solving the equation system in the Gauss-Newton method
+(Eq.~\ref{eq:gaussnewton-regul}).
+However, the computational cost of forward modeling is still present.
+Particularly, forward modeling using tesseroids is more computationally
+intensive than using right-rectangular prisms
+because of the numerical integration and adaptive discretization.
+Benchmarks suggest that forward modeling accounts for approximately $99\%$ of
+\todo{Checar esse número}
+the computation time for a Gauss-Newton inversion
+(see supplementary material)\todo{Referência melhor pra isso}.
+Hence, this formulation allows us to retain the efficiency of Bott's method
+while stabilizing the solution through the well established formalism of
+Tikhonov regularization.
 
-Biggest computation time is in forward modeling.
-All matrices involved are sparse.
-Solve the sparse linear system with a conjugate gradient method.
-\todo{Check which conjugate gradient scipy.space.linalg.solve uses.}
-Use the regularized inversion because multiplying and solving the linear system
-are fast compared to forward modeling.
-Not using step size optimization because forward modeling is very slow so
-increased convergence doesn't justify the extra time spent on the discarded
-step attempts.
+
 
 \subsection{Determination of hyper-parameters}
 
@@ -403,7 +410,7 @@ step attempts.
 \subsection{Software implementation}
 
 \todo{Cite packages in the references.txt file.}
-
+\todo{Check which conjugate gradient scipy.space.linalg.solve uses.}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Application to synthetic data from a simple model}
