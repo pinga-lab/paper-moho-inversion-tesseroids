@@ -325,8 +325,10 @@ by setting the Jacobian matrix (Eq.~\ref{eq:jacobian}) to
 \noindent
 in which $\mathbf{I}$ is the identity matrix.
 In this framework,
-Bott's method uses a Bouguer plate approximation of the relief to
-linearize the Jacobian matrix.
+Bott's method uses a Bouguer plate approximation of the gravitational effect of
+the relief, $d_i = 2\pi G \Delta\rho z_i$.
+The derivative of $d_i$ with respect to the parameter $z_i$ is
+$2\pi G \Delta \rho$, thus linearizing the Jacobian matrix.
 However, the non-linearity of the predicted data $\mathbf{d}(\mathbf{p}^k)$ is
 preserved.
 
@@ -338,15 +340,17 @@ Steepest Descent method (Eq.~\ref{eq:steepest}) by setting the Jacobian matrix t
     \label{eq:bott-steepest}
 \end{equation}
 
+\noindent
+In practice, both formulations lead to Eq.~\ref{eq:bott}.
 One of the advantages of Bott's method over the traditional Gauss-Newton or
 Steepest Descent is eliminating the computation and storage of the dense
 Jacobian matrix $\mathbf{A}$.
-Bott's method also does not require the solution of equation systems.
-
-A disadvantage of Bott's method is that it suffers from instability
+Furthermore, Bott's method also does not require the solution of equation
+systems.
+However, a disadvantage of Bott's method is that it suffers from instability
 \citep{silva2014}.
-A common approach to solve this issue is to apply a smoothing filter, like a
-moving average, to the unstable estimate.
+A common approach to counter this issue is to apply a smoothing filter after
+the inversion to the unstable estimate, as in \citet{silva2014}.
 
 
 \subsection{Regularized Bott's method in spherical coordinates}
