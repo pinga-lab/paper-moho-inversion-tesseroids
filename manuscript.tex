@@ -81,14 +81,14 @@ This effect is calculated on the same point $P$ where the observation was made
 using the closed-form solution presented by \citet{li2001}.
 The difference between the observed gravity ($g$) and Normal gravity
 is known as the gravity disturbance,
-\todo{Seminar figure here}
 
 \begin{equation}
     \delta(P) = g(P) - \gamma(P).
 \end{equation}
 
 The disturbance contains only the gravitational effects of density
-distributions that are anomalous with respect to the Normal Earth.
+distributions that are anomalous with respect to the Normal Earth
+(see Fig.~\ref{fig:anomalysketch}).
 This includes all masses above the surface of the ellipsoid (the topography),
 the mass deficiency of the oceans,
 the mass deficiency of sedimentary basins,
@@ -109,9 +109,18 @@ The accuracy of the GLQ integration is improved by the adaptive discretization
 scheme of \citet{uieda2016}.
 
 
+% Sketches to explain the methodology
+
 \begin{figure}
     \centering
-    \includegraphics[width=\columnwidth]{figures/paper/tesseroid-coord-sys}
+    \includegraphics[width=0.5\columnwidth]{figures/default_figure}
+    \caption{Sketch explaining disturbance and parametrization from ON seminar.}
+    \label{fig:anomalysketch}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\columnwidth]{figures/paper/tesseroid-coord-sys}
     \caption{Sketch of a tesseroid (spherical prism) in a geocentric coordinate
         system (X, Y, Z).
         Observations are made at point P with respect to it's local
@@ -131,13 +140,14 @@ We parameterize the forward problem by discretizing the anomalous Moho
 into a grid of $M_{lon} \times M_{lat} = M$ juxtaposed tesseroids.
 The true (real Earth) Moho varies in depth
 with respect to the Moho of the Normal Earth.
-Hereafter we will refer to the depth of the Normal Earth Moho as $z_{ref}$.
+Hereafter we will refer to the depth of the Normal Earth Moho as $z_{ref}$
+(see Fig.~\ref{fig:anomalysketch}).
 In cases where the true Moho is above $z_{ref}$,
 the top of the $k$th tesseroid is the Moho depth $z_{k}$,
 the bottom is $z_{ref}$, and the density-contrast ($\Delta\rho$) is positive.
 If the Moho is below $z_{ref}$, the top of the tesseroid is $z_{ref}$,
 the bottom is $z_k$, and $\Delta\rho$ is negative.
-\todo{Seminar figure here}
+
 
 Considering that the density-contrasts of the tesseroids are fixed parameters,
 the predicted gravity anomaly of the Moho is a non-linear function of the
@@ -472,7 +482,6 @@ directly below each data point.
 Thus, we take as our training set the points from the observed data grid that
 fall on a similar grid but with twice the grid spacing
 (see Fig.~\ref{fig:grid_separation}).
-\todo{Include fig from seminar}
 All other points from the original data grid
 make up the testing data set.
 This separation will lead to
@@ -484,8 +493,8 @@ or from a spherical harmonic model.
 
 \begin{figure}
     \centering
-    %\includegraphics[width=\columnwidth]{figures/paper/sam-gravity-data}
-    \caption{This is a figure caption.}
+    \includegraphics[width=0.5\columnwidth]{figures/default_figure}
+    \caption{Include figure of the grid point separation from ON seminar}
     \label{fig:grid_separation}
 \end{figure}
 
