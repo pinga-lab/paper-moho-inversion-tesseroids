@@ -1,10 +1,6 @@
 .ipynb_checkpoints
-notebooks/*.png
-notebooks/*.pickle
-notebooks/tmp
-notebooks/profiling.txt
 *.pyc
 *~
 *.swp
-output/
-figures/paper/*-eps-converted-to.pdf
+manuscript/output/
+manuscript/figures/*-eps-converted-to.pdf
