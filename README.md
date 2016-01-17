@@ -6,12 +6,8 @@ by [Leonardo Uieda](http://www.leouieda.com) et al.
 
 Download the [Anaconda Python distribution](http://continuum.io/downloads#all).
 
-You'll need to create an separate environment and install the dependencies
-that we need.
-The commands to do this are programmed in the `Makefile`.
-Run:
+The `conda` environment is specified in `environment.yml`. Use `conda env
+create` to create the environment and install all package dependencies.
 
-    make setup
-
-This will create a `conda` environment called `mohoinv` and install all
-dependencies on it.
+To run the code and generate the results you must first activate the
+environment using `source activate moho`.
