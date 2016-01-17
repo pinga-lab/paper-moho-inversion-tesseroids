@@ -2,6 +2,7 @@ name: moho
 dependencies:
     - python=2.7
     - pip
+    - future
     - numpy=1.9.3
     - scipy=0.16.0
     - matplotlib=1.4.3
