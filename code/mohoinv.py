@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Implements the proposed Moho inversion method.
 
@@ -25,6 +26,46 @@ import numpy as np
 import copy
 import multiprocessing
 import warnings
+
+
+def split_data(data, shape, every_other):
+    """
+    Split the data into inversion and test datasets
+    
+    Parameters:
+    
+    * data : list of 1d-arrays
+        List with the data arrays that will be divided (like lon, lat, 
+        gravity, etc)
+    * shape : tuple = (nlat, nlon)
+        The original shape of the data grid
+    * every_other : int
+        Will divide by taking every other "every_other" grid point
+        for the inversion dataset. The remaining points will be the 
+        test data.
+        
+    Returns:
+    
+    * inversion_set, test_set, inversion_shape:
+        The inversion_set and test_set are lists in the same order as "data".
+        inversion_shape is the shape of the new inversion dataset
+        
+    """
+    data = [i.reshape(shape) for i in data]
+    # Take "every_other" point for the inversion
+    inversion = [i[::every_other, ::every_other] for i in data]
+    # mask marks the grid points I didn't take for inversion
+    mask = np.ones(shape, dtype=np.bool)
+    mask[::every_other, ::every_other] = False  # These are the ones I took
+    test = [i[mask] for i in data]
+    shape = inversion[0].shape
+    # Sanity checks
+    assert all(t.size + i.size == d.size for t, i, d in zip(test, inversion, data)), \
+        "Number of points in inversion + test set different from original data."
+    assert all(t.size == test[0].size for t in test), "Test set has differet number of points"
+    assert all(i.size == inversion[0].size for i in inversion), "Inversion set has differet number of points"
+    assert all(i.shape == inversion[0].shape for i in inversion), "Inversion set has differet shape"
+    return [i.ravel() for i in inversion], test, shape
 
 
 def make_mesh(area, shape, relief=None, reference=None):
