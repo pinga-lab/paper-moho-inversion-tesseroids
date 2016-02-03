@@ -2,10 +2,6 @@
 """
 Implements the proposed Moho inversion method.
 
-See the Jupyter notebooks 'moho-inversion-example.ipynb' and
-'tesseroid-relief-example.ipynb' for instructions and example usage of these
-classes.
-
 Defines the classes:
 
 * `MohoGravityInvSpherical`: Performs the inversion itself. Uses the classes
@@ -14,6 +10,20 @@ Defines the classes:
 
 * `TesseroidRelief`: Class to represent a relief undulating around a reference
   level and discretized into tesseroids.
+  
+See the Jupyter notebooks 'moho-inversion-example.ipynb' and
+'tesseroid-relief-example.ipynb' for instructions and example usage of these
+classes.
+  
+Also defines utility functions for cross-validation:
+
+* `fit_all`: Call the fit method of a list of solvers in parallel
+* `score_all`: Calculate the cross-validation score of a list of
+  solvers in parallel
+* `split_data`: Split the data set into an inversion and test set
+
+See the notebook 'synthetic-crust1.ipynb' for an example of how to use
+the cross-validation functions.
 
 """
 from __future__ import division
@@ -26,6 +36,121 @@ import numpy as np
 import copy
 import multiprocessing
 import warnings
+
+
+def score_all(solutions, test_data, points, njobs=1):
+    """
+    Get the cross-validation score for all solutions using *njobs* processes.
+    
+    If points is True, will assume test_data are the seismic point constraints.
+    Otherwise, will assume it's the test data set.
+    """
+    args = [[s.estimate_, test_data, points] for s in solutions]
+    if njobs > 1:
+        pool = multiprocessing.Pool(njobs)
+        results = pool.map(_call_score, args)
+        pool.close()
+        pool.join()
+    else:
+        results = map(_call_score, args)
+    return np.array(results)
+
+
+def _call_score(args):
+    """
+    Call score_test_set or score_seismic_constraints on the solution.
+    
+    Needed because multiprocessing.Pool.map only allows functions with
+    a single argument.
+    """
+    solution, test_data, points = args
+    try:
+        if points:
+            score = score_seismic_constraints(solution, *test_data)
+        else:
+            score = score_test_set(solution, *test_data)
+    except:
+        score = np.nan
+    return score
+
+
+def predict_seismic(moho, lat, lon):
+    """
+    Calculate the predicted Moho depth at the seismic points 
+    from the estimated model.
+    
+    Values are interpolated onto (lat, lon) from the given 'moho'.
+    """
+    estimated = gridder.interp_at(moho.clat.ravel(), moho.clon.ravel(), moho.relief, 
+                                  lat, lon, extrapolate=True)
+    return estimated
+
+    
+def score_seismic_constraints(moho, lat, lon, height):
+    """
+    Return the MSE between the moho estimate and the point constraints.
+    """
+    predicted = seismic_residuals(moho, lat, lon, height)
+    score = np.sum((predicted - height)**2)/height.size
+    return score
+
+
+def fit_all(solvers, njobs=1): 
+    """
+    Run ``fit`` for all solvers using *njobs* processes.
+    
+    Utility function for cross-validation.
+    """
+    if njobs > 1:
+        pool = multiprocessing.Pool(njobs)
+        results = pool.map(_call_fit, solvers)
+        pool.close()
+        pool.join()
+    else:
+        results = map(_call_fit, solvers)
+    return results
+
+
+def _call_fit(solver):
+    """
+    Call the ``fit`` method of a solver object.
+    
+    Needed to run the map method of a multiprocessing.Pool object.
+    
+    If any exceptions arise, returns None.
+    """
+    try:
+        solver.fit()
+    except:
+        solver = None
+    return solver
+
+
+def score_test_set(model, lat, lon, height, data, njobs=1):
+    """
+    Score a given tesseroid model based on the Mean Square Error
+    between the given data and the one predicted by the model.
+    
+    Parameters:
+    
+    * model : list of Tesseroids or TesseroidRelief
+        The model to score
+    * lat, lon, height : 1d-arrays
+        The coordinates of the data points
+    * data : 1d-array
+        The observed data that will be compared to the predicted data
+    * njobs : int
+        The number of processes to use for the forward modeling
+        
+    Returns:
+    
+    * score : float
+        The MSE
+        
+    """
+    predicted = tesseroid.gz(lon, lat, height, model, njobs=njobs)
+    score = np.sum((predicted - data)**2)/data.size
+    return score
 
 
 def split_data(data, shape, every_other):
