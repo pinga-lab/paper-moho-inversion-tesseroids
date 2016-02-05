@@ -90,7 +90,7 @@ def score_seismic_constraints(moho, lat, lon, height):
     """
     Return the MSE between the moho estimate and the point constraints.
     """
-    predicted = seismic_residuals(moho, lat, lon, height)
+    predicted = predict_seismic(moho, lat, lon)
     score = np.sum((predicted - height)**2)/height.size
     return score
 
