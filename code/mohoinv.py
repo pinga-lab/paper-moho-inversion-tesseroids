@@ -45,7 +45,7 @@ def score_all(solutions, test_data, points, njobs=1):
     If points is True, will assume test_data are the seismic point constraints.
     Otherwise, will assume it's the test data set.
     """
-    args = [[s.estimate_, test_data, points] for s in solutions]
+    args = [[moho, test_data, points] for moho in solutions]
     if njobs > 1:
         pool = multiprocessing.Pool(njobs)
         results = pool.map(_call_score, args)
