@@ -1,7 +1,7 @@
 %\documentclass[]{article}
 %\usepackage{natbib}
-\documentclass[extra,mreferee]{gji}
-%\documentclass[extra]{gji}
+% \documentclass[extra,mreferee]{gji}
+\documentclass[extra]{gji}
 \usepackage{timet}
 \usepackage{amsmath}
 \usepackage{graphicx}
@@ -77,9 +77,13 @@ We do this by removing all other effects from the gravity observations.
 The first correction is to remove the
 scalar gravity of an ellipsoidal reference Earth (the Normal Earth),
 hereafter denoted as $\gamma$.
-This effect is calculated on the same point $P$ where the observation was made
-using the closed-form solution presented by \citet{li2001}.
-The difference between the observed gravity ($g$) and Normal gravity
+This effect is calculated on the same point $P$ where
+the gravity observation was made
+(Fig~\ref{fig:anomalysketch}a-b).
+$\gamma(P)$ is calculated using
+the closed-form solution presented by \citet{li2001}.
+The difference between the observed gravity at point P ($g(P)$)
+and Normal gravity at the same point
 is known as the gravity disturbance,
 
 \begin{equation}
@@ -88,7 +92,7 @@ is known as the gravity disturbance,
 
 The disturbance contains only the gravitational effects of density
 distributions that are anomalous with respect to the Normal Earth
-(see Fig.~\ref{fig:anomalysketch}).
+(see Fig.~\ref{fig:anomalysketch}c).
 This includes all masses above the surface of the ellipsoid (the topography),
 the mass deficiency of the oceans,
 the mass deficiency of sedimentary basins,
@@ -97,12 +101,27 @@ heterogeneities below the upper mantle,
 and the effect of the difference between the real Moho
 topography and the Moho of the Normal Earth.
 
-All effects must either be removed or assumed negligible
-to invert for the anomalous Moho.
+In order to invert for the anomalous Moho relief,
+we must first isolate its gravitational attraction.
+Thus, all other effects
+must be either removed or assumed negligible.
+Here, we will remove the effect of the topography and oceans
+in order to obtain the full Bouguer disturbance
+(Fig~\ref{fig:anomalysketch}d),
+
+\begin{equation}
+    \delta_{bg}(P) = \delta(P) - g_{topo}(P).
+\end{equation}
+
+\noindent
+We will remove the effect of sedimentary basins
+but assume that the effects of
+other crustal and mantle sources are negligible.
+Thus, the only effect left will be that of the anomalous Moho relief
+(Fig~\ref{fig:anomalysketch}e).
 The gravitational attraction of the topography, oceans, and basins are
 calculated in a spherical Earth approximation by forward modeling using
-tesseroids
-(Fig.~\ref{fig:tesseroid}).
+tesseroids (Fig.~\ref{fig:tesseroid}).
 The tesseroid effects are calculated numerically using
 Gauss-Legendre Quadrature (GLQ) integration \citep{asgharzadeh2007}.
 The accuracy of the GLQ integration is improved by the adaptive discretization
@@ -113,14 +132,14 @@ scheme of \citet{uieda2016}.
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.5\columnwidth]{figures/default_figure}
+    \includegraphics[width=\columnwidth]{figures/problem-concept}
     \caption{Sketch explaining disturbance and parametrization from ON seminar.}
     \label{fig:anomalysketch}
 \end{figure}
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.5\columnwidth]{figures/tesseroid-coord-sys}
+    \includegraphics[width=\columnwidth]{figures/tesseroid-coord-sys}
     \caption{Sketch of a tesseroid (spherical prism) in a geocentric coordinate
         system (X, Y, Z).
         Observations are made at point P with respect to it's local
@@ -137,19 +156,23 @@ scheme of \citet{uieda2016}.
 \subsection{Parametrization}
 
 We parameterize the forward problem by discretizing the anomalous Moho
-into a grid of $M_{lon} \times M_{lat} = M$ juxtaposed tesseroids.
+into a grid of $M_{lon} \times M_{lat} = M$ juxtaposed tesseroids
+(Fig~\ref{fig:anomalysketch}f).
 The true (real Earth) Moho varies in depth
 with respect to the Moho of the Normal Earth.
 Hereafter we will refer to the depth of the Normal Earth Moho as $z_{ref}$
-(see Fig.~\ref{fig:anomalysketch}).
+(see Fig.~\ref{fig:anomalysketch}b).
 In cases where the true Moho is above $z_{ref}$,
 the top of the $k$th tesseroid is the Moho depth $z_{k}$,
-the bottom is $z_{ref}$, and the density-contrast ($\Delta\rho$) is positive.
+the bottom is $z_{ref}$, and the density-contrast ($\Delta\rho$) is positive
+(red tesseroids in Fig~\ref{fig:anomalysketch}f).
 If the Moho is below $z_{ref}$, the top of the tesseroid is $z_{ref}$,
-the bottom is $z_k$, and $\Delta\rho$ is negative.
+the bottom is $z_k$, and $\Delta\rho$ is negative
+(grey tesseroids in Fig~\ref{fig:anomalysketch}f).
 
 
-Considering that the density-contrasts of the tesseroids are fixed parameters,
+Considering that the absolute value of the density-contrasts
+of the tesseroids is a fixed parameter,
 the predicted gravity anomaly of the Moho is a non-linear function of the
 parameters $z_k$, $k=1, \ldots, M$,
 
