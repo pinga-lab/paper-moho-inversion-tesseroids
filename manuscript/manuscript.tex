@@ -504,9 +504,10 @@ Bott's method requires data on a regular grid as well as having model elements
 directly below each data point.
 Thus, we take as our training set the points from the observed data grid that
 fall on a similar grid but with twice the grid spacing
-(see Fig.~\ref{fig:grid_separation}).
+(white dots with black outlines in Fig.~\ref{fig:grid_separation}).
 All other points from the original data grid
-make up the testing data set.
+make up the testing data set
+(black dots in Fig.~\ref{fig:grid_separation}).
 This separation will lead to
 a testing data set with more points than the training data set.
 A way to balance this loss of data in the inversion
@@ -516,8 +517,13 @@ or from a spherical harmonic model.
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.5\columnwidth]{figures/default_figure}
-    \caption{Include figure of the grid point separation from ON seminar}
+    \includegraphics[width=\columnwidth]{figures/cv-grid-separation}
+    \caption{Sketch of a data grid separated into
+        the training (white dots with black outlines)
+        and testing (black dots) data sets.
+        The training data set is still displayed on a regular grid
+        but with twice the grid spacing
+        of the original data grid.}
     \label{fig:grid_separation}
 \end{figure}
 
