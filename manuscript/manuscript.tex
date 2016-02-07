@@ -1,0 +1,706 @@
+%\documentclass[]{article}
+%\usepackage{natbib}
+% \documentclass[extra,mreferee]{gji}
+\documentclass[extra]{gji}
+\usepackage{timet}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage[utf8]{inputenc}
+
+\usepackage{todonotes}
+
+% Document metadata
+% =================
+\newcommand{\Title}{
+    Fast non-linear gravity inversion in spherical coordinates:
+    application to the South American Moho
+}
+\newcommand{\Keywords}{
+        Moho;
+        gravity inversion;
+        spherical coordinates;
+        tesseroid;
+        South America
+}
+\title[]{\Title}
+\author[]{
+    Leonardo Uieda$^{1,2}$,
+    Valéria C. F. Barbosa$^{2}$
+    \\
+    $^1$Universidade do Estado do Rio de Janeiro, Rio de Janeiro, Brazil.
+    e-mail: leouieda@gmail.com
+    \\
+    $^2$Observatório Nacional, Rio de Janeiro, Brazil.
+}
+
+\usepackage[pdftex,colorlinks=true]{hyperref}
+\hypersetup{
+    pdftitle={\Title},
+    pdfauthor={Leonardo Uieda (leouieda@gmail.com)},
+    pdfsubject={},
+    pdfkeywords={\Keywords},
+    pdfcreator={pdfTeX},
+    allcolors=blue,
+}
+
+
+% Useful commands
+% ===============
+
+
+\begin{document}
+
+%\label{firstpage}
+\maketitle
+
+
+\begin{abstract}
+\end{abstract}
+
+\noindent\textbf{Key words:} \Keywords
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Methodology}
+
+In potential field methods,
+we must isolate the target anomalous density distribution prior to modeling and
+inversion.
+In our case, the target is the relief of the real Moho undulating around a
+reference Moho.
+We do this by removing all other effects from the gravity observations.
+The first correction is to remove the
+scalar gravity of an ellipsoidal reference Earth (the Normal Earth),
+hereafter denoted as $\gamma$.
+This effect is calculated on the same point $P$ where
+the gravity observation was made
+(Fig~\ref{fig:anomalysketch}a-b).
+$\gamma(P)$ is calculated using
+the closed-form solution presented by \citet{li2001}.
+The difference between the observed gravity at point P ($g(P)$)
+and Normal gravity at the same point
+is known as the gravity disturbance,
+
+\begin{equation}
+    \delta(P) = g(P) - \gamma(P).
+\end{equation}
+
+The disturbance contains only the gravitational effects of density
+distributions that are anomalous with respect to the Normal Earth
+(see Fig.~\ref{fig:anomalysketch}c).
+This includes all masses above the surface of the ellipsoid (the topography),
+the mass deficiency of the oceans,
+the mass deficiency of sedimentary basins,
+crustal sources (e.g., igneous intrusions, lateral density changes, etc),
+heterogeneities below the upper mantle,
+and the effect of the difference between the real Moho
+topography and the Moho of the Normal Earth.
+
+In order to invert for the anomalous Moho relief,
+we must first isolate its gravitational attraction.
+Thus, all other effects
+must be either removed or assumed negligible.
+Here, we will remove the effect of the topography and oceans
+in order to obtain the full Bouguer disturbance
+(Fig~\ref{fig:anomalysketch}d),
+
+\begin{equation}
+    \delta_{bg}(P) = \delta(P) - g_{topo}(P).
+\end{equation}
+
+\noindent
+We will remove the effect of sedimentary basins
+but assume that the effects of
+other crustal and mantle sources are negligible.
+Thus, the only effect left will be that of the anomalous Moho relief
+(Fig~\ref{fig:anomalysketch}e).
+The gravitational attraction of the topography, oceans, and basins are
+calculated in a spherical Earth approximation by forward modeling using
+tesseroids (Fig.~\ref{fig:tesseroid}).
+The tesseroid effects are calculated numerically using
+Gauss-Legendre Quadrature (GLQ) integration \citep{asgharzadeh2007}.
+The accuracy of the GLQ integration is improved by the adaptive discretization
+scheme of \citet{uieda2016}.
+
+
+% Sketches to explain the methodology
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\columnwidth]{figures/problem-concept}
+    \caption{Sketch explaining disturbance and parametrization from ON seminar.}
+    \label{fig:anomalysketch}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\columnwidth]{figures/tesseroid-coord-sys}
+    \caption{Sketch of a tesseroid (spherical prism) in a geocentric coordinate
+        system (X, Y, Z).
+        Observations are made at point P with respect to it's local
+        North-oriented coordinate system (x, y, z).
+        After \citet{uieda2015}.
+    }
+    \label{fig:tesseroid}
+\end{figure}
+
+
+
+\subsection{Parametrization}
+
+We parameterize the forward problem by discretizing the anomalous Moho
+into a grid of $M_{lon} \times M_{lat} = M$ juxtaposed tesseroids
+(Fig~\ref{fig:anomalysketch}f).
+The true (real Earth) Moho varies in depth
+with respect to the Moho of the Normal Earth.
+Hereafter we will refer to the depth of the Normal Earth Moho as $z_{ref}$
+(see Fig.~\ref{fig:anomalysketch}b).
+In cases where the true Moho is above $z_{ref}$,
+the top of the $k$th tesseroid is the Moho depth $z_{k}$,
+the bottom is $z_{ref}$, and the density-contrast ($\Delta\rho$) is positive
+(red tesseroids in Fig~\ref{fig:anomalysketch}f).
+If the Moho is below $z_{ref}$, the top of the tesseroid is $z_{ref}$,
+the bottom is $z_k$, and $\Delta\rho$ is negative
+(grey tesseroids in Fig~\ref{fig:anomalysketch}f).
+
+
+Considering that the absolute value of the density-contrasts
+of the tesseroids is a fixed parameter,
+the predicted gravity anomaly of the Moho is a non-linear function of the
+parameters $z_k$, $k=1, \ldots, M$,
+
+\begin{equation}
+    d_i = f_i(\mathbf{p}),
+\end{equation}
+
+\noindent in which $d_i$ is the $i$th element of the $N$-dimensional predicted
+data vector $\mathbf{d}$, $\mathbf{p}$ is the $M$-dimensional parameter vector
+containing the $M$ Moho depths ($z_k$),
+and $f_i$ is the $i$th non-linear function that maps the parameters onto the
+data.
+The functions $f_i$ are the radial component of the gravitational attraction
+of the tesseroid Moho model.
+
+
+
+\subsection{Inverse problem}
+
+We wish to estimate the parameter vector $\mathbf{p}$ from a set of observed
+gravity anomaly data $\mathbf{d}^o$.
+The least-squares estimate is the one that minimizes the data-misfit function
+
+\begin{equation}
+    \phi(\mathbf{p}) =
+    [\mathbf{d}^o - \mathbf{d}(\mathbf{p})]^T[\mathbf{d}^o - \mathbf{d}(\mathbf{p})].
+    \label{eq:data-misfit}
+\end{equation}
+
+Function $\phi(\mathbf{p})$ is non-linear with respect to $\mathbf{p}$.
+Thus, we can determine its minimum using gradient-based
+iterative optimization
+methods like Gauss-Newton or Steepest Descent.
+Such methods start from an initial estimate $\mathbf{p}^0$ and iteratively
+update the estimate until a minimum is reached.
+
+For the Gauss-Newton method,
+the update at the $k$th iteration,
+$\mathbf{\Delta p} = \mathbf{p}^{k+1} - \mathbf{p}^k$,
+is the solution of the linear system
+
+\begin{equation}
+    \mathbf{H}^k\mathbf{\Delta p} = -\mathbf{\nabla\phi}^k,
+    \label{eq:gaussnewton}
+\end{equation}
+
+\noindent in which
+$\mathbf{\nabla\phi}^k$ and $\mathbf{H}^k$ are, respectively,
+the gradient vector and the Hessian matrix of $\phi(\mathbf{p})$.
+
+The Steepest Descent method uses only the gradient direction
+to update the initial estimate \citep{kelley1987}.
+The update at the $k$th iteration is achieved by equating the Hessian
+in Eq.~\ref{eq:gaussnewton} to the identity matrix,
+
+\begin{equation}
+    \mathbf{\Delta p} = -\mathbf{\nabla\phi}^k.
+    \label{eq:steepest}
+\end{equation}
+
+\noindent
+Thus, it does not require the computation and storage of the Hessian matrix
+nor the solution of linear systems.
+However, the Steepest Descent method has poor convergence when the
+current solution is close to the minimum of the goal function
+\citep{kelley1987}.
+
+The gradient vector and the Gauss-Newton approximation of the Hessian matrix
+of $\phi(\mathbf{p})$ are, respectively,
+
+\begin{equation}
+    \mathbf{\nabla\phi}^k = -2\mathbf{A}^T[\mathbf{d}^o - \mathbf{d}(\mathbf{p}^k)],
+    \label{eq:gradient}
+\end{equation}
+
+\noindent
+and
+
+\begin{equation}
+    \mathbf{H}^k \approx 2\mathbf{A}^T\mathbf{A},
+    \label{eq:hessian}
+\end{equation}
+
+\noindent in which
+$\mathbf{A}$ is the Jacobian or sensitivity matrix,
+
+\begin{equation}
+    A_{ij} = \dfrac{\partial f_i}{\partial p_j}(\mathbf{p^k}).
+    \label{eq:jacobian}
+\end{equation}
+
+
+
+\subsection{Regularization}
+
+Non-linear inversions for the relief of an interface (like the Moho)
+are ill-posed and require additional constraints in the form of
+regularization \citep{silva2001}.
+A common approach is to use the first-order Tikhonov regularization to impose
+smoothness on the solution.
+The cost function for smoothness regularization is given by
+
+\begin{equation}
+    \theta(\mathbf{p}) = \mathbf{p}^T\mathbf{R}^T\mathbf{R}\mathbf{p},
+\end{equation}
+
+\noindent where $\mathbf{R}$ is an $L \times M$ finite-difference matrix
+representing the $L$ first-order differences between adjacent tesseroids.
+
+The solution $\hat{\mathbf{p}}$ to the regularized inverse problem is the one that
+minimizes the goal function
+
+\begin{equation}
+    \Gamma(\mathbf{p}) = \phi(\mathbf{p}) + \mu\theta(\mathbf{p}),
+\end{equation}
+
+\noindent
+in which $\mu$ is the regularization parameter that controls the balance
+between fitting the observed data and obeying the smoothness constraint.
+
+The goal function $\Gamma(\mathbf{p})$ is also non-linear with respect to
+$\mathbf{p}$ and can be minimized using the Gauss-Newton or Steepest Descent
+methods.
+The gradient vector and Hessian matrix of the goal function are, respectively,
+
+\begin{equation}
+    \mathbf{\nabla\Gamma}^k =
+        -2\mathbf{A}^T[\mathbf{d}^o - \mathbf{d}(\mathbf{p}^k)] +
+        2\mu\mathbf{R}^T\mathbf{R}\mathbf{p}^k,
+    \label{eq:gradient-regul}
+\end{equation}
+
+\noindent and
+
+\begin{equation}
+    \mathbf{H}^k = 2\mathbf{A}^T\mathbf{A} + 2\mu\mathbf{R}^T\mathbf{R}.
+    \label{eq:hessian-regul}
+\end{equation}
+
+\noindent The parameter updates for the regularized Gauss-Newton and Steepest
+Descent methods, respectively, then become
+
+\begin{equation}
+    \left[\mathbf{A}^T\mathbf{A} + \mu\mathbf{R}^T\mathbf{R}\right]
+    \mathbf{\Delta p} =
+        \mathbf{A}^T[\mathbf{d}^o - \mathbf{d}(\mathbf{p}^k)] -
+        \mu\mathbf{R}^T\mathbf{R}\mathbf{p}^k,
+    \label{eq:gaussnewton-regul}
+\end{equation}
+
+\noindent and
+
+\begin{equation}
+    \mathbf{\Delta p} =
+        \mathbf{A}^T[\mathbf{d}^o - \mathbf{d}(\mathbf{p}^k)] -
+        \mu\mathbf{R}^T\mathbf{R}\mathbf{p}^k,
+    \label{eq:steepest-regul}
+\end{equation}
+
+Producing the regularized solution using the above equations is computationally
+costly because of two main factors:
+(1) the evaluation and storage of the dense $N \times M$ Jacobian matrix
+$\mathbf{A}$
+and (2) the solution of the resulting $M \times M$ equation system
+(not required for Steepest Descent).
+In practice, the derivatives in the Jacobian (Eq.~\ref{eq:jacobian})
+are often calculated through a first-order finite-difference approximation.
+Thus, evaluating $\mathbf{A}$ requires $2\times M \times N$ forward modeling
+operations for each iteration of the gradient descent algorithm.
+These computations are performed for each iteration of the optimization.
+
+
+\subsection{Bott's method}
+
+\citet{bott1960} developed an efficient method to determined the basement
+relief of a sedimentary basin from gravity observations.
+The method requires data on a regular grid of $N_x \times N_y = N$
+observations.
+The basement relief is then discretized into an equal grid of $M_x \times
+M_y = M$ elements with $M_x = N_x$ and $M_y = N_y$.
+Bott's iterative method starts with an initial estimate of the basement relief
+$\mathbf{p}^0$ equal to the null vector and updates the estimate using the formula
+
+\begin{equation}
+    \mathbf{\Delta p} = \dfrac{\mathbf{d}^o - \mathbf{d}(\mathbf{p}^k)}{2\pi G \Delta \rho},
+    \label{eq:bott}
+\end{equation}
+
+\noindent
+in which $G$ is the gravitational constant and $\Delta \rho$ is the basin
+density contrast.
+The iterative process stops when the inversion residuals
+$\mathbf{r} = \mathbf{d}^o - \mathbf{d}(\mathbf{p}^k)$ fall below the assumed noise level
+of the data.
+
+\citet{silva2014} showed that Bott's method can be formulated as
+a special case of the Gauss-Newton method (Eq.~\ref{eq:gaussnewton})
+by setting the Jacobian matrix (Eq.~\ref{eq:jacobian}) to
+
+\begin{equation}
+    \mathbf{A} = 2\pi G \Delta \rho \mathbf{I},
+    \label{eq:bott-gaussnewton}
+\end{equation}
+
+\noindent
+in which $\mathbf{I}$ is the identity matrix.
+In this framework,
+Bott's method uses a Bouguer plate approximation of the gravitational effect of
+the relief, $d_i = 2\pi G \Delta\rho z_i$.
+The derivative of $d_i$ with respect to the parameter $z_i$ is
+$2\pi G \Delta \rho$, thus linearizing the Jacobian matrix.
+However, the non-linearity of the predicted data $\mathbf{d}(\mathbf{p}^k)$ is
+preserved.
+
+We propose that Bott's method can also be formulated as a special case of the
+Steepest Descent method (Eq.~\ref{eq:steepest}) by setting the Jacobian matrix to
+
+\begin{equation}
+    \mathbf{A} = \dfrac{1}{4 \pi G \Delta \rho}\mathbf{I}.
+    \label{eq:bott-steepest}
+\end{equation}
+
+\noindent
+In practice, both formulations lead to Eq.~\ref{eq:bott}.
+One of the advantages of Bott's method over the traditional Gauss-Newton or
+Steepest Descent is eliminating the computation and storage of the dense
+Jacobian matrix $\mathbf{A}$.
+Furthermore, Bott's method also does not require the solution of equation
+systems.
+However, a disadvantage of Bott's method is that it suffers from instability
+\citep{silva2014}.
+A common approach to counter this issue is to apply a smoothing filter after
+the inversion to the unstable estimate, as in \citet{silva2014}.
+
+
+
+\subsection{Regularized Bott's method in spherical coordinates}
+
+We propose a regularized version of Bott's method to invert for the relief of
+the anomalous Moho in spherical coordinates.
+Our formulation maintains the regularized solutions
+for Gauss-Newton (Eq.~\ref{eq:gaussnewton-regul}) and
+Steepest Descent (Eq.~\ref{eq:steepest-regul})
+but replaces the full Jacobian matrix with the Bouguer plate approximations
+(respectively, Eq.~\ref{eq:bott-gaussnewton} and \ref{eq:bott-steepest}).
+This linearizes the Jacobian matrix and reduces it to a sparse diagonal matrix,
+thus eliminating the cost of computing and storing $\mathbf{A}$.
+Matrix arithmetic operations can be performed efficiently by taking advantage
+of the sparse nature of matrices $\mathbf{A}$ and $\mathbf{R}$.
+The same is true for solving the equation system in the Gauss-Newton method
+(Eq.~\ref{eq:gaussnewton-regul}).
+However, the computational cost of forward modeling is still present.
+Particularly, forward modeling using tesseroids is more computationally
+intensive than using right-rectangular prisms
+because of the numerical integration and adaptive discretization.
+Benchmarks suggest that
+forward modeling accounts for approximately $99\%$
+\todo{Check this number}
+of the computation time for a Gauss-Newton inversion
+(see supplementary material).
+\todo{Better reference}
+Hence, this formulation allows us to retain the efficiency of Bott's method
+while stabilizing the solution through the well established formalism of
+Tikhonov regularization.
+
+
+
+\subsection{Estimating the regularization parameter}
+
+The regularization parameter $\mu$ controls how much smoothness is applied to
+the inversion result.
+An optimal value of $\mu$ will stabilize and smooth the solution while not
+compromising the fit to the observed data.
+Two widely used methods to estimate an optimal $\mu$ are
+the L-curve criterion and cross-validation \citep{hansen1992}.
+Here, we will adopt the hold-out method of cross-validation \citep{kim2009}.
+\todo{Not the best reference}
+The hold-out method consists of splitting the observed data set into two
+independent parts:
+a training set $\mathbf{d}^o_{inv}$
+and a testing set $\mathbf{d}^o_{test}$.
+The training set is used in the inversion
+while the testing set is kept back
+and used to judge the quality of the chosen value of $\mu$.
+For a value of the regularization parameter $\mu_k$,
+the training set is inverted using $\mu_k$
+to obtain an estimate $\mathbf{\hat{p}}^k$.
+This estimate is used to calculate predicted data
+on the same points as the testing set
+via forward modeling
+($\mathbf{d}_{test}^k = \mathbf{f}(\mathbf{\hat{p}}^k$)).
+The metric chosen to evaluate $\mu_k$ is
+the mean square error (MSE) of the misfit
+between the observed and predicted testing data sets,
+
+\begin{equation}
+    MSE_k = \dfrac{\|\mathbf{d}^o_{test} - \mathbf{d}^k_{test}\|^2}{N_{test}},
+    \label{eq:msemu}
+\end{equation}
+
+\noindent
+in which $N_{test}$ is the number of data in the testing set.
+The optimal value of $\mu$ will be the one that minimizes the MSE,
+i.e. the one that best predicts the testing data.
+We emphasize that the inversion is performed only on the training data set.
+
+The algorithm for the hold-out cross-validation is summarized as follows:
+
+\begin{enumerate}
+    \item Divide the observed data into
+        the training ($\mathbf{d}^o_{inv}$)
+        and testing ($\mathbf{d}^o_{test}$) sets.
+    \item For each $\mu_k \in [\mu_1, \mu_2, \ldots, \mu_{N_{\mu}}]$:
+    \begin{enumerate}
+        \item Estimate $\mathbf{\hat{p}}^k$ by inverting the training set
+            $\mathbf{d}^o_{inv}$.
+        \item Use $\mathbf{\hat{p}}^k$ to calculate the predicted testing set
+            $\mathbf{d}^k_{test}$.
+        \item Calculate the mean square error $MSE_k$ using Eq.~\ref{eq:msemu}.
+    \end{enumerate}
+    \item The final solution is the $\mathbf{\hat{p}}^k$ corresponding to the
+        smallest $MSE_k$.
+\end{enumerate}
+
+The separation of the training and testing data sets is commonly done by taking
+random samples from the full data set.
+However, we cannot perform the separation in this way because
+Bott's method requires data on a regular grid as well as having model elements
+directly below each data point.
+Thus, we take as our training set the points from the observed data grid that
+fall on a similar grid but with twice the grid spacing
+(white dots with black outlines in Fig.~\ref{fig:grid_separation}).
+All other points from the original data grid
+make up the testing data set
+(black dots in Fig.~\ref{fig:grid_separation}).
+This separation will lead to
+a testing data set with more points than the training data set.
+A way to balance this loss of data in the inversion
+is to generate a data grid with half of the desired grid spacing,
+either through interpolation
+or from a spherical harmonic model.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\columnwidth]{figures/cv-grid-separation}
+    \caption{Sketch of a data grid separated into
+        the training (white dots with black outlines)
+        and testing (black dots) data sets.
+        The training data set is still displayed on a regular grid
+        but with twice the grid spacing
+        of the original data grid.}
+    \label{fig:grid_separation}
+\end{figure}
+
+
+
+\subsection{Estimating $z_{ref}$ and $\Delta\rho$}
+
+The depth of the Normal Earth Moho ($z_{ref}$)
+and the density-contrast of the anomalous Moho ($\Delta\rho$)
+are other hyper-parameters of the inversion.
+That is, their value influences the final solution
+but they are not estimated during the inversion.
+Both hyper-parameters cannot be determined from the gravity data alone.
+Estimating $z_{ref}$ and $\Delta\rho$ requires
+information that is independent of the gravity data,
+such as knowledge of the parameters at certain points.
+This information can be used in a manner similar to
+the cross-validation described in the previous section.
+In this study, we use point estimates of the Moho depth
+to determine the optimal values of $z_{ref}$ and $\Delta\rho$.
+These points will generally come from seismologic studies,
+like receiver functions, surface wave dispersion, and deep refraction
+experiments.
+
+Let $\mathbf{z}_s^o$ be a vector of $N_s$ known Moho depths.
+We use the mean square error (MSE)
+as a measure of how well a given inversion output $\mathbf{\hat{p}}^k$
+fits the know depths.
+The optimal values of $z_{ref}$ and $\Delta\rho$
+are the ones that best fit the independent known Moho depths
+(i.e., produce the smallest MSE).
+However, the points do not necessarily coincide
+with the model elements of the inversion.
+Before computing the MSE,
+we interpolate $\mathbf{\hat{p}}^k$ on the known points
+to obtain the predicted depths $\mathbf{z}_s^k$.
+The MSE is defined as
+
+\begin{equation}
+    MSE = \dfrac{\|\mathbf{z}^o_s - \mathbf{z}^k_{s}\|^2}{N_s}.
+    \label{eq:msehyper}
+\end{equation}
+
+The algorithm for estimating $z_{ref}$ and $\Delta\rho$ is:
+
+\begin{enumerate}
+    \item For each combination of
+        $z_{ref,l} \in [z_{ref,1},z_{ref,2},\ldots,z_{ref,N_z}]$ and
+        $\Delta\rho_m \in
+         [\Delta\rho_1,\Delta\rho_2,\ldots,\Delta\rho_{N_{\rho}}]$:
+    \begin{enumerate}
+        \item Perform the inversion on the training data set
+            $\mathbf{d}^o_{inv}$ using $z_{ref,l}$, $\Delta\rho_m$, and
+            the previously estimated value of $\mu$.
+            The inversion output is the vector $\mathbf{\hat{p}}^{l,m}$.
+        \item Interpolate $\mathbf{\hat{p}}^{l,m}$
+            on the known points to obtain the predicted depths
+            $\mathbf{z}_s^{l,m}$.
+        \item Calculate the MSE between $\mathbf{z}_s^o$ and
+            $\mathbf{z}_s^{l,m}$ using Eq.~\ref{eq:msehyper}.
+    \end{enumerate}
+    \item The final solution is the $\mathbf{\hat{p}}^{l,m}$ corresponding to
+        the smallest MSE.
+\end{enumerate}
+
+A similar approach was used by \citet{martins2010}
+to estimate the parameters defining
+the density-contrast variation with depth
+of a sedimentary basin.
+\citet{vandermeijde2013} also had
+a similar methodology for dealing with the hyper-parameters,
+though in a less formalized way.
+
+
+
+\subsection{Software implementation}
+
+The inversion method proposed here is implemented in the Python programming
+language.
+The software is freely available
+under the terms of the BSD 3-clause open-source software license.
+Our implementation relies on the open-source libraries
+scipy and numpy \citep[][ \url{http://scipy.org}]{jones2001}
+for array-based computations,
+matplotlib \citep[][ \url{http://matplotlib.org}]{hunter2007}
+and seaborn
+\citep[][ \url{http://stanford.edu/~mwaskom/software/seaborn}]{waskom2015}
+for plots and maps,
+and Fatiando a Terra \citep[][ \url{http://www.fatiando.org}]{uieda2013}
+for geophysics specific tasks,
+particularly for forward modeling using tesseroids.
+We use the scipy.sparse package for sparse matrix arithmetic and linear
+algebra.
+
+The computational experiments
+(e.g., data processing, synthetic tests, real data application)
+were performed in
+Jupyter (formerly IPython) notebooks
+\citep[][ \url{http://jupyter.org/}]{perez2007}.
+The notebook files combine the source code used to run the experiments,
+the results and figures generated by the code,
+and rich text to explain and document the analysis.
+
+All source code, data, and Jupyter notebooks
+used here can be found at the online repository
+\url{https://github.com/pinga-lab/paper-moho-inversion-tesseroids}.
+An archived version is also available at
+\url{http://dx.doi.org/DOI} (made available upon publication).
+The repository also contains instructions for installing the necessary software
+and reproducing all results presented here.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Application to synthetic data from a simple model}
+
+
+Meh.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Application to synthetic data from the CRUST1.0 model}
+
+Meh.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Application to the South American Moho}
+
+
+\subsection{Gravity data}
+
+The gravitational effect of the topography
+is removed using the
+ETOPO1 digital terrain model
+\citep[][ \url{http://dx.doi.org/10.7289/V5C8276M}]{amante2009}.
+The effect of sedimentary basins is removed using the
+CRUST1.0 model
+\citep[][ \url{http://igppweb.ucsd.edu/~gabi/rem.html}]{laske2013}.
+Lateral variations in density along the Moho cannot be properly accounted for
+in regions where information coverage is sparse and readily accessible models
+are not available, like in the South American and African continents.
+For the purposes of this study, we will assume that all other crustal sources
+and lateral variations in density are negligible.
+
+
+\begin{figure*}
+    \centering
+    \includegraphics[width=\textwidth]{figures/sam-gravity-data}
+    \caption{This is a figure caption.}
+    \label{fig:sam-data}
+\end{figure*}
+
+\begin{figure*}
+    \centering
+    \includegraphics[width=\textwidth]{figures/sam-gravity-sed}
+    \caption{This is a figure caption.}
+    \label{fig:sam-sed}
+\end{figure*}
+
+
+\subsection{Inversion results}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Discussion}
+
+Meh.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Conclusions}
+
+Meh.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Acknowledgments}
+
+The authors are indebted to the developers and maintainers of the open-source
+software without which this work would not have been possible.
+
+\bibliographystyle{gji}
+\bibliography{biblio}
+
+\end{document}
