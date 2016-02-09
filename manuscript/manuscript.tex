@@ -13,8 +13,8 @@
 % Document metadata
 % =================
 \newcommand{\Title}{
-    Fast non-linear gravity inversion in spherical coordinates:
-    application to the South American Moho
+    Fast non-linear gravity inversion in spherical coordinates
+    with application to the South American Moho
 }
 \newcommand{\Keywords}{
         Moho;
@@ -133,7 +133,23 @@ scheme of \citet{uieda2016}.
 \begin{figure}
     \centering
     \includegraphics[width=\columnwidth]{figures/problem-concept}
-    \caption{Sketch explaining disturbance and parametrization from ON seminar.}
+    \caption{
+        Sketch of the stages in gravity data correction and
+        the discretization of the anomalous Moho relief using tesseroids.
+        (a) The Earth and the measured gravity at point P ($g(P)$).
+        (b) The Normal Earth and the calculated normal gravity at point P
+        ($\gamma(P)$). $z_{ref}$ is the depth of the Normal Earth Moho.
+        (c) The gravity disturbance ($\delta(P)$) and
+        the corresponding density anomalies after removal of the normal gravity:
+        topography, oceans, crustal heterogeneities, and the anomalous Moho.
+        (d) The Bouguer disturbance ($\delta_{bg}(P)$) after topographic
+        correction and the remaining density anomalies.
+        (e) All density anomalies save the anomalous Moho are assumed to have
+        been removed before inversion.
+        (f) The discretization of the anomalous Moho in tesseroids. Grey
+        tesseroids will have a negative density contrast while red tesseroids
+        will have a positive one.
+    }
     \label{fig:anomalysketch}
 \end{figure}
 
