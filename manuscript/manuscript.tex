@@ -301,6 +301,7 @@ minimizes the goal function
 
 \begin{equation}
     \Gamma(\mathbf{p}) = \phi(\mathbf{p}) + \mu\theta(\mathbf{p}),
+    \label{eq:goalfunction}
 \end{equation}
 
 \noindent
@@ -653,6 +654,7 @@ and reproducing all results presented here.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Application to synthetic data from a simple model}
 
+Bla bla bla.
 
 \begin{figure}
     \centering
@@ -670,6 +672,31 @@ and reproducing all results presented here.
     }
     \label{fig:simple-data}
 \end{figure}
+
+\begin{figure*}
+    \centering
+    \includegraphics[]{figures/synthetic-simple-results}
+    \caption{
+        Results from the inversion of the simple synthetic data.
+        (a) The estimated Moho depth.
+        (b) The difference between the true model depths
+        and the estimated depths.
+        (c) The inversion residuals (observed data minus
+        the data predicted by the estimate).
+        (d) Normalized histogram of the residuals. Also shown are the calculated
+        mean and standard deviation (std) of the residuals.
+        Note that the data were contaminated with normally distributed
+        pseudo-random noise with zero mean and 5 mGal standard deviation.
+        (e) Cross-validation curve used to determine the optimal regularization
+        parameter (Eq.~\ref{eq:goalfunction}).
+        The minimum Mean Square Error (Eq.~\ref{eq:msemu}) is found at
+        $\mu = 0.00046$ (red triangle).
+        (f) Goal function value (Eq.~\ref{eq:goalfunction}) per Gauss-Newton
+        iteration showing the convergence of the gradient descent.
+    }
+    \label{fig:simple-results}
+\end{figure*}
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
