@@ -704,23 +704,33 @@ Bla bla bla.
 
 Bla bla bla.
 
-\begin{figure}
+\begin{figure*}
     \centering
-    \includegraphics[width=\columnwidth]{figures/synthetic-crust1-data}
+    \includegraphics{figures/synthetic-crust1-data}
     \caption{
-        A Moho depth model derived from CRUST1.0.
+        Synthetic data of a model derived from CRUST1.0.
         The model is made of tesseroids with an constant density-contrast
         of $\Delta\rho = 350\ kg/m^3$ and assuming a reference level of
         $z_{ref} = 30\ km$.
         (a) The Moho depth of the model in kilometers.
         Each pixel in the pseudo-color image corresponds to a tesseroid of the
         model.
-        (b) Noise-corrupted synthetic gravity data generated from the model
-        shown in (a).
+        (b) Noise-corrupted synthetic gravity data generated from the model.
+        (c) Synthetic seismic data simulating point estimates of Moho depth.
+        The point estimates were obtained by interpolating
+        the Moho depth in (a).
     }
     \label{fig:crust1-data}
-\end{figure}
+\end{figure*}
 
+\begin{figure*}
+    \centering
+    \includegraphics[]{figures/synthetic-crust1-results}
+    \caption{
+    CRUST1 results.
+    }
+    \label{fig:crust1-results}
+\end{figure*}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Application to the South American Moho}
