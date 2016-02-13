@@ -68,6 +68,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Methodology}
 
+
 In potential field methods,
 we must isolate the target anomalous density distribution prior to modeling and
 inversion.
@@ -128,11 +129,9 @@ The accuracy of the GLQ integration is improved by the adaptive discretization
 scheme of \citet{uieda2016}.
 
 
-% Sketches to explain the methodology
-
 \begin{figure}
     \centering
-    \includegraphics[width=\columnwidth]{figures/problem-concept}
+    \includegraphics{figures/problem-concept}
     \caption{
         Sketch of the stages in gravity data correction and
         the discretization of the anomalous Moho relief using tesseroids.
@@ -155,7 +154,7 @@ scheme of \citet{uieda2016}.
 
 \begin{figure}
     \centering
-    \includegraphics[width=\columnwidth]{figures/tesseroid-coord-sys}
+    \includegraphics{figures/tesseroid-coord-sys}
     \caption{Sketch of a tesseroid (spherical prism) in a geocentric coordinate
         system (X, Y, Z).
         Observations are made at point P with respect to it's local
@@ -183,7 +182,6 @@ the bottom is $z_{ref}$, and the density-contrast ($\Delta\rho$) is positive
 If the Moho is below $z_{ref}$, the top of the tesseroid is $z_{ref}$,
 the bottom is $z_k$, and $\Delta\rho$ is negative
 (grey tesseroids in Fig~\ref{fig:anomalysketch}f).
-
 
 Considering that the absolute value of the density-contrasts
 of the tesseroids is a fixed parameter,
@@ -530,9 +528,10 @@ is to generate a data grid with half of the desired grid spacing,
 either through interpolation
 or from a spherical harmonic model.
 
+
 \begin{figure}
     \centering
-    \includegraphics[width=\columnwidth]{figures/cv-grid-separation}
+    \includegraphics{figures/cv-grid-separation}
     \caption{Sketch of a data grid separated into
         the training (white dots with black outlines)
         and testing (black dots) data sets.
@@ -654,9 +653,11 @@ and reproducing all results presented here.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Application to synthetic data from a simple model}
 
+Bla bla bla.
+
 \begin{figure}
     \centering
-    \includegraphics[width=\columnwidth]{figures/synthetic-simple-data}
+    \includegraphics{figures/synthetic-simple-data}
     \caption{
         A simple Moho model made of tesseroids for synthetic data application.
         (a) The Moho depth of the model in kilometers.
@@ -696,10 +697,11 @@ and reproducing all results presented here.
 \end{figure*}
 
 
-Bla bla bla.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Application to synthetic data from the CRUST1.0 model}
+
+Bla bla bla.
 
 \begin{figure*}
     \centering
@@ -729,8 +731,6 @@ Bla bla bla.
     \label{fig:crust1-results}
 \end{figure*}
 
-Bla bla bla.
-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -738,6 +738,19 @@ Bla bla bla.
 
 
 \subsection{Gravity and seismic data}
+
+The gravitational effect of the topography
+is removed using the
+ETOPO1 digital terrain model
+\citep[][ \url{http://dx.doi.org/10.7289/V5C8276M}]{amante2009}.
+The effect of sedimentary basins is removed using the
+CRUST1.0 model
+\citep[][ \url{http://igppweb.ucsd.edu/~gabi/rem.html}]{laske2013}.
+Lateral variations in density along the Moho cannot be properly accounted for
+in regions where information coverage is sparse and readily accessible models
+are not available, like in the South American and African continents.
+For the purposes of this study, we will assume that all other crustal sources
+and lateral variations in density are negligible.
 
 \begin{figure*}
     \centering
@@ -760,21 +773,10 @@ Bla bla bla.
     \label{fig:sam-seismic}
 \end{figure}
 
-The gravitational effect of the topography
-is removed using the
-ETOPO1 digital terrain model
-\citep[][ \url{http://dx.doi.org/10.7289/V5C8276M}]{amante2009}.
-The effect of sedimentary basins is removed using the
-CRUST1.0 model
-\citep[][ \url{http://igppweb.ucsd.edu/~gabi/rem.html}]{laske2013}.
-Lateral variations in density along the Moho cannot be properly accounted for
-in regions where information coverage is sparse and readily accessible models
-are not available, like in the South American and African continents.
-For the purposes of this study, we will assume that all other crustal sources
-and lateral variations in density are negligible.
-
 
 \subsection{Inversion results}
+
+Bla bla bla.
 
 \begin{figure}
     \centering
@@ -803,8 +805,6 @@ and lateral variations in density are negligible.
     \caption{Difference with seismic.}
     \label{fig:sam-seismic-diff}
 \end{figure}
-
-Bla bla bla.
 
 
 
