@@ -85,6 +85,7 @@ is known as the gravity disturbance,
 
 \begin{equation}
     \delta(P) = g(P) - \gamma(P).
+    \label{eq:disturbance}
 \end{equation}
 
 The disturbance contains only the gravitational effects of density
@@ -108,6 +109,7 @@ in order to obtain the full Bouguer disturbance
 
 \begin{equation}
     \delta_{bg}(P) = \delta(P) - g_{topo}(P).
+    \label{eq:bouguer}
 \end{equation}
 
 \noindent
@@ -771,7 +773,21 @@ and lateral variations in density are negligible.
 \begin{figure*}
     \centering
     \includegraphics[width=\textwidth]{figures/south-america-corrections}
-    \caption{Gravity data and corrections.}
+    \caption{
+        Gravity data for South America and the models used in the data
+        corrections.
+        (a) Topography from ETOPO1 sampled at $0.1^\circ$ grid spacing.
+        (b) Gravitational attraction of the topography calculated
+        at the observation height using tesseroids.
+        (c) The gravity disturbance (Eq.~\ref{eq:disturbance}) calculated from
+        the raw gravity data.
+        (d) The Bouguer disturbance (Eq.~\ref{eq:bouguer}) obtained by
+        subtracting (b) from (c).
+        The upper (e), middle (f), and lower (g) sediment layer thicknesses
+        from the CRUST1.0 model.
+        (h) The total gravitational attraction of the sediment layers shown in
+        (e), (f), and (g), calculated using tesseroids.
+        }
     \label{fig:sam-corrections}
 \end{figure*}
 
