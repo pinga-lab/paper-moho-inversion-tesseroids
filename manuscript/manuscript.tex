@@ -829,9 +829,10 @@ Bla bla bla.
     \centering
     \includegraphics{figures/south-america-residuals}
     \caption{
-        Inversion residuals (observed data in Fig.~\ref{fig:sam-data}a
-        minus the data predicted by the estimate in Fig.~\ref{fig:sam-moho}a)
-        shown as (a) a map and (b) a histogram with the calculated mean and
+        Residuals for the South American Moho inversion.
+        The residuals are the observed data in Fig.~\ref{fig:sam-data}a
+        minus the data predicted by the estimate in Fig.~\ref{fig:sam-moho}a.
+        Shown as (a) a map and (b) a histogram with the calculated mean and
         standard deviation.
         (c) The value of the goal function (Eq.~\ref{eq:goalfunction})
         per Gauss-Newton iteration showing the convergence of the algorithm.
@@ -843,7 +844,20 @@ Bla bla bla.
 \begin{figure}
     \centering
     \includegraphics{figures/south-america-cv}
-    \caption{Cross-validation.}
+    \caption{
+        Cross-validation results for the South American Moho inversion.
+        (a) Cross-validation to determine the regularization parameter $\mu$
+        (Eq.~\ref{eq:goalfunction}).
+        The minimum Mean Square Error (Eq.~\ref{eq:msemu}),
+        shown as a red triangle,
+        corresponds to $\mu = 10^{-10}$.
+        (b) Cross-validation to determine
+        the reference level ($z_{ref}$) and the density-contrast ($\Delta\rho$).
+        The colored contours represent
+        the Mean Square Error (Eq.~\ref{eq:msehyper}).
+        The minimum (red triangle) is found at $z_{ref} = 35\ km$
+        and $\Delta\rho = 400\ kg/m^3$.
+    }
     \label{fig:sam-cv}
 \end{figure}
 
