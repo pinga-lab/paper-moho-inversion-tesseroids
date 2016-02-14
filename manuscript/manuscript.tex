@@ -814,14 +814,29 @@ Bla bla bla.
 \begin{figure*}
     \centering
     \includegraphics[width=\textwidth]{figures/south-america-moho}
-    \caption{The estimated Moho of South America.}
+    \caption{
+        Inversion results for the South American Moho.
+        (a) The estimated Moho depth of South America.
+        (b) Differences between the seismological depths of
+        \citet{assumpcao2012} and our gravity-derived estimate shown in (a).
+        The inset in (b) shows a histogram of the differences along with their
+        calculated mean and standard deviation (std).
+    }
     \label{fig:sam-moho}
 \end{figure*}
 
 \begin{figure}
     \centering
     \includegraphics{figures/south-america-residuals}
-    \caption{Residuals with histogram and convergence.}
+    \caption{
+        Inversion residuals (observed data in Fig.~\ref{fig:sam-data}a
+        minus the data predicted by the estimate in Fig.~\ref{fig:sam-moho}a)
+        shown as (a) a map and (b) a histogram with the calculated mean and
+        standard deviation.
+        (c) The value of the goal function (Eq.~\ref{eq:goalfunction})
+        per Gauss-Newton iteration showing the convergence of the algorithm.
+        Note that the y-axis is in logarithmic scale.
+    }
     \label{fig:sam-residuals}
 \end{figure}
 
