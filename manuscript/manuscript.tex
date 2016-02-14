@@ -45,10 +45,6 @@
 }
 
 
-% Useful commands
-% ===============
-
-
 \begin{document}
 
 %\label{firstpage}
@@ -682,7 +678,7 @@ Bla bla bla.
         and the estimated depths.
         (c) The inversion residuals (observed data minus
         the data predicted by the estimate).
-        (d) Normalized histogram of the residuals. Also shown are the calculated
+        (d) Histogram of the residuals. Also shown are the calculated
         mean and standard deviation (std) of the residuals.
         Note that the data were contaminated with normally distributed
         pseudo-random noise with zero mean and 5 mGal standard deviation.
@@ -726,7 +722,27 @@ Bla bla bla.
     \centering
     \includegraphics[width=\textwidth]{figures/synthetic-crust1-results}
     \caption{
-    CRUST1 results.
+        Inversion results from the CRUST1.0 synthetic data.
+        (a) The estimated Moho depth.
+        (b) The inversion residuals (observed minus predicted data).
+        (c) Histogram of the residuals shown in (b).
+        (d) Cross-validation curve used to determine
+        the regularization parameter (Eq.~\ref{eq:goalfunction}).
+        The minimum Mean Square Error (Eq.~\ref{eq:msemu}) is found at
+        $\mu = 0.0001$ (red triangle).
+        (e) difference between the CRUST1.0 model depths
+        (Fig.~\ref{fig:crust1-data}a)
+        and the estimated depths.
+        (f) Difference between the synthetic seismic observations
+        (Fig.~\ref{fig:crust1-data}c)
+        and the estimated depths.
+        (g) Histogram of the differences shown in (f).
+        (h) Cross-validation results used to determine
+        the reference level ($z_{ref}$) and the density-contrast ($\Delta\rho$).
+        The colored contours represent
+        the Mean Square Error (Eq.~\ref{eq:msehyper}) in $km^2$.
+        The minimum (red triangle) is found at $z_{ref} = 30\ km$
+        and $\Delta\rho = 350\ kg/m^3$.
     }
     \label{fig:crust1-results}
 \end{figure*}
