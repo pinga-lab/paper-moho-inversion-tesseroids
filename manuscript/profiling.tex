@@ -1,0 +1,20 @@
+
+\begin{table}
+    \centering
+    \caption{
+        Total time spent on each function during a single inversion of
+        simple synthetic data.
+        The inversion was performed on a laptop computer with a
+        Intel(R) Core(TM) i7-3612QM CPU @ 2.10GHz processor.
+        The total time for the inversion was 42.133 seconds.        
+    }
+    \label{profiling}
+    \begin{tabular}{lcc}
+        Function description & Time & Percentage of total time\\
+        \hline 
+        Sparse conjugate gradient & 0.021 s & 0.050\%\\
+        Sparse dot product & 0.007 s & 0.017\%\\
+        Tesseroid forward modeling & 42.059 s & 99.824\%\\
+        \hline
+    \end{tabular}
+\end{table}

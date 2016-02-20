@@ -1,0 +1,12 @@
+Sat Feb 20 20:06:53 2016    results/profiling-raw.dat
+
+         2310514 function calls (2180215 primitive calls) in 42.133 seconds
+
+   Ordered by: cumulative time
+   List reduced from 1597 to 82 due to restriction <'scipy'>
+   List reduced from 82 to 1 due to restriction <'cgs'>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        8    0.007    0.001    0.021    0.003 /home/leo/bin/anaconda/envs/moho/lib/python2.7/site-packages/scipy/sparse/linalg/isolve/iterative.py:279(cgs)
+
+

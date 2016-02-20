@@ -1,0 +1,13 @@
+Sat Feb 20 20:06:53 2016    results/profiling-raw.dat
+
+         2310514 function calls (2180215 primitive calls) in 42.133 seconds
+
+   Ordered by: cumulative time
+   List reduced from 1597 to 55 due to restriction <'fatiando'>
+   List reduced from 55 to 7 due to restriction <'tesseroid'>
+   List reduced from 7 to 1 due to restriction <'gz'>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        9    0.000    0.000   42.059    4.673 /home/leo/bin/anaconda/envs/moho/lib/python2.7/site-packages/fatiando/gravmag/tesseroid.py:535(gz)
+
+
