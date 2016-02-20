@@ -6,4 +6,5 @@ manuscript/output/
 manuscript/figures/*-eps-converted-to.pdf
 code/*.png
 code/results/*.pickle
+code/results/south-america-moho.zip
 
