@@ -5,4 +5,5 @@
 manuscript/output/
 manuscript/figures/*-eps-converted-to.pdf
 code/*.png
-code/profiling.txt
+code/results/*.pickle
+
