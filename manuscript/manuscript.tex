@@ -287,6 +287,7 @@ The cost function for smoothness regularization is given by
 
 \begin{equation}
     \theta(\mathbf{p}) = \mathbf{p}^T\mathbf{R}^T\mathbf{R}\mathbf{p},
+    \label{eq:regul}
 \end{equation}
 
 \noindent where $\mathbf{R}$ is an $L \times M$ finite-difference matrix
@@ -424,21 +425,22 @@ the inversion to the unstable estimate, as in \citet{silva2014}.
 
 We propose a regularized version of Bott's method to invert for the relief of
 the anomalous Moho in spherical coordinates.
-Our formulation maintains the regularized solutions
-for Gauss-Newton (Eq.~\ref{eq:gaussnewton-regul}) and
-Steepest Descent (Eq.~\ref{eq:steepest-regul})
-but replaces the full Jacobian matrix with the Bouguer plate approximations
-(respectively, Eq.~\ref{eq:bott-gaussnewton} and \ref{eq:bott-steepest}).
+Our formulation maintains the regularized solution
+for the Gauss-Newton method (Eq.~\ref{eq:gaussnewton-regul})
+but replaces the full Jacobian matrix with the Bouguer plate approximation
+(Eq.~\ref{eq:bott-gaussnewton}).
 This linearizes the Jacobian matrix and reduces it to a sparse diagonal matrix,
 thus eliminating the cost of computing and storing $\mathbf{A}$.
 Matrix arithmetic operations can be performed efficiently by taking advantage
-of the sparse nature of matrices $\mathbf{A}$ and $\mathbf{R}$.
+of the sparse nature of matrices $\mathbf{A}$ and $\mathbf{R}$
+(respectively, Eq.~\ref{eq:bott-gaussnewton} and \ref{eq:regul}).
 The same is true for solving the equation system in the Gauss-Newton method
 (Eq.~\ref{eq:gaussnewton-regul}).
 However, the computational cost of forward modeling is still present.
 Particularly, forward modeling using tesseroids is more computationally
 intensive than using right-rectangular prisms
-because of the numerical integration and adaptive discretization.
+because of the numerical integration and adaptive discretization
+\citep{uieda2016}.
 Benchmarks suggest that
 forward modeling accounts for approximately $99.8\%$
 of the computation time for a Gauss-Newton inversion
