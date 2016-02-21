@@ -692,7 +692,44 @@ so that, when separating the training and testing data sets
 (Fig.~\ref{fig:grid_separation}),
 the training data set points will fall directly above each model element.
 
+We separated the synthetic data into training and testing data sets
+following Fig.~\ref{fig:grid_separation}.
+The training data set is a regular grid of
+$N_{lat} \times N_{lon} = 40 \times 50$ points
+(a total of $N_{train} = 2000$).
+The testing data set is composed of $N_{test} = 5821$ observations.
+We used cross-validation to estimate an optimal regularization parameter ($\mu$)
+from a set of $N_\mu = 16$ values equally spaced on a logarithmic scale
+between $10^{-6}$ and $10^{-1}$.
+We ran our regularized inversion on the training data set
+for each value of $\mu$,
+obtaining 16 Moho depth estimates.
+We computed the mean square error (MSE, Eq.~\ref{eq:msemu}) for each estimate.
+The final estimated Moho depth is the one that minimizes the MSE.
 
+Fig.~\ref{fig:simple-results} summarizes the inversion results.
+Fig.~\ref{fig:simple-results}a shows the final estimated Moho depth
+after cross-validation.
+The recovered model is smooth, indicating that the cross-validation procedure
+was effective at estimating an optimal regularization parameter.
+Fig.~\ref{fig:simple-results}b shows difference between the true Moho depth
+(Fig.~\ref{fig:simple-data}a) and the estimated Moho depth.
+The differences appear to be semi-randomly distributed with a maximum
+coinciding with a short-wavelength feature in the true model.
+The maximum and minimum differences are approximately
+2.19 and -2.13 km, respectively.
+Fig.~\ref{fig:simple-results}c shows inversion residuals (difference between
+the observed and predicted data), in mGal.
+The largest residual (in absolute value) coincides with the largest difference
+between the true model and the estimate.
+The inversion residuals are normally distributed,
+as shown in Fig.~\ref{fig:simple-results}d,
+with 0.02 mGal mean and a standard deviation of 3.63 mGal.
+The cross-validation curve in Fig.~\ref{fig:simple-results}e
+shows a clear minimum MSE at $\mu = 0.00046$
+(indicated by the red triangle).
+Fig.~\ref{fig:simple-results}f shows the convergence of
+the Gauss-Newton optimization in eight iterations.
 
 \input{profiling.tex}
 
@@ -729,10 +766,12 @@ the training data set points will fall directly above each model element.
         pseudo-random noise with zero mean and 5 mGal standard deviation.
         (e) Cross-validation curve used to determine the optimal regularization
         parameter (Eq.~\ref{eq:goalfunction}).
+        Both axis are in logarithmic scale.
         The minimum Mean Square Error (Eq.~\ref{eq:msemu}) is found at
         $\mu = 0.00046$ (red triangle).
         (f) Goal function value (Eq.~\ref{eq:goalfunction}) per Gauss-Newton
         iteration showing the convergence of the gradient descent.
+        The y-axis is in logarithmic scale.
     }
     \label{fig:simple-results}
 \end{figure*}
