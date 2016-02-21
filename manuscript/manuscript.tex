@@ -1,7 +1,7 @@
 %\documentclass[]{article}
 %\usepackage{natbib}
-\documentclass[extra,mreferee]{gji}
-% \documentclass[extra]{gji}
+% \documentclass[extra,mreferee]{gji}
+\documentclass[extra]{gji}
 \usepackage{timet}
 \usepackage{amsmath}
 \usepackage{graphicx}
@@ -671,7 +671,27 @@ with more fidelity the real data application.
 \subsection{Simple model}
 \label{sec:simple-synthetic}
 
-We have applied
+We simulate the transition from a continental-type Moho to an oceanic-type Moho
+using a model composed of $M_{lat} \times M_{lon} = 40 \times 50$ grid of
+juxtaposed tesseroids (a total of $M = 2000$ model elements).
+The anomalous Moho density-contrast is $\Delta\rho = 400\ kg/m^3$
+and the Normal Earth Moho depth is $z_{ref} = 30\ km$.
+Fig.~\ref{fig:simple-data}a shows the model Moho depths,
+where each pixel in the pseudo-color image corresponds to
+a tesseroid of the model.
+
+The synthetic data were forward modeled on a regular grid of
+$N_{lat} \times N_{lon} = 79 \times 99$ points
+(a total of $N = 7821$ observations)
+at a constant height of 50 km.
+The data were contaminated with pseudo-random noise
+sampled from a normal distribution with zero mean and 5 mGal standard deviation.
+Fig.~\ref{fig:simple-data}b shows the noise-corrupted full synthetic data set.
+The data grid spacing is half the grid spacing of the tesseroid model
+so that, when separating the training and testing data sets
+(Fig.~\ref{fig:grid_separation}),
+the training data set points will fall directly above each model element.
+
 
 
 \input{profiling.tex}
