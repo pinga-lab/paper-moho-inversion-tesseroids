@@ -164,6 +164,7 @@ scheme of \citet{uieda2016}.
 
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Parametrization}
 
 We parameterize the forward problem by discretizing the anomalous Moho
@@ -201,6 +202,7 @@ of the tesseroid Moho model.
 
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Inverse problem}
 
 We wish to estimate the parameter vector $\mathbf{p}$ from a set of observed
@@ -277,6 +279,7 @@ $\mathbf{A}$ is the Jacobian or sensitivity matrix,
 
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Regularization}
 
 Non-linear inversions for the relief of an interface (like the Moho)
@@ -358,6 +361,7 @@ operations for each iteration of the gradient descent algorithm.
 These computations are performed for each iteration of the optimization.
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Bott's method}
 
 \citet{bott1960} developed an efficient method to determined the basement
@@ -422,6 +426,7 @@ the inversion to the unstable estimate, as in \citet{silva2014}.
 
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Regularized Bott's method in spherical coordinates}
 
 We propose a regularized version of Bott's method to invert for the relief of
@@ -452,6 +457,7 @@ Tikhonov regularization.
 
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Estimating the regularization parameter}
 
 The regularization parameter $\mu$ controls how much smoothness is applied to
@@ -461,7 +467,6 @@ compromising the fit to the observed data.
 Two widely used methods to estimate an optimal $\mu$ are
 the L-curve criterion and cross-validation \citep{hansen1992}.
 Here, we will adopt the hold-out method of cross-validation \citep{kim2009}.
-\todo{Not the best reference}
 The hold-out method consists of splitting the observed data set into two
 independent parts:
 a training set $\mathbf{d}^o_{inv}$
@@ -542,6 +547,7 @@ or from a spherical harmonic model.
 
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Estimating $z_{ref}$ and $\Delta\rho$}
 
 The depth of the Normal Earth Moho ($z_{ref}$)
@@ -612,6 +618,7 @@ though in a less formalized way.
 
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Software implementation}
 
 The inversion method proposed here is implemented in the Python programming
@@ -671,8 +678,8 @@ The model is restricted to South America and is meant to simulate
 with more fidelity the real data application.
 
 
-\subsection{Simple model}
-\label{sec:simple-synthetic}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Simple model}\label{sec:simple-synthetic}
 
 We simulate the transition from a continental-type Moho to an oceanic-type Moho
 using a model composed of $M_{lat} \times M_{lon} = 40 \times 50$ grid of
@@ -734,7 +741,7 @@ shows a clear minimum MSE at $\mu = 0.00046$
 Fig.~\ref{fig:simple-results}f shows the convergence of
 the Gauss-Newton optimization in eight iterations.
 
-We investigated the computation time spent in each section of the inversion
+We also investigated the computation time spent in each section of the inversion
 process using a source code profiler.
 The profiler measures how much time is spent inside each function during
 the execution of a program.
@@ -799,9 +806,12 @@ show that the time spent on forward modeling accounts for approximately
 
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Model based on CRUST1.0}
 
-Bla bla bla.
+
+
+
 
 \begin{figure*}
     \centering
@@ -857,6 +867,7 @@ Bla bla bla.
 \section{Application to the South American Moho}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Gravity and seismic data}
 
 The gravitational effect of the topography
@@ -909,6 +920,7 @@ and lateral variations in density are negligible.
 \end{figure*}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Inversion results}
 
 Bla bla bla.
