@@ -3,6 +3,7 @@
 *~
 *.swp
 manuscript/output/
+manuscript/*.aux
 manuscript/figures/*-eps-converted-to.pdf
 code/*.png
 code/results/*.pickle
