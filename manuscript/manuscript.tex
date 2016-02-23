@@ -431,7 +431,13 @@ the inversion to the unstable estimate, as in \citet{silva2014}.
 
 We propose a regularized version of Bott's method to invert for the relief of
 the anomalous Moho in spherical coordinates.
-Our formulation maintains the regularized solution
+To adapt Bott's method to spherical coordinates,
+we replace the right-rectangular prisms in the forward modeling
+($\mathbf{d}(\mathbf{p}^k)$ in Eq.~\ref{eq:bott})
+with tesseroids.
+The tesseroid forward modeling uses the adaptive discretization algorithm
+of \citet{uieda2016} to achieve accurate results.
+Furthermore, our formulation maintains the regularized solution
 for the Gauss-Newton method (Eq.~\ref{eq:gaussnewton-regul})
 but replaces the full Jacobian matrix with the Bouguer plate approximation
 (Eq.~\ref{eq:bott-gaussnewton}).
@@ -447,11 +453,14 @@ Particularly, forward modeling using tesseroids is more computationally
 intensive than using right-rectangular prisms
 because of the numerical integration and adaptive discretization
 \citep{uieda2016}.
-Benchmarks suggest that
-forward modeling accounts for approximately $99.8\%$
-of the computation time for a Gauss-Newton inversion
-(see section~\ref{sec:simple-synthetic} and table~\ref{profiling} below).
-Hence, this formulation allows us to retain the efficiency of Bott's method
+Our benchmarks suggest that
+sparse matrix multiplications and solving the sparse linear system
+in Eq.~\ref{eq:gaussnewton-regul}
+account for less than 0.2\%
+of the computation time of a single inversion
+(see section~\ref{sec:simple-synthetic} and table~\ref{profiling}).
+Hence, by employing the use of space matrices,
+our formulation retains the efficiency of Bott's method
 while stabilizing the solution through the well established formalism of
 Tikhonov regularization.
 
