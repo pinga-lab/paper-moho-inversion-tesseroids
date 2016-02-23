@@ -729,6 +729,7 @@ obtaining 16 Moho depth estimates.
 For all inversions, the initial Moho depth estimate
 used to start the Gauss-Newton optimization
 was set to 60 km depth for all inversion parameters.
+Furthermore, $z_{ref}$ and $\Delta\rho$ are set to their respective true values.
 Finally, we computed the mean square error (MSE, Eq.~\ref{eq:msemu})
 for each estimate and chose as the final estimated Moho model
 the one that minimizes the MSE.
@@ -829,14 +830,14 @@ show that the time spent on forward modeling accounts for approximately
 In this test, we simulate the anomalous Moho of South America
 using Moho depth information extracted from the CRUST1.0 model
 \citep{laske2013}.
-We construct a model with
-$M_{lat} \times M_{lon} = 80 \times 60$ tesseroids, 4800 in total,
+We construct a tesseroid model with
+$M_{lat} \times M_{lon} = 80 \times 60$ juxtaposed elements, 4800 in total,
 using the Moho depths shown in Fig.~\ref{fig:crust1-data}a.
 In our model, the Normal Earth Moho is $z_{ref} = 30\ km$ and
 the density-contrast is $\Delta\rho = 350\ kg/m^3$.
-We forward model the gravitational attraction of the anomalous Moho
-on a regular grid of $N_{lat} \times N_{lon} = 159 \times 119$ points
-(a total of 18921 observations) at a constant height of 50 km.
+We produce the synthetic data at a constant height of 50 km
+and on a regular grid of $N_{lat} \times N_{lon} = 159 \times 119$ points
+(a total of 18921 observations).
 We contaminate the synthetic data with normally distributed pseudo-random noise
 with zero mean and 5 mGal standard deviation (Fig.~\ref{fig:crust1-data}b).
 
@@ -846,16 +847,52 @@ requires knowledge of the Moho depth at certain points
 usually from seismic experiments.
 Thus, we must also generate synthetic seismic data about the Moho depth.
 We produce such data by interpolating the Moho depth shown in
-Fig.~\ref{fig:crust1-data}a on the same geographic coordinates as the
-data from \citet{assumpcao2012}.
+Fig.~\ref{fig:crust1-data}a on the same geographic coordinates
+as the 937 points from the \citet{assumpcao2012} data set.
 The resulting synthetic seismic data is shown in Fig.~\ref{fig:crust1-data}c.
 
-We ran cross-validation to estimate an optimal regularization parameter ($\mu$)
-by separating the synthetic data into training and testing data sets
-(Fig.~\ref{fig:grid_separation}).
-The training data set is a regular grid
-with half the grid spacing of the original data
-($N_{lat} \times N_{lon} = 159 \times $)
+We perform the cross-validation procedures in two parts.
+First, we run the cross-validation to estimate
+an optimal regularization parameter ($\mu$).
+The starting estimate for all inversions is
+60 km depth for all model parameters.
+For this cross-validation,
+we keep $z_{ref}$ and $\Delta\rho$ fixed to
+$20\ km$ and $500\ kg/m^3$, respectively.
+Our investigations suggest that the outcome of this round of cross-validation
+does not depend on the particular values of $z_{ref}$ and $\Delta\rho$ used.
+Second, we use the estimated $\mu$ to run the cross-validation
+to estimate $z_{ref}$ and $\Delta\rho$,
+thus obtaining the final estimated Moho depths.
+Fig.~\ref{fig:crust1-results} summarizes the final results.
+
+For the first cross-validation,
+we separate the synthetic data (Fig.~\ref{fig:grid_separation}) into
+a training set with half the grid spacing of the original data
+($N_{lat} \times N_{lon} = 80 \times 60$)
+and a testing set with 14,121 observations.
+We run the inversion for 16 different values of $\mu$,
+equally spaced in a logarithmic scale between $10^{-7}$ and $10^{-2}$.
+For each of the 16 estimates we compute the MSE (Eq.~\ref{eq:msemu}),
+shown in Fig.~\ref{fig:crust1-results}d as function of $\mu$.
+The optimal regularization parameter that minimizes the MSE is $\mu = 10^{-4}$
+(indicated by the red triangle).
+
+In the second cross-validation,
+we use the estimated value of $\mu$ in all inversions.
+We test 7 values of $z_{ref}$ from 20 to 35 km with 2.5 km intervals
+and 7 values of $\Delta\rho$ from 200 to 500 $kg/m^3$
+with 50 $kg/m^3$ intervals.
+We run the inversion for each combination of $z_{ref}$ and $\Delta\rho$,
+totaling 49 inversions.
+Finally, we calculate the Mean Square Error (Eq.~\ref{eq:msehyper})
+for each of the 49 estimates
+and choose the values of $z_{ref}$ and $\Delta\rho$ that minimize the MSE.
+Fig.~\ref{fig:crust1-results}h
+shows a colored-contour map of the MSE
+with a minimum (marked by the red triangle)
+at $z_{ref} = 30\ km$ and $\Delta\rho = 350\ kg/m^3$.
+
 
 \begin{figure*}
     \centering
