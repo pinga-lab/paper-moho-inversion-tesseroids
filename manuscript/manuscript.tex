@@ -818,9 +818,12 @@ show that the time spent on forward modeling accounts for approximately
 \subsection{Model based on CRUST1.0}
 
 In this test, we simulate the anomalous Moho of South America
-using the Moho depth of the CRUST1.0 model
-\citep[][ Fig.~\ref{fig:crust1-data}a]{laske2013}.
-The Normal Earth Moho is $z_{ref} = 30\ km$ and
+using Moho depth information extracted from the CRUST1.0 model
+\citep{laske2013}.
+We construct a model with
+$M_{lat} \times M_{lon} = 80 \times 60$ tesseroids, 4800 in total,
+using the Moho depths shown in Fig.~\ref{fig:crust1-data}a.
+In our model, the Normal Earth Moho is $z_{ref} = 30\ km$ and
 the density-contrast is $\Delta\rho = 350\ kg/m^3$.
 We forward model the gravitational attraction of the anomalous Moho
 on a regular grid of $N_{lat} \times N_{lon} = 159 \times 119$ points
@@ -829,7 +832,8 @@ We contaminate the synthetic data with normally distributed pseudo-random noise
 with zero mean and 5 mGal standard deviation (Fig.~\ref{fig:crust1-data}b).
 
 The cross-validation procedure to determine $\Delta\rho$ and $z_{ref}$
-requires knowledge of the Moho depth at certain points,
+requires knowledge of the Moho depth at certain points
+($\mathbf{z}_s^o$ in Eq.~\ref{eq:msehyper}),
 usually from seismic experiments.
 Thus, we must also generate synthetic seismic data about the Moho depth.
 We produce such data by interpolating the Moho depth shown in
@@ -837,6 +841,12 @@ Fig.~\ref{fig:crust1-data}a on the same geographic coordinates as the
 data from \citet{assumpcao2012}.
 The resulting synthetic seismic data is shown in Fig.~\ref{fig:crust1-data}c.
 
+We ran cross-validation to estimate an optimal regularization parameter ($\mu$)
+by separating the synthetic data into training and testing data sets
+(Fig.~\ref{fig:grid_separation}).
+The training data set is a regular grid
+with half the grid spacing of the original data
+($N_{lat} \times N_{lon} = 159 \times $)
 
 \begin{figure*}
     \centering
