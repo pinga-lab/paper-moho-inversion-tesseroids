@@ -1073,9 +1073,21 @@ Fig.~\ref{fig:sam-corrections}d shows the Bouguer disturbance
 (Eq.~\ref{eq:bouguer}) obtained after subtracting the topographic effect from
 the gravity disturbance.
 
-The effect of sedimentary basins is removed using the
-CRUST1.0 model
+The effect of sedimentary basins is removed using
+tesseroid models of the three sedimentary layers present in the CRUST1.0 model
 \citep[][ \url{http://igppweb.ucsd.edu/~gabi/rem.html}]{laske2013}.
+Each sedimentary layer model includes the density
+of each $1^\circ \times 1^\circ$ model cell.
+Figs.~\ref{fig:sam-corrections}e-g show the thickness of the upper, middle, and
+lower sedimentary layers, respectively.
+The density-contrasts of the tesseroid model is obtained by subtracting
+$2670\ kg/m^3$ from the density of each model element.
+Fig.~\ref{fig:sam-corrections}h shows the combined gravitational attraction of
+the sedimentary basin tesseroid model.
+We subtract the total effect of sediments from the Bouguer disturbance in
+Fig.~\ref{fig:sam-corrections}d to obtain
+the sediment-free Bouguer disturbance (Fig.~\ref{fig:sam-data}a),
+which will be used as input for the inversion.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
