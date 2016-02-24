@@ -738,7 +738,7 @@ Fig.~\ref{fig:simple-results} summarizes the inversion results.
 Fig.~\ref{fig:simple-results}a shows the final estimated Moho depth
 after cross-validation.
 The recovered model is smooth, indicating that the cross-validation procedure
-was effective at estimating an optimal regularization parameter.
+was effective in estimating an optimal regularization parameter.
 Fig.~\ref{fig:simple-results}b shows difference between the true Moho depth
 (Fig.~\ref{fig:simple-data}a) and the estimated Moho depth.
 The differences appear to be semi-randomly distributed with a maximum
@@ -895,6 +895,14 @@ at $z_{ref} = 30\ km$ and $\Delta\rho = 350\ kg/m^3$.
 
 Fig.~\ref{fig:crust1-results}c shows the final solution after both
 cross-validation procedures.
+The recovered model is smooth, indicating that the cross-validation procedure
+was effective in estimating an optimal regularization parameter.
+Fig.~\ref{fig:crust1-results}d shows the difference between
+the true Moho depth shown in Fig.~\ref{fig:crust1-data}a
+and the estimate.
+The maximum and minimum differences are, respectively,
+9.8 and -8.2 km.
+
 
 
 \begin{figure*}
@@ -935,13 +943,13 @@ cross-validation procedures.
         (d) Difference between the CRUST1.0 model depths
         (Fig.~\ref{fig:crust1-data}a)
         and the estimated depths.
-        (e) Histogram of the differences shown in (d).
-        (f) Histogram of the inversion residuals
+        (e) Histogram of the inversion residuals
         (observed minus predicted data).
-        (g) The inversion residuals.
-        (h) Difference between the synthetic seismic observations
-        (Fig.~\ref{fig:crust1-data}c)
+        (f) Histogram of the differences between
+        the synthetic seismic observations (Fig.~\ref{fig:crust1-data}c)
         and the estimated depths.
+        (g) The inversion residuals.
+        (h) Difference between the seismic and the estimated depths.
     }
     \label{fig:crust1-results}
 \end{figure*}
