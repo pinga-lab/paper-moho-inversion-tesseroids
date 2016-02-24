@@ -117,7 +117,7 @@ This effect is calculated on the same point $P$ where
 the gravity observation was made
 (Fig~\ref{fig:anomalysketch}a-b).
 $\gamma(P)$ is calculated using
-the closed-form solution presented by \citet{li2001}.
+the closed-form solution presented by \citet{li2001a}.
 The difference between the observed gravity at point P ($g(P)$)
 and Normal gravity at the same point
 is known as the gravity disturbance,
@@ -989,7 +989,13 @@ and along the Amazon river.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Application to the South American Moho}
 
-\lipsum[1]
+
+We apply the inversion method proposed here to invert for the Moho depth of the
+South American continent.
+We follow the application of \citet{vandermeijde2013} but with some
+differences, mainly using a different data set and performing all modeling
+in spherical coordinates using tesseroids.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Gravity and seismic data}
@@ -1000,13 +1006,13 @@ and along the Amazon river.
     \caption{
         Gravity data for South America and the models used in the data
         corrections.
-        (a) Topography from ETOPO1 sampled at $0.1^\circ$ grid spacing.
-        (b) Gravitational attraction of the topography calculated
-        at the observation height using tesseroids.
-        (c) The gravity disturbance (Eq.~\ref{eq:disturbance}) calculated from
+        (a) The gravity disturbance (Eq.~\ref{eq:disturbance}) calculated from
         the raw gravity data.
+        (b) Topography from ETOPO1.
+        (c) Gravitational attraction of the topography calculated
+        at the observation height using tesseroids.
         (d) The Bouguer disturbance (Eq.~\ref{eq:bouguer}) obtained by
-        subtracting (b) from (c).
+        subtracting (c) from (a).
         The upper (e), middle (f), and lower (g) sediment layer thicknesses
         from the CRUST1.0 model.
         (h) The total gravitational attraction of the sediment layers shown in
@@ -1029,6 +1035,22 @@ and along the Amazon river.
     }
     \label{fig:sam-data}
 \end{figure*}
+
+
+The raw gravity data are generated from the satellite only
+spherical harmonic model GOCO5S \citet{mayer-guerr2015}.
+The GOCO5S model combines data from 15 satellites, including the complete
+mission data from the GOCE satellite.
+The data were downloaded from the ICGEM web-service
+(\url{http://icgem.gfz-potsdam.de/ICGEM/})
+in the form of the complete gravity field
+on a regular grid with $0.2^\circ$
+grid spacing and at ellipsoidal height 50 km.
+We calculate the gravity disturbance
+($\delta(P)$ in Eq.~\ref{eq:disturbance})
+by subtracting from the raw data
+the normal gravity of the WGS84 reference ellipsoid ($\gamma(P)$)
+using the formula of \citet{li2001a}.
 
 
 The gravitational effect of the topography
