@@ -1,10 +1,15 @@
-\documentclass[extra,mreferee]{gji}
-%\documentclass[extra]{gji}
+%\documentclass[extra,mreferee]{gji}
+\documentclass[extra]{gji}
 \usepackage{timet}
 \usepackage{amsmath}
 \usepackage{graphicx}
 \usepackage{url}
 \usepackage[utf8]{inputenc}
+
+% To insert dummy text
+\usepackage{lipsum}
+% To make two column figures appear in the correct order
+\usepackage{fixltx2e}
 
 \usepackage{todonotes}
 
@@ -58,9 +63,45 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
 
+\lipsum[1-7]
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Methodology}
+
+\begin{figure}
+    \centering
+    \includegraphics{figures/problem-concept}
+    \caption{
+        Sketch of the stages in gravity data correction and
+        the discretization of the anomalous Moho relief using tesseroids.
+        (a) The Earth and the measured gravity at point P ($g(P)$).
+        (b) The Normal Earth and the calculated normal gravity at point P
+        ($\gamma(P)$). $z_{ref}$ is the depth of the Normal Earth Moho.
+        (c) The gravity disturbance ($\delta(P)$) and
+        the corresponding density anomalies after removal of the normal gravity:
+        topography, oceans, crustal heterogeneities, and the anomalous Moho.
+        (d) The Bouguer disturbance ($\delta_{bg}(P)$) after topographic
+        correction and the remaining density anomalies.
+        (e) All density anomalies save the anomalous Moho are assumed to have
+        been removed before inversion.
+        (f) The discretization of the anomalous Moho in tesseroids. Grey
+        tesseroids will have a negative density contrast while red tesseroids
+        will have a positive one.
+    }
+    \label{fig:anomalysketch}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics{figures/tesseroid-coord-sys}
+    \caption{Sketch of a tesseroid (spherical prism) in a geocentric coordinate
+        system (X, Y, Z).
+        Observations are made at point P with respect to it's local
+        North-oriented coordinate system (x, y, z).
+        After \citet{uieda2015}.
+    }
+    \label{fig:tesseroid}
+\end{figure}
 
 
 In potential field methods,
@@ -124,41 +165,6 @@ Gauss-Legendre Quadrature (GLQ) integration \citep{asgharzadeh2007}.
 The accuracy of the GLQ integration is improved by the adaptive discretization
 scheme of \citet{uieda2016}.
 
-
-\begin{figure}
-    \centering
-    \includegraphics{figures/problem-concept}
-    \caption{
-        Sketch of the stages in gravity data correction and
-        the discretization of the anomalous Moho relief using tesseroids.
-        (a) The Earth and the measured gravity at point P ($g(P)$).
-        (b) The Normal Earth and the calculated normal gravity at point P
-        ($\gamma(P)$). $z_{ref}$ is the depth of the Normal Earth Moho.
-        (c) The gravity disturbance ($\delta(P)$) and
-        the corresponding density anomalies after removal of the normal gravity:
-        topography, oceans, crustal heterogeneities, and the anomalous Moho.
-        (d) The Bouguer disturbance ($\delta_{bg}(P)$) after topographic
-        correction and the remaining density anomalies.
-        (e) All density anomalies save the anomalous Moho are assumed to have
-        been removed before inversion.
-        (f) The discretization of the anomalous Moho in tesseroids. Grey
-        tesseroids will have a negative density contrast while red tesseroids
-        will have a positive one.
-    }
-    \label{fig:anomalysketch}
-\end{figure}
-
-\begin{figure}
-    \centering
-    \includegraphics{figures/tesseroid-coord-sys}
-    \caption{Sketch of a tesseroid (spherical prism) in a geocentric coordinate
-        system (X, Y, Z).
-        Observations are made at point P with respect to it's local
-        North-oriented coordinate system (x, y, z).
-        After \citet{uieda2015}.
-    }
-    \label{fig:tesseroid}
-\end{figure}
 
 
 
@@ -467,6 +473,18 @@ Tikhonov regularization.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Estimating the regularization parameter}
 
+\begin{figure}
+    \centering
+    \includegraphics{figures/cv-grid-separation}
+    \caption{Sketch of a data grid separated into
+        the training (white dots with black outlines)
+        and testing (black dots) data sets.
+        The training data set is still displayed on a regular grid
+        but with twice the grid spacing
+        of the original data grid.}
+    \label{fig:grid_separation}
+\end{figure}
+
 The regularization parameter $\mu$ controls how much smoothness is applied to
 the inversion result.
 An optimal value of $\mu$ will stabilize and smooth the solution while not
@@ -540,19 +558,6 @@ either through interpolation
 or from a spherical harmonic model.
 
 
-\begin{figure}
-    \centering
-    \includegraphics{figures/cv-grid-separation}
-    \caption{Sketch of a data grid separated into
-        the training (white dots with black outlines)
-        and testing (black dots) data sets.
-        The training data set is still displayed on a regular grid
-        but with twice the grid spacing
-        of the original data grid.}
-    \label{fig:grid_separation}
-\end{figure}
-
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Estimating $z_{ref}$ and $\Delta\rho$}
@@ -596,7 +601,7 @@ The MSE is defined as
 The algorithm for estimating $z_{ref}$ and $\Delta\rho$ is:
 
 \begin{enumerate}
-    \item For each combination of
+    \item For every combination of
         $z_{ref,l} \in [z_{ref,1},z_{ref,2},\ldots,z_{ref,N_z}]$ and
         $\Delta\rho_m \in
          [\Delta\rho_1,\Delta\rho_2,\ldots,\Delta\rho_{N_{\rho}}]$:
@@ -691,6 +696,49 @@ with more fidelity the real data application.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Simple model}\label{sec:simple-synthetic}
 
+\begin{figure}
+    \centering
+    \includegraphics{figures/synthetic-simple-data}
+    \caption{
+        A simple Moho model made of tesseroids for synthetic data application.
+        (a) The Moho depth of the model in kilometers.
+        The model transitions from a deep Moho in the right to a shallow Moho in
+        left, simulating the transition between a continental and an oceanic
+        Moho.
+        Each pixel in the pseudo-color image corresponds to a tesseroid of the
+        model.
+        (b) Noise-corrupted synthetic gravity data generated from the model
+        shown in (a).
+    }
+    \label{fig:simple-data}
+\end{figure}
+
+\begin{figure*}
+    \centering
+    \includegraphics[width=\textwidth]{figures/synthetic-simple-results}
+    \caption{
+        Results from the inversion of the simple synthetic data.
+        (a) The estimated Moho depth.
+        (b) The difference between the true model depths
+        and the estimated depths.
+        (c) The inversion residuals (observed data minus
+        the data predicted by the estimate).
+        (d) Histogram of the residuals. Also shown are the calculated
+        mean and standard deviation (std) of the residuals.
+        Note that the data were contaminated with normally distributed
+        pseudo-random noise with zero mean and 5 mGal standard deviation.
+        (e) Cross-validation curve used to determine the optimal regularization
+        parameter (Eq.~\ref{eq:goalfunction}).
+        Both axis are in logarithmic scale.
+        The minimum Mean Square Error (Eq.~\ref{eq:msemu}) is found at
+        $\mu = 0.00046$ (red triangle).
+        (f) Goal function value (Eq.~\ref{eq:goalfunction}) per Gauss-Newton
+        iteration showing the convergence of the gradient descent.
+        The y-axis is in logarithmic scale.
+    }
+    \label{fig:simple-results}
+\end{figure*}
+
 We simulate the transition from a continental-type Moho to an oceanic-type Moho
 using a model composed of $M_{lat} \times M_{lon} = 40 \times 50$ grid of
 juxtaposed tesseroids (a total of $M = 2000$ model elements).
@@ -774,157 +822,15 @@ The profiling results presented in table~\ref{profiling}
 show that the time spent on forward modeling accounts for approximately
 99.8\% of the total computation time.
 
+
+% Insert the profiling results table
 \input{profiling.tex}
-
-\begin{figure}
-    \centering
-    \includegraphics{figures/synthetic-simple-data}
-    \caption{
-        A simple Moho model made of tesseroids for synthetic data application.
-        (a) The Moho depth of the model in kilometers.
-        The model transitions from a deep Moho in the right to a shallow Moho in
-        left, simulating the transition between a continental and an oceanic
-        Moho.
-        Each pixel in the pseudo-color image corresponds to a tesseroid of the
-        model.
-        (b) Noise-corrupted synthetic gravity data generated from the model
-        shown in (a).
-    }
-    \label{fig:simple-data}
-\end{figure}
-
-\begin{figure*}
-    \centering
-    \includegraphics[width=\textwidth]{figures/synthetic-simple-results}
-    \caption{
-        Results from the inversion of the simple synthetic data.
-        (a) The estimated Moho depth.
-        (b) The difference between the true model depths
-        and the estimated depths.
-        (c) The inversion residuals (observed data minus
-        the data predicted by the estimate).
-        (d) Histogram of the residuals. Also shown are the calculated
-        mean and standard deviation (std) of the residuals.
-        Note that the data were contaminated with normally distributed
-        pseudo-random noise with zero mean and 5 mGal standard deviation.
-        (e) Cross-validation curve used to determine the optimal regularization
-        parameter (Eq.~\ref{eq:goalfunction}).
-        Both axis are in logarithmic scale.
-        The minimum Mean Square Error (Eq.~\ref{eq:msemu}) is found at
-        $\mu = 0.00046$ (red triangle).
-        (f) Goal function value (Eq.~\ref{eq:goalfunction}) per Gauss-Newton
-        iteration showing the convergence of the gradient descent.
-        The y-axis is in logarithmic scale.
-    }
-    \label{fig:simple-results}
-\end{figure*}
 
 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Model based on CRUST1.0}
-
-In this test, we simulate the anomalous Moho of South America
-using Moho depth information extracted from the CRUST1.0 model
-\citep{laske2013}.
-We construct a tesseroid model with
-$M_{lat} \times M_{lon} = 80 \times 60$ juxtaposed elements, 4800 in total,
-using the Moho depths shown in Fig.~\ref{fig:crust1-data}a.
-In our model, the Normal Earth Moho is $z_{ref} = 30\ km$ and
-the density-contrast is $\Delta\rho = 350\ kg/m^3$.
-We produce the synthetic data at a constant height of 50 km
-and on a regular grid of $N_{lat} \times N_{lon} = 159 \times 119$ points
-(a total of 18921 observations).
-We contaminate the synthetic data with normally distributed pseudo-random noise
-with zero mean and 5 mGal standard deviation (Fig.~\ref{fig:crust1-data}b).
-
-The cross-validation procedure to determine $\Delta\rho$ and $z_{ref}$
-requires knowledge of the Moho depth at certain points
-($\mathbf{z}_s^o$ in Eq.~\ref{eq:msehyper}),
-usually from seismic experiments.
-Thus, we must also generate synthetic seismic data about the Moho depth.
-We produce such data by interpolating the Moho depth shown in
-Fig.~\ref{fig:crust1-data}a on the same geographic coordinates
-as the 937 points from the \citet{assumpcao2012} data set.
-The resulting synthetic seismic data is shown in Fig.~\ref{fig:crust1-data}c.
-
-We perform the cross-validation procedures in two parts.
-First, we run the cross-validation to estimate
-an optimal regularization parameter ($\mu$).
-The starting estimate for all inversions is
-60 km depth for all model parameters.
-For this cross-validation,
-we keep $z_{ref}$ and $\Delta\rho$ fixed to
-$20\ km$ and $500\ kg/m^3$, respectively.
-Our investigations suggest that the outcome of this round of cross-validation
-does not depend on the particular values of $z_{ref}$ and $\Delta\rho$ used.
-Second, we use the estimated $\mu$ to run the cross-validation
-to estimate $z_{ref}$ and $\Delta\rho$,
-thus obtaining the final estimated Moho depths.
-Fig.~\ref{fig:crust1-results} summarizes the final results.
-
-For the first cross-validation,
-we separate the synthetic data (Fig.~\ref{fig:grid_separation}) into
-a training set with half the grid spacing of the original data
-($N_{lat} \times N_{lon} = 80 \times 60$)
-and a testing set with 14,121 observations.
-We run the inversion for 16 different values of $\mu$,
-equally spaced in a logarithmic scale between $10^{-7}$ and $10^{-2}$.
-For each of the 16 estimates we compute the MSE (Eq.~\ref{eq:msemu}),
-shown in Fig.~\ref{fig:crust1-results}a as function of $\mu$.
-The optimal regularization parameter that minimizes the MSE is $\mu = 10^{-4}$
-(indicated by the red triangle).
-
-In the second cross-validation,
-we use the estimated value of $\mu$ in all inversions.
-We test 7 values of $z_{ref}$ from 20 to 35 km with 2.5 km intervals
-and 7 values of $\Delta\rho$ from 200 to 500 $kg/m^3$
-with 50 $kg/m^3$ intervals.
-We run the inversion for each combination of $z_{ref}$ and $\Delta\rho$,
-totaling 49 inversions.
-Finally, we calculate the Mean Square Error (Eq.~\ref{eq:msehyper})
-for each of the 49 estimates
-and choose the values of $z_{ref}$ and $\Delta\rho$ that minimize the MSE.
-Fig.~\ref{fig:crust1-results}b
-shows a colored-contour map of the MSE
-with a minimum (marked by the red triangle)
-at $z_{ref} = 30\ km$ and $\Delta\rho = 350\ kg/m^3$.
-
-Fig.~\ref{fig:crust1-results}c shows the final solution after both
-cross-validation procedures.
-The recovered model is smooth, indicating that the cross-validation procedure
-was effective in estimating an optimal regularization parameter.
-Fig.~\ref{fig:crust1-results}d shows the difference between
-the true Moho depth shown in Fig.~\ref{fig:crust1-data}a
-and the estimate.
-The maximum and minimum differences are, respectively,
-9.8 and -8.2 km.
-The largest absolute differences are located along the central and northern
-Andes, where there is a sharp increase in the true Moho depth.
-Positive differences (indicating a too shallow estimate)
-appear along the central portion of the Andes,
-flanked by regions of negative differences (indicating a too deep estimate)
-on the continental and Pacific sides.
-Figs.~\ref{fig:crust1-results}e and g show the inversion residuals (difference
-between the observed and predicted data).
-The inversion residuals appear normally distributed,
-with 0.03 mGal mean and a standard deviation of 4.10 mGal.
-The residuals follow the same pattern as the differences shown in
-Fig.~\ref{fig:crust1-results}d,
-with the largest residuals (in absolute value) along the Andes.
-The pattern of the residuals is inverted, though,
-with the central portion being dominated by negative residuals
-and flanked by positive residuals on both sides.
-Figs.~\ref{fig:crust1-results}f and h show the differences between
-the synthetic seismic data (Fig.~\ref{fig:crust1-data}c)
-and the estimated Moho depths.
-Once more, the largest differences are concentrated along the Andes,
-particularly in the central Andes and near Ecuador and Colombia.
-The differences are smaller along the Atlantic coast of South America,
-with notable larger differences in a few points of northeastern Brazil
-and along the Amazon river.
-
 
 \begin{figure*}
     \centering
@@ -976,26 +882,119 @@ and along the Amazon river.
 \end{figure*}
 
 
+In this test, we simulate the anomalous Moho of South America
+using Moho depth information extracted from the CRUST1.0 model
+\citep{laske2013}.
+We construct a tesseroid model with
+$M_{lat} \times M_{lon} = 80 \times 60$ juxtaposed elements, 4800 in total,
+using the Moho depths shown in Fig.~\ref{fig:crust1-data}a.
+In our model, the Normal Earth Moho is $z_{ref} = 30\ km$ and
+the density-contrast is $\Delta\rho = 350\ kg/m^3$.
+We produce the synthetic data at a constant height of 50 km
+and on a regular grid of $N_{lat} \times N_{lon} = 159 \times 119$ points
+(a total of 18921 observations).
+We contaminate the synthetic data with normally distributed pseudo-random noise
+with zero mean and 5 mGal standard deviation (Fig.~\ref{fig:crust1-data}b).
+
+The cross-validation procedure to determine $\Delta\rho$ and $z_{ref}$
+requires knowledge of the Moho depth at certain points
+($\mathbf{z}_s^o$ in Eq.~\ref{eq:msehyper}),
+usually from seismic experiments.
+Thus, we must also generate synthetic seismic data about the Moho depth.
+We produce such data by interpolating the Moho depth shown in
+Fig.~\ref{fig:crust1-data}a on the same geographic coordinates
+as the 937 points from the \citet{assumpcao2012} data set.
+The resulting synthetic seismic data is shown in Fig.~\ref{fig:crust1-data}c.
+
+We perform the cross-validation procedures in two parts.
+First, we run the cross-validation to estimate
+an optimal regularization parameter ($\mu$).
+The starting estimate for all inversions is
+60 km depth for all model parameters.
+For this cross-validation,
+we keep $z_{ref}$ and $\Delta\rho$ fixed to
+$20\ km$ and $500\ kg/m^3$, respectively.
+Our investigations suggest that the outcome of this round of cross-validation
+does not depend on the particular values of $z_{ref}$ and $\Delta\rho$ used.
+Second, we use the estimated $\mu$ to run the cross-validation
+to estimate $z_{ref}$ and $\Delta\rho$,
+thus obtaining the final estimated Moho depths.
+Fig.~\ref{fig:crust1-results} summarizes the results
+from both cross-validation runs and the final inversion results.
+
+For the first cross-validation,
+we separate the synthetic data (Fig.~\ref{fig:grid_separation}) into
+a training set with half the grid spacing of the original data
+($N_{lat} \times N_{lon} = 80 \times 60$)
+and a testing set with 14,121 observations.
+We run the inversion for 16 different values of $\mu$
+equally spaced in a logarithmic scale between $10^{-7}$ and $10^{-2}$.
+For each of the 16 estimates we compute the MSE (Eq.~\ref{eq:msemu}),
+shown in Fig.~\ref{fig:crust1-results}a as function of $\mu$.
+The optimal regularization parameter that minimizes the MSE is $\mu = 10^{-4}$
+(indicated by the red triangle).
+
+In the second cross-validation,
+we use the estimated value of $\mu$ in all inversions.
+We test 7 values of $z_{ref}$ from 20 to 35 km with 2.5 km intervals
+and 7 values of $\Delta\rho$ from 200 to 500 $kg/m^3$
+with 50 $kg/m^3$ intervals.
+We run the inversion for every combination of $z_{ref}$ and $\Delta\rho$,
+totaling 49 inversions.
+Finally, we calculate the Mean Square Error (Eq.~\ref{eq:msehyper})
+for each of the 49 estimates
+and choose the values of $z_{ref}$ and $\Delta\rho$ that minimize the MSE.
+Fig.~\ref{fig:crust1-results}b
+shows a colored-contour map of the MSE
+with a minimum (marked by the red triangle)
+at $z_{ref} = 30\ km$ and $\Delta\rho = 350\ kg/m^3$.
+
+Fig.~\ref{fig:crust1-results}c shows the final solution after both
+cross-validation procedures.
+The recovered model is smooth, indicating that the cross-validation procedure
+was effective in estimating an optimal regularization parameter.
+Fig.~\ref{fig:crust1-results}d shows the difference between
+the true Moho depths (Fig.~\ref{fig:crust1-data}a)
+and the estimated depths.
+The maximum and minimum differences are, respectively,
+9.8 and -8.2 km.
+The largest absolute differences are located along the central and northern
+Andes, where there is a sharp increase in the true Moho depth
+(Fig.~\ref{fig:crust1-data}a).
+Positive differences (indicating a too shallow estimate)
+appear along the central portion of the Andes,
+flanked by regions of negative differences (indicating a too deep estimate)
+on the continental and Pacific sides.
+Figs.~\ref{fig:crust1-results}e and g show the inversion residuals (difference
+between the observed and predicted data).
+The inversion residuals appear normally distributed,
+with 0.03 mGal mean and a standard deviation of 4.10 mGal.
+The residuals follow the same pattern as the differences shown in
+Fig.~\ref{fig:crust1-results}d,
+with the largest residuals (in absolute value) along the Andes.
+The pattern of the residuals is inverted, though,
+with the central portion being dominated by negative residuals
+and flanked by positive residuals on both sides.
+Figs.~\ref{fig:crust1-results}f and h show the differences between
+the synthetic seismic data (Fig.~\ref{fig:crust1-data}c)
+and the estimated Moho depths.
+Once more, the largest differences are concentrated along the Andes,
+particularly in the central Andes and near Ecuador and Colombia.
+The differences are smaller along the Atlantic coast of South America,
+with notable larger differences in a few points of northeastern Brazil
+and along the Amazon river.
+
+
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Application to the South American Moho}
 
+\lipsum[1]
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Gravity and seismic data}
-
-The gravitational effect of the topography
-is removed using the
-ETOPO1 digital terrain model
-\citep[][ \url{http://dx.doi.org/10.7289/V5C8276M}]{amante2009}.
-The effect of sedimentary basins is removed using the
-CRUST1.0 model
-\citep[][ \url{http://igppweb.ucsd.edu/~gabi/rem.html}]{laske2013}.
-Lateral variations in density along the Moho cannot be properly accounted for
-in regions where information coverage is sparse and readily accessible models
-are not available, like in the South American and African continents.
-For the purposes of this study, we will assume that all other crustal sources
-and lateral variations in density are negligible.
 
 \begin{figure*}
     \centering
@@ -1034,10 +1033,42 @@ and lateral variations in density are negligible.
 \end{figure*}
 
 
+The gravitational effect of the topography
+is removed using the
+ETOPO1 digital terrain model
+\citep[][ \url{http://dx.doi.org/10.7289/V5C8276M}]{amante2009}.
+The effect of sedimentary basins is removed using the
+CRUST1.0 model
+\citep[][ \url{http://igppweb.ucsd.edu/~gabi/rem.html}]{laske2013}.
+Lateral variations in density along the Moho cannot be properly accounted for
+in regions where information coverage is sparse and readily accessible models
+are not available, like in the South American and African continents.
+For the purposes of this study, we will assume that all other crustal sources
+and lateral variations in density are negligible.
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Inversion results}
 
-Bla bla bla.
+\begin{figure}
+    \centering
+    \includegraphics{figures/south-america-cv}
+    \caption{
+        Cross-validation results for the South American Moho inversion.
+        (a) Cross-validation to determine the regularization parameter $\mu$
+        (Eq.~\ref{eq:goalfunction}).
+        The minimum Mean Square Error (Eq.~\ref{eq:msemu}),
+        shown as a red triangle,
+        corresponds to $\mu = 10^{-10}$.
+        (b) Cross-validation to determine
+        the reference level ($z_{ref}$) and the density-contrast ($\Delta\rho$).
+        The colored contours represent
+        the Mean Square Error (Eq.~\ref{eq:msehyper}).
+        The minimum (red triangle) is found at $z_{ref} = 35\ km$
+        and $\Delta\rho = 400\ kg/m^3$.
+    }
+    \label{fig:sam-cv}
+\end{figure}
 
 \begin{figure*}
     \centering
@@ -1069,32 +1100,15 @@ Bla bla bla.
     \label{fig:sam-residuals}
 \end{figure}
 
-\begin{figure}
-    \centering
-    \includegraphics{figures/south-america-cv}
-    \caption{
-        Cross-validation results for the South American Moho inversion.
-        (a) Cross-validation to determine the regularization parameter $\mu$
-        (Eq.~\ref{eq:goalfunction}).
-        The minimum Mean Square Error (Eq.~\ref{eq:msemu}),
-        shown as a red triangle,
-        corresponds to $\mu = 10^{-10}$.
-        (b) Cross-validation to determine
-        the reference level ($z_{ref}$) and the density-contrast ($\Delta\rho$).
-        The colored contours represent
-        the Mean Square Error (Eq.~\ref{eq:msehyper}).
-        The minimum (red triangle) is found at $z_{ref} = 35\ km$
-        and $\Delta\rho = 400\ kg/m^3$.
-    }
-    \label{fig:sam-cv}
-\end{figure}
+
+\lipsum[1-7]
 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusions}
 
-Meh.
+\lipsum[1-7]
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Acknowledgments}
