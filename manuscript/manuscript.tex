@@ -995,6 +995,13 @@ South American continent.
 We follow the application of \citet{vandermeijde2013} but with some
 differences, mainly using a different data set and performing all modeling
 in spherical coordinates using tesseroids.
+The data are corrected of the effects of topography and sedimentary basins.
+Crust and mantle heterogeneities cannot be properly accounted for
+in regions where information coverage is sparse and readily accessible models
+are not available, like in South America and Africa.
+Hence, for the purposes of this study, we will assume to be negligible all
+other crustal and mantle sources, including lateral variations in density along
+the Moho.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1044,31 +1051,35 @@ mission data from the GOCE satellite.
 The data were downloaded from the ICGEM web-service
 (\url{http://icgem.gfz-potsdam.de/ICGEM/})
 in the form of the complete gravity field
-on a regular grid with $0.2^\circ$
-grid spacing and at ellipsoidal height 50 km.
+on a regular grid with $0.2^\circ$ grid spacing at ellipsoidal height 50 km.
 We calculate the gravity disturbance
 ($\delta(P)$ in Eq.~\ref{eq:disturbance})
 by subtracting from the raw data
 the normal gravity of the WGS84 reference ellipsoid ($\gamma(P)$)
 using the formula of \citet{li2001a}.
+Fig.~\ref{fig:sam-corrections}a show the calculated gravity disturbance of
+South America.
 
+We remove the gravitational effect of the topography
+from the gravity disturbance
+by modeling the ETOPO1 digital terrain model
+\citep[][ \url{http://dx.doi.org/10.7289/V5C8276M}]{amante2009}
+using tesseroids (Fig.~\ref{fig:sam-corrections}b).
+We used the standard densities of $2670\ kg/m^3$ for continents and
+$-1630\ kg/m^3$ for the oceans.
+Fig.~\ref{fig:sam-corrections}c shows the calculated gravitational attraction
+of the topographic masses at 50 km height.
+Fig.~\ref{fig:sam-corrections}d shows the Bouguer disturbance
+(Eq.~\ref{eq:bouguer}) obtained after subtracting the topographic effect from
+the gravity disturbance.
 
-The gravitational effect of the topography
-is removed using the
-ETOPO1 digital terrain model
-\citep[][ \url{http://dx.doi.org/10.7289/V5C8276M}]{amante2009}.
 The effect of sedimentary basins is removed using the
 CRUST1.0 model
 \citep[][ \url{http://igppweb.ucsd.edu/~gabi/rem.html}]{laske2013}.
-Lateral variations in density along the Moho cannot be properly accounted for
-in regions where information coverage is sparse and readily accessible models
-are not available, like in the South American and African continents.
-For the purposes of this study, we will assume that all other crustal sources
-and lateral variations in density are negligible.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Inversion results}
+\subsection{Inversion}
 
 \begin{figure}
     \centering
