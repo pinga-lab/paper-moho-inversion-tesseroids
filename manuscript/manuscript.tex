@@ -50,11 +50,12 @@
 
 \begin{document}
 
-%\label{firstpage}
+\label{firstpage}
 \maketitle
 
 
 \begin{abstract}
+    \lipsum[1]
 \end{abstract}
 
 \noindent\textbf{Key words:} \Keywords
@@ -1152,7 +1153,7 @@ We test all combinations of
 seven values of $z_{ref}$, from 20 to 35 km with 2.5 km intervals,
 and seven values of $\Delta\rho$, from 200 to 500 $kg/m^3$
 with 50 $kg/m^3$ intervals.
-Fig.~\ref{fig:sam-cv}b shows the MSE
+Fig.~\ref{fig:sam-cv}b shows a map of the MSE
 with respect to the \citet{assumpcao2012} data set.
 The MSE has a well defined minimum, indicated by the red triangle,
 at $z_{ref} = 35\ km$ and $\Delta\rho = 400\ kg/m^3$.
@@ -1167,32 +1168,20 @@ at $z_{ref} = 35\ km$ and $\Delta\rho = 400\ kg/m^3$.
     \caption{
         Inversion results for the South American Moho.
         (a) The estimated Moho depth of South America.
-        (b) Differences between the seismological depths of
+        (b) Inversion residuals (observed data in Fig.~\ref{fig:sam-data}a
+        minus the data predicted by the estimate (a)).
+        (c) Differences between the seismological depths of
         \citet{assumpcao2012} and our gravity-derived estimate shown in (a).
-        The inset in (b) shows a histogram of the differences along with their
+        The inset in (c) shows a histogram of the differences along with their
         calculated mean and standard deviation (std).
     }
     \label{fig:sam-moho}
 \end{figure*}
 
-\begin{figure}
-    \centering
-    \includegraphics{figures/south-america-residuals}
-    \caption{
-        Residuals for the South American Moho inversion.
-        The residuals are the observed data in Fig.~\ref{fig:sam-data}a
-        minus the data predicted by the estimate in Fig.~\ref{fig:sam-moho}a.
-        Shown as (a) a map and (b) a histogram with the calculated mean and
-        standard deviation.
-        (c) The value of the goal function (Eq.~\ref{eq:goalfunction})
-        per Gauss-Newton iteration showing the convergence of the algorithm.
-        Note that the y-axis is in logarithmic scale.
-    }
-    \label{fig:sam-residuals}
-\end{figure}
 
+The final Moho depth model for South America is shown in
+Fig.~\ref{fig:sam-moho}a.
 
-\lipsum[1-3]
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
