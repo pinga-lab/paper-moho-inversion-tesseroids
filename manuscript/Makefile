@@ -6,13 +6,6 @@
 # and
 # Jason Hiebel (https://github.com/JasonHiebel/latex.makefile)
 
-# Targets:
-#    all     : compiles the document in to PDF
-#    display : displays the compiled document in a common PDF viewer.
-#              (Linux = Evince, OSX = OS Set Default)
-#    wc      : counts words in the output PDF (approximate)
-#    clean   : removes the output directory holding temporary files
-
 # CONFIGURATION
 ###############################################################################
 
@@ -61,8 +54,9 @@ endif
 
 all: $(OUTPUT)/$(PROJECT).pdf
 
-display: all
-	(${PDFVIEWER} $(OUTPUT)/$(PROJECT).pdf &)
+show: all
+	@ # Redirect stdout and stderr to /dev/null for silent execution
+	@ (${PDFVIEWER} $(OUTPUT)/$(PROJECT).pdf > /dev/null 2>&1 & )
 
 wc: all
 	@ pdftotext $(OUTPUT)/$(PROJECT).pdf - | wc -w
@@ -94,7 +88,7 @@ $(OUTPUT)/:
 $(OUTPUT)/$(PROJECT).aux: $(TEX_FILES) $(STY_FILES) $(CLS_FILES) $(EPS_FILES) | $(OUTPUT)/
 	pdflatex $(LATEX_FLAGS) $(SRC)/$(PROJECT)
 	cp $@ .
-# Copy the aux file next to the tex file for Vim completion purposes
+	# Copy the aux file next to the tex file for Vim completion purposes
 
 $(OUTPUT)/$(PROJECT).bbl: $(BIB_FILES) $(BST_FILES) | $(OUTPUT)/$(PROJECT).aux
 	cp $(BIB_FILES) $(OUTPUT)
