@@ -7,8 +7,6 @@
 \usepackage[utf8]{inputenc}
 % To make two column figures appear in the correct order
 \usepackage{fixltx2e}
-% To insert dummy text
-\usepackage{lipsum}
 % To make annotations on the sides
 \usepackage{todonotes}
 
@@ -54,7 +52,6 @@
 
 
 \begin{abstract}
-    \lipsum[1]
 \end{abstract}
 
 
@@ -71,7 +68,7 @@ The two main methods used to estimate the depth of the Moho are seismology,
 with both natural and controlled sources, and gravimetry.
 With the advent of satellite gravimetry missions like GRACE and GOCE,
 gravity derived crustal models can be produced in regional or global scales
-\citep[e.g. ][]{reguzzoni2013}.
+\citep[e.g. ][]{reguzzoni2013,vandermeijde2013,vandermeijde2015}.
 New spherical harmonic gravity models that use these satellite observation,
 like GOCO5S \citep{mayer-guerr2015}, provide almost homogeneous data coverage
 in difficult to access regions traditionally poor in terrestrial data.
@@ -121,20 +118,37 @@ Parker-Oldenburg FFT algorithm and applied it to estimate the crustal structure
 of the Moon.
 \citet{reguzzoni2013} use a spherical approximation to estimate the global
 Moho relief from GOCE satellite gravity data.
-A different approach would be adapt one of the methods developed for
+Conversely, one could adapt one of the methods developed for
 right-rectangular prisms to use tesseroids (spherical prisms) instead.
 One of the difficulties of this approach is that the forward problem for a
 tesseroid must be solved numerically.
-Two alternative approaches to the numerical solution are
+Two alternatives proposed in the literature to the numerical solution are
 Taylor series expansion \citep{heck2007, grombein2013}
 and the Gauss-Legendre Quadrature
-\citep{asgharzadeh2007,wild-pfeiffer2008,li2011,uieda2016}.
+\citep{asgharzadeh2007}.
 Numerical experiments by \citet{wild-pfeiffer2008} suggest that the
 Gauss-Legendre Quadrature (GLQ) offers superior results.
 However, the GLQ suffers from numerical instability when the computation point
 is close to the tesseroid \citep{asgharzadeh2007}.
 To overcome the numerical instability, \citet{li2011} proposed an adaptive
 discretization algorithm which was later improved upon by \citet{uieda2016}.
+
+In any gravity inversion for the relief of an interface, two hyper-parameters
+control the inversion results: the density-contrast between the two mediums
+and the reference level around which the interface undulates.
+The reference level is the depth of the Normal Earth Moho in the case of the
+anomalous Moho.
+For regularized inversions, an additional hyper-parameter is the regularization
+parameter that balances data-misfit and regularization.
+The two most commonly used methods for estimating the regularization parameter
+are the L-curve criterion and Generalized Cross Validation (GCV).
+\citet{farquharson2004} provide for a thorough comparison of both methods.
+Estimating the density-contrast in a sedimentary basin context has been tackled
+by \citet{silva2006} and \citet{martins2010} when the basement depth is known
+at a few points.
+To the authors knowledge no attempt has been made to estimate the reference
+level.
+
 
 
 
