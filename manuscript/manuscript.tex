@@ -462,7 +462,7 @@ sparse matrix multiplications and solving the sparse linear system
 in Eq.~\ref{eq:gaussnewton-regul}
 account for less than 0.1\%
 of the computation time of a single inversion
-(see section~\ref{sec:simple-synthetic} and table~\ref{profiling}).
+(see section~\ref{sec:simple-synthetic} and Table~\ref{profiling}).
 Hence, by employing the use of sparse matrices,
 our formulation retains the efficiency of Bott's method
 while stabilizing the solution through the well established formalism of
@@ -818,7 +818,7 @@ performing the dot products required to compute
 the Hessian matrix (Eq.~\ref{eq:hessian-regul})
 and the gradient vector (Eq.~\ref{eq:gradient-regul}),
 and forward modeling to calculate the predicted data (Eq.~\ref{eq:forward}).
-The profiling results presented in table~\ref{profiling}
+The profiling results presented in Table~\ref{profiling}
 show that the time spent on forward modeling accounts for approximately
 99.8\% of the total computation time.
 
@@ -1230,11 +1230,45 @@ the residuals and the differences with the seismic data are larger than in the
 Paraná basin.
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Discussion}
+
+
+The test on simple synthetic data shows that our inversion method is able to
+recover a smooth Moho relief with a homogeneous density-contrast
+(Fig.~\ref{fig:simple-results}).
+The inversion was not able to fully recover the shortest wavelength feature in
+the model, possibly due to the smoothness constraints which tends to soften
+high-frequency (sharp) variations.
+The cross-validation Mean Square Error curve in Fig.~\ref{fig:simple-results}e
+has a well-defined minimum, indicating a value of the regularization parameter
+($\mu$) whose corresponding estimate best predicts data that were not included
+in the inversion.
+Using this value of $\mu$ in the inversion that leads to a smooth Moho relief
+and acceptable data misfit.
+
+The source code profiling results presented in Table~\ref{profiling}
+confirm the efficiency of the proposed method.
+When using sparse matrices,
+solving the linear system in Eq.~\ref{eq:gaussnewton-regul}
+and performing matrix multiplications
+both account for approximately 0.067\% of the total computation time
+required for a single inversion.
+Thus, we are able to retain the high computational efficiency of Bott's method
+while using a classic Tikhonov regularization formulation.
+This approach could, in theory, be extended to other types of regularization
+(e.g., Total Variation) and misfit functions (e.g., re-weighted least squares).
+For example, the Total Variation approach used by \citet{martins2011} could
+potentially be implemented in a more straight forward manner than done by
+\citet{santos2015}.
+
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusions}
 
-\lipsum[1-7]
+\lipsum[1-3]
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Acknowledgments}
