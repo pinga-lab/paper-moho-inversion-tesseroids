@@ -1257,11 +1257,27 @@ required for a single inversion.
 Thus, we are able to retain the high computational efficiency of Bott's method
 while using a classic Tikhonov regularization formulation.
 This approach could, in theory, be extended to other types of regularization
-(e.g., Total Variation) and misfit functions (e.g., re-weighted least squares).
+(e.g., Total Variation) and misfit functions (e.g., re-weighted least squares)
+already available in the literature.
 For example, the Total Variation approach used by \citet{martins2011} could
 potentially be implemented in a more straight forward manner than done by
 \citet{santos2015}.
 
+The more complex synthetic data test based on CRUST1.0
+(Fig.~\ref{fig:crust1-results})
+shows that the cross-validation using pointwise Moho depth information
+is able to correctly estimate the density-contrast ($\Delta\rho$) and Normal
+Earth Moho depth ($z_{ref}$).
+This test indicates that the inversion neither correctly estimates Moho depth
+nor adequately fits the gravity and pointwise data when sharp variations in
+Moho depth occur.
+This phenomenon is particularly strong in the region below the Andes.
+A likely explanation is that the smoothing effect of the regularization
+is intrinsically unable to produce sharp variations in Moho depth.
+These effects might be mitigated with the use of sharpness-inducing
+regularization, like Total Variation \citep{martins2011},
+Cauchy norm regularization \citep{sacchi1996, pilkington2008},
+or an adaptive mixed smoothness-sharpness regularization \citep{sun2014}.
 
 
 
