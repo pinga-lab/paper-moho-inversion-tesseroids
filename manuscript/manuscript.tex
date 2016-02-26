@@ -1284,7 +1284,40 @@ or an adaptive mixed smoothness-sharpness regularization \citep{sun2014}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusions}
 
-\lipsum[1-3]
+Developed an inversion  method based on Bott's method.
+Uses smoothness regularization and Gauss-Newton formulation.
+Is efficient due to the use of sparse matrices.
+Retains classical formulation and opens the possibility of using other types of
+regularization from the literature.
+Use cross-validation to estimate the hyper-parameters of the inversion:
+regularization parameter, density-contrast, and Normal Earth Moho depth.
+
+Tests on synthetic data show the efficiency of our inversion method and
+cross-validation approaches.
+The inversion has difficulty recovering sharp variations in the Moho depth or
+short wavelength features, probably because of smoothness constraints.
+Possible expansions of the method include using different regularization
+approaches, like sharpness constraints.
+
+Our Moho depth model for South America is in accordance with previous results
+from \citet{vandermeijde2013}.
+The model is unable to fit the available data in places with sharp variations
+in Moho depth, particularly the Andes region.
+This might indicate the improper use of smoothness regularization, as suggested
+by the CRUST1.0 synthetic data test, or the presence of crustal or mantle
+density anomalies that were unaccounted for during the data corrections.
+The model fits the gravity data but differs significantly from the seismic data
+in the coastal region of Venezuela, along the central Amazon and Solimões
+basins, and in the Paraná basin.
+These differences indicate the presence of crustal or mantle density anomalies
+other than the sedimentary cover of the CRUST1.0 model.
+\citet{mariani2013} and \citet{nunn1988} explain these discrepancies in the
+Paraná and Amazon basins, respectively, as high density rocks in the lower
+crust.
+The model fits well the gravity and seismic data in all oceanic regions,
+the central portion of the Andean foreland, Patagonia, and coastal and central
+parts of Brazil.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Acknowledgments}
