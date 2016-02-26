@@ -1,5 +1,5 @@
-%\documentclass[extra,mreferee]{gji}
-\documentclass[extra]{gji}
+\documentclass[extra,mreferee]{gji}
+%\documentclass[extra]{gji}
 \usepackage{timet}
 \usepackage{amsmath}
 \usepackage{graphicx}
@@ -1234,17 +1234,19 @@ Paraná basin.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusions}
 
-Developed an inversion  method based on Bott's method.
-Uses smoothness regularization and Gauss-Newton formulation.
-Is efficient due to the use of sparse matrices.
-Retains classical formulation and opens the possibility of using other types of
-regularization from the literature.
-Use cross-validation to estimate the hyper-parameters of the inversion:
-regularization parameter, density-contrast, and Normal Earth Moho depth.
+We have developed a computationally efficient gravity inversion method in
+spherical coordinates.
+Our method extends the Gauss-Newton formulation of Bott's method
+\citep{silva2014} to use tesseroids as model elements and smoothness
+regularization.
+We retain the computational efficiency of Bott's method by taking advantage of
+the sparse nature of all matrices involved.
+We employ two cross-validation techniques to estimate the hyper-parameters of
+the inversion: the regularization parameter, the Moho density-contrast, and the
+Normal Earth Moho depth.
 
 The test on simple synthetic data shows that our inversion method is able to
-recover a smooth Moho relief with a homogeneous density-contrast
-(Fig.~\ref{fig:simple-results}).
+recover a smooth Moho relief with a homogeneous density-contrast.
 The inversion was not able to fully recover the shortest wavelength feature in
 the model, possibly due to the smoothness constraints which tends to soften
 high-frequency (sharp) variations.
@@ -1252,16 +1254,15 @@ The cross-validation Mean Square Error curve in Fig.~\ref{fig:simple-results}e
 has a well-defined minimum, indicating a value of the regularization parameter
 ($\mu$) whose corresponding estimate best predicts data that were not included
 in the inversion.
-Using this value of $\mu$ in the inversion that leads to a smooth Moho relief
-and acceptable data misfit.
+Using this value of $\mu$ in the inversion leads to a smooth Moho relief and
+acceptable data misfit.
 
 The source code profiling results presented in Table~\ref{profiling}
 confirm the efficiency of the proposed method.
-When using sparse matrices,
-solving the linear system in Eq.~\ref{eq:gaussnewton-regul}
-and performing matrix multiplications
-both account for approximately 0.067\% of the total computation time
-required for a single inversion.
+When using sparse matrices, solving linear systems and performing matrix
+multiplications together account for a mere 0.067\% of the total computation
+time required for a single inversion.
+The majority of the computation time (99.824\%) is spent on forward modeling.
 Thus, we are able to retain the high computational efficiency of Bott's method
 while using a classic Tikhonov regularization formulation.
 This approach could, in theory, be extended to other types of regularization
@@ -1280,32 +1281,36 @@ This test indicates that the inversion neither correctly estimates Moho depth
 nor adequately fits the gravity and pointwise data when sharp variations in
 Moho depth occur.
 This phenomenon is particularly strong in the region below the Andes.
-A likely explanation is that the smoothing effect of the regularization
+A likely explanation is that the smoothness regularization
 is intrinsically unable to produce sharp variations in Moho depth.
 These effects might be mitigated with the use of sharpness-inducing
 regularization, like Total Variation \citep{martins2011},
 Cauchy norm regularization \citep{sacchi1996, pilkington2008},
 or an adaptive mixed smoothness-sharpness regularization \citep{sun2014}.
 
-
-Our Moho depth model for South America is in accordance with previous results
-from \citet{vandermeijde2013}.
-The model is unable to fit the available data in places with sharp variations
-in Moho depth, particularly the Andes region.
+We applied the method proposed here to estimate the Moho depth for South
+America.
+Our Moho depth model is in accordance with previous results by
+\citet{vandermeijde2013}.
+The model fits well the gravity and seismic data in all oceanic regions, the
+central portion of the Andean foreland, Patagonia, and coastal and central
+parts of Brazil.
+However, the model is unable to fit the gravity and seismic data in places with
+sharp variations in Moho depth, particularly below the Andes.
 This might indicate the improper use of smoothness regularization, as suggested
 by the CRUST1.0 synthetic data test, or the presence of crustal or mantle
 density anomalies that were unaccounted for during the data corrections.
-The model fits the gravity data but differs significantly from the seismic data
-in the coastal region of Venezuela, along the central Amazon and Solimões
-basins, and in the Paraná basin.
-These differences indicate the presence of crustal or mantle density anomalies
-other than the sedimentary cover of the CRUST1.0 model.
+In the coastal region of Venezuela, along the central Amazon and Solimões
+basins, and in the Paraná basin, the model is able to fit the gravity data but
+differs significantly from the seismic data.
 \citet{mariani2013} and \citet{nunn1988} explain these discrepancies in the
 Paraná and Amazon basins, respectively, as high density rocks in the lower
 crust.
-The model fits well the gravity and seismic data in all oceanic regions,
-the central portion of the Andean foreland, Patagonia, and coastal and central
-parts of Brazil.
+In general, differences between a gravity and a seismically derived Moho model
+may indicate the presence of crustal or mantle density anomalies that were
+unaccounted for in the data processing.
+Such locations warrant further detailed investigation.
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
