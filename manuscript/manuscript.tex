@@ -983,7 +983,7 @@ particularly in the central Andes and near Ecuador and Colombia.
 The differences are smaller along the Atlantic coast of South America,
 with notable larger differences in a few points of northeastern Brazil
 and along the Amazon river.
-
+In general, large residuals are associated with sharp increases in Moho depth.
 
 
 
@@ -1168,6 +1168,7 @@ at $z_{ref} = 35\ km$ and $\Delta\rho = 400\ kg/m^3$.
     \caption{
         Inversion results for the South American Moho.
         (a) The estimated Moho depth of South America.
+        The solid light grey line is the 35 km Moho depth contour.
         (b) Inversion residuals (observed data in Fig.~\ref{fig:sam-data}a
         minus the data predicted by the estimate (a)).
         (c) Differences between the seismological depths of
@@ -1179,12 +1180,54 @@ at $z_{ref} = 35\ km$ and $\Delta\rho = 400\ kg/m^3$.
 \end{figure*}
 
 
-The final Moho depth model for South America is shown in
-Fig.~\ref{fig:sam-moho}a.
+The final Moho depth model for South America is shown
+as a pseudo-color map in Fig.~\ref{fig:sam-moho}a.
 The model is available in the online repository that accompanies
 this contribution (see section~\ref{sec:software}).
+Each model element is a $0.4^\circ \times 0.4^\circ$ tesseroid,
+represented by the pixels in the pseudo-color map.
 
+Our model differs significantly from CRUST1.0 (Fig.~\ref{fig:crust1-data}a)
+but contains most of the large-scale features
+present in the GMSA12 gravity-derived model of \citet{vandermeijde2013}.
+The deepest Moho is along the central Andes, reaching depths upward of 70 km.
+The oceanic areas present the shallowest Moho, ranging approximately
+from 7.5 to 20 km.
+The Brazilian and Guiana shields have a deeper Moho (greater than 35 km),
+with the deepest portion in the area of the São Francisco craton.
+The Moho is shallower than 35 km along the western Amazon and Andean foreland
+regions, as well as along the Amazon river.
 
+Fig.~\ref{fig:sam-moho}b shows the inversion residuals
+(observed minus predicted data)
+and Fig.~\ref{fig:sam-moho}c shows the differences between
+the seismic-derived depths of \citet{assumpcao2012}
+(Fig.~\ref{fig:sam-data}b) and the depths in our model.
+The differences range from approximately -23 to 23 km
+and have a mean of 1.18 km and a standard deviation of 6.84 km.
+The residuals and differences from seismic are smallest in the oceanic areas,
+southern Patagonia, and the eastern coast of the continent.
+The largest residuals are located along the Andes and correlate with the
+deepest Moho depths.
+These large residuals follow a pattern of a negative value in the center
+flanked by positive values to the East and West.
+This same pattern is observed in the CRUST1.0 synthetic test results
+(Fig.~\ref{fig:crust1-results}),
+suggesting that this is a byproduct of the inversion method, not the data.
+Likewise, larger residuals also appear to be associated with sharp variations
+in the estimated Moho depth.
+Along the Andes, large differences with seismic data are correlated with the
+large inversion residuals.
+Conversely, this correlation is absent from the large differences seen in
+points around Venezuela.
+In the Borborema province, northeastern Brazil,
+our model slightly overestimates the Moho depth.
+On the other hand, our model underestimates the depths
+in the Amazon region and the Paraná basin.
+Particularly in the Amazon basin,
+where our model predicts a Moho depth of approximately 30 km,
+the residuals and the differences with the seismic data are larger than in the
+Paraná basin.
 
 
 
@@ -1198,6 +1241,8 @@ this contribution (see section~\ref{sec:software}).
 
 The authors are indebted to the developers and maintainers of the open-source
 software without which this work would not have been possible.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \bibliographystyle{gji}
 \bibliography{biblio}
