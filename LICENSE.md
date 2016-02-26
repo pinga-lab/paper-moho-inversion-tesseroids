@@ -1,4 +1,4 @@
-Copyright (c) 2016 Leonardo Uieda and Valéria C. F. Barbosa
+Copyright (c) 2016 Leonardo Uieda and Valéria C. F. Barbosa.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
