@@ -149,8 +149,24 @@ at a few points.
 To the authors knowledge no attempt has been made to estimate the reference
 level.
 
-
-
+We present a non-linear gravity inversion to estimate the Moho depth in
+a spherical Earth approximation.
+Our method is based on the \citet{silva2014} Gauss-Newton formulation of the
+method of \citet{bott1960}.
+We use tesseroids to discretize the anomalous Moho and the adaptive
+discretization algorithm of \citet{uieda2016} for the forward modeling.
+The stability of the inversion is achieved through smoothness regularization.
+In order to maintain the computational efficiency of Bott's method,
+we exploit the sparse nature of all matrices involved in the computations.
+We employ a variant of GCV known as hold-out cross-validation \citep{kim2009}
+to estimate the regularization parameter.
+Additionally, we estimate the density-contrast and reference level
+simultaneously in a second cross-validation.
+Similarly to \citet{silva2006} and \citet{martins2010}, this cross-validation
+procedure uses knowledge of the Moho depth at certain points.
+Finally, we apply the proposed method to estimate the Moho depth for South
+America using gravity data from the GOCO5S model \citep{mayer-guerr2015} and
+the seismological data of \citet{assumpcao2013a}.
 
 
 
@@ -707,7 +723,7 @@ The algorithm for estimating $z_{ref}$ and $\Delta\rho$ is:
         the smallest MSE.
 \end{enumerate}
 
-A similar approach was used by \citet{martins2010}
+A similar approach was used by \citet{silva2006} and \citet{martins2010}
 to estimate the parameters defining
 the density-contrast variation with depth
 of a sedimentary basin.
