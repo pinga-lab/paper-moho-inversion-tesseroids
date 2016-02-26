@@ -5,16 +5,15 @@
 \usepackage{graphicx}
 \usepackage{url}
 \usepackage[utf8]{inputenc}
-
-% To insert dummy text
-\usepackage{lipsum}
 % To make two column figures appear in the correct order
 \usepackage{fixltx2e}
-
+% To insert dummy text
+\usepackage{lipsum}
+% To make annotations on the sides
 \usepackage{todonotes}
 
 % Document metadata
-% =================
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\Title}{
     Fast non-linear gravity inversion in spherical coordinates
     with application to the South American Moho
@@ -35,7 +34,7 @@
     \\
     $^2$Observatório Nacional, Rio de Janeiro, Brazil.
 }
-
+% Metadata for the generated PDF
 \usepackage[pdftex,colorlinks=true]{hyperref}
 \hypersetup{
     pdftitle={\Title},
@@ -49,6 +48,7 @@
 
 \begin{document}
 
+
 \label{firstpage}
 \maketitle
 
@@ -57,52 +57,71 @@
     \lipsum[1]
 \end{abstract}
 
+
 \noindent\textbf{Key words:} \Keywords
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
 
-\lipsum[1-7]
+The Mohorovičić discontinuity (or Moho) that marks the transition from the
+crust to the mantle, is studied almost exclusively through indirect geophysical
+methods.
+The two main methods used to estimate the depth of the Moho are seismology,
+with both natural and controlled sources, and gravimetry.
+With the advent of satellite gravimetry missions like GRACE and GOCE,
+gravity derived crustal models can be produced in regional or global scales
+\citep[e.g. ][]{reguzzoni2013}.
+New spherical harmonic gravity models that use these satellite observation,
+like GOCO5S \citep{mayer-guerr2015}, provide almost homogeneous data coverage
+in difficult to access regions traditionally poor in terrestrial data.
+An example is South America, where seismologic and terrestrial gravity data
+are traditionally concentrated around large urban centers and coastal areas.
+
+Estimating Moho depth from gravity data is a non-linear inverse problem.
+One can generalize this problem to estimating the relief of an interface,
+such as the basement of a sedimentary basin or the relief of the anomalous
+Moho.
+Several methods have been developed over the years to solve this inverse
+problem, for example
+\citet{bott1960, barbosa1999b, barbosa1999a, barnes2012, leao1996, martins2010,
+martins2011, oldenburg1974, reguzzoni2013, santos2015, silva2006, silva2014},
+to name a few.
+Solving the inverse problem is computationally demanding because it requires
+the construction of large dense matrices and the solution of large linear
+systems.
+As a result, some authors search for ways to increase the computational
+efficiency of this class of inverse problem.
+\citet{bott1960} proposed a method based on iteratively applying corrections to
+a starting estimate based on the inversion residuals.
+The algorithm is fast because it bypasses the construction and solution of
+linear systems and only involves forward modeling.
+\citet{oldenburg1974} showed that the fast FFT-based forward modeling of
+\citet{parker1973} could be rearranged to estimate the relief.
+Recently, \citet{silva2014} extended and generalized the original method of
+\citet{bott1960} and \citet{santos2015} used this extension to estimate a
+basement relief with sharp boundaries.
+
+
+
+
+
+
+Most discretize the relief into juxtaposed right-rectangular prisms with a
+known density contrast.
+The inverse problem is then to estimate the thickness of each prism from the
+gravity data.
+The use of rectangular prisms implies a planar Earth approximation and may not
+be adequate for continental scale studies.
+In such cases, a spherical Earth approximation is preferred, leading to a
+discretization of the relief into tesseroids (spherical prisms).
+
+
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Methodology}
-
-\begin{figure}
-    \centering
-    \includegraphics{figures/problem-concept}
-    \caption{
-        Sketch of the stages in gravity data correction and
-        the discretization of the anomalous Moho relief using tesseroids.
-        (a) The Earth and the measured gravity at point P ($g(P)$).
-        (b) The Normal Earth and the calculated normal gravity at point P
-        ($\gamma(P)$). $z_{ref}$ is the depth of the Normal Earth Moho.
-        (c) The gravity disturbance ($\delta(P)$) and
-        the corresponding density anomalies after removal of the normal gravity:
-        topography, oceans, crustal heterogeneities, and the anomalous Moho.
-        (d) The Bouguer disturbance ($\delta_{bg}(P)$) after topographic
-        correction and the remaining density anomalies.
-        (e) All density anomalies save the anomalous Moho are assumed to have
-        been removed before inversion.
-        (f) The discretization of the anomalous Moho in tesseroids. Grey
-        tesseroids will have a negative density contrast while red tesseroids
-        will have a positive one.
-    }
-    \label{fig:anomalysketch}
-\end{figure}
-
-\begin{figure}
-    \centering
-    \includegraphics{figures/tesseroid-coord-sys}
-    \caption{Sketch of a tesseroid (spherical prism) in a geocentric coordinate
-        system (X, Y, Z).
-        Observations are made at point P with respect to it's local
-        North-oriented coordinate system (x, y, z).
-        After \citet{uieda2015}.
-    }
-    \label{fig:tesseroid}
-\end{figure}
-
 
 In potential field methods,
 we must isolate the target anomalous density distribution prior to modeling and
@@ -166,6 +185,40 @@ The accuracy of the GLQ integration is improved by the adaptive discretization
 scheme of \citet{uieda2016}.
 
 
+\begin{figure}
+    \centering
+    \includegraphics{figures/problem-concept}
+    \caption{
+        Sketch of the stages in gravity data correction and
+        the discretization of the anomalous Moho relief using tesseroids.
+        (a) The Earth and the measured gravity at point P ($g(P)$).
+        (b) The Normal Earth and the calculated normal gravity at point P
+        ($\gamma(P)$). $z_{ref}$ is the depth of the Normal Earth Moho.
+        (c) The gravity disturbance ($\delta(P)$) and
+        the corresponding density anomalies after removal of the normal gravity:
+        topography, oceans, crustal heterogeneities, and the anomalous Moho.
+        (d) The Bouguer disturbance ($\delta_{bg}(P)$) after topographic
+        correction and the remaining density anomalies.
+        (e) All density anomalies save the anomalous Moho are assumed to have
+        been removed before inversion.
+        (f) The discretization of the anomalous Moho in tesseroids. Grey
+        tesseroids will have a negative density contrast while red tesseroids
+        will have a positive one.
+    }
+    \label{fig:anomalysketch}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics{figures/tesseroid-coord-sys}
+    \caption{Sketch of a tesseroid (spherical prism) in a geocentric coordinate
+        system (X, Y, Z).
+        Observations are made at point P with respect to it's local
+        North-oriented coordinate system (x, y, z).
+        After \citet{uieda2015}.
+    }
+    \label{fig:tesseroid}
+\end{figure}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
