@@ -98,23 +98,43 @@ The algorithm is fast because it bypasses the construction and solution of
 linear systems and only involves forward modeling.
 \citet{oldenburg1974} showed that the fast FFT-based forward modeling of
 \citet{parker1973} could be rearranged to estimate the relief.
+\citet{barnes2012} use a form of adaptive discretization to compute the
+Jacobian, or sensitivity, matrix.
+For each data point, the discretization will be progressively coarser
+the further way from the point.
+This reduces the matrix and, consequently, the linear systems to a sparse form
+that can be solved efficiently.
 Recently, \citet{silva2014} extended and generalized the original method of
 \citet{bott1960} and \citet{santos2015} used this extension to estimate a
 basement relief with sharp boundaries.
 
-
-
-
-
-
-Most discretize the relief into juxtaposed right-rectangular prisms with a
-known density contrast.
+Most non-linear gravity inversion methods discretize the relief of the
+interface into juxtaposed right-rectangular prisms with a known density
+contrast.
 The inverse problem is then to estimate the thickness of each prism from the
 gravity data.
 The use of rectangular prisms implies a planar Earth approximation and may not
-be adequate for continental scale studies.
-In such cases, a spherical Earth approximation is preferred, leading to a
-discretization of the relief into tesseroids (spherical prisms).
+be adequate for continental and global scale studies.
+In such cases, a spherical Earth approximation is preferred.
+\citet{wieczorek1998} developed a spherical harmonic equivalent of the
+Parker-Oldenburg FFT algorithm and applied it to estimate the crustal structure
+of the Moon.
+\citet{reguzzoni2013} use a spherical approximation to estimate the global
+Moho relief from GOCE satellite gravity data.
+A different approach would be adapt one of the methods developed for
+right-rectangular prisms to use tesseroids (spherical prisms) instead.
+One of the difficulties of this approach is that the forward problem for a
+tesseroid must be solved numerically.
+Two alternative approaches to the numerical solution are
+Taylor series expansion \citep{heck2007, grombein2013}
+and the Gauss-Legendre Quadrature
+\citep{asgharzadeh2007,wild-pfeiffer2008,li2011,uieda2016}.
+Numerical experiments by \citet{wild-pfeiffer2008} suggest that the
+Gauss-Legendre Quadrature (GLQ) offers superior results.
+However, the GLQ suffers from numerical instability when the computation point
+is close to the tesseroid \citep{asgharzadeh2007}.
+To overcome the numerical instability, \citet{li2011} proposed an adaptive
+discretization algorithm which was later improved upon by \citet{uieda2016}.
 
 
 
