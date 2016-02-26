@@ -644,7 +644,7 @@ matplotlib \citep[][ \url{http://matplotlib.org}]{hunter2007}
 and seaborn
 \citep[][ \url{http://stanford.edu/~mwaskom/software/seaborn}]{waskom2015}
 for plots and maps,
-and Fatiando a Terra \citep[][ \url{http://www.fatiando.org}]{uieda2013}
+and Fatiando a Terra \citep[][ \url{http://www.fatiando.org}]{uieda2013a}
 for geophysics specific tasks,
 particularly for forward modeling using tesseroids.
 We use the scipy.sparse package for sparse matrix arithmetic and linear
@@ -1230,9 +1230,17 @@ the residuals and the differences with the seismic data are larger than in the
 Paraná basin.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Discussion}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Conclusions}
+
+Developed an inversion  method based on Bott's method.
+Uses smoothness regularization and Gauss-Newton formulation.
+Is efficient due to the use of sparse matrices.
+Retains classical formulation and opens the possibility of using other types of
+regularization from the literature.
+Use cross-validation to estimate the hyper-parameters of the inversion:
+regularization parameter, density-contrast, and Normal Earth Moho depth.
 
 The test on simple synthetic data shows that our inversion method is able to
 recover a smooth Moho relief with a homogeneous density-contrast
@@ -1279,25 +1287,6 @@ regularization, like Total Variation \citep{martins2011},
 Cauchy norm regularization \citep{sacchi1996, pilkington2008},
 or an adaptive mixed smoothness-sharpness regularization \citep{sun2014}.
 
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Conclusions}
-
-Developed an inversion  method based on Bott's method.
-Uses smoothness regularization and Gauss-Newton formulation.
-Is efficient due to the use of sparse matrices.
-Retains classical formulation and opens the possibility of using other types of
-regularization from the literature.
-Use cross-validation to estimate the hyper-parameters of the inversion:
-regularization parameter, density-contrast, and Normal Earth Moho depth.
-
-Tests on synthetic data show the efficiency of our inversion method and
-cross-validation approaches.
-The inversion has difficulty recovering sharp variations in the Moho depth or
-short wavelength features, probably because of smoothness constraints.
-Possible expansions of the method include using different regularization
-approaches, like sharpness constraints.
 
 Our Moho depth model for South America is in accordance with previous results
 from \citet{vandermeijde2013}.
