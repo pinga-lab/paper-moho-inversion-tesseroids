@@ -96,21 +96,23 @@
 The Mohorovičić discontinuity (or Moho) that marks the transition from the
 crust to the mantle, is studied almost exclusively through indirect geophysical
 methods.
-The two main methods used to estimate the depth of the Moho are seismology,
-with both natural and controlled sources, and gravimetry.
+The two main geophysical methods used to estimate the depth of the Moho are
+seismology, with both natural and controlled sources, and gravimetry.
 With the advent of satellite gravimetry missions like GRACE and GOCE,
-gravity derived crustal models can be produced in regional or global scales
+gravity-derived crustal models can be produced in regional or global scales
 \citep[e.g. ][]{reguzzoni2013,vandermeijde2013,vandermeijde2015}.
 New spherical harmonic gravity models that use these satellite observation,
 like GOCO5S \citep{mayer-guerr2015}, provide almost homogeneous data coverage
 in difficult to access regions traditionally poor in terrestrial data.
 An example is South America, where seismologic and terrestrial gravity data
-are traditionally concentrated around large urban centers and coastal areas.
+are traditionally concentrated around urban centers and coastal areas,
+resulting in large areas (e.g., forests and mountains) devoid of data.
 
 Estimating Moho depth from gravity data is a non-linear inverse problem.
-One can generalize this problem to estimating the relief of an interface,
-such as the basement of a sedimentary basin or the relief of the anomalous
-Moho.
+One can generalize this problem of estimating the depths of an interface
+separating two media,
+such as the sediment-basement interface of a sedimentary basin or the
+crust-mantle interface (Moho).
 Several methods have been developed over the years to solve this inverse
 problem, for example
 \citet{bott1960, barbosa1999b, barbosa1999a, barnes2012, leao1996, martins2010,
@@ -137,21 +139,27 @@ Recently, \citet{silva2014} extended and generalized the original method of
 \citet{bott1960} and \citet{santos2015} used this extension to estimate a
 basement relief with sharp boundaries.
 
-Most non-linear gravity inversion methods discretize the relief of the
-interface into juxtaposed right-rectangular prisms with a known density
-contrast.
-The inverse problem is then to estimate the thickness of each prism from the
-gravity data.
-The use of rectangular prisms implies a planar Earth approximation and may not
-be adequate for continental and global scale studies.
-In such cases, a spherical Earth approximation is preferred.
+A spherical Earth approximation is preferred when estimating the Moho depth
+from gravity data in continental and global scale studies.
 \citet{wieczorek1998} developed a spherical harmonic equivalent of the
 Parker-Oldenburg FFT algorithm and applied it to estimate the crustal structure
 of the Moon.
-\citet{reguzzoni2013} use a spherical approximation to estimate the global
-Moho relief from GOCE satellite gravity data.
-Conversely, one could adapt one of the methods developed for
-right-rectangular prisms to use tesseroids (spherical prisms) instead.
+\citet{reguzzoni2013} use a spherical Earth approximation to estimate the
+global Moho relief using data from the GOCE satellite mission.
+Another approach is to use
+non-spectral (space domain) gravity inversion methods.
+Many such methods were developed for estimating the basement relief of a
+sedimentary basin
+\citep[e.g., ][]{barbosa1999a, barbosa1999b, martins2010, martins2011, sun2014}.
+These methods approximate the sedimentary pack by a set of juxtaposed
+right-rectangular prisms.
+The top of the prisms coincide with the Earth's surface and the prisms'
+thicknesses represent the depths to the basement and are the parameters to be
+estimated in the inversion.
+The use of rectangular prisms implies a planar Earth approximation and may not
+be adequate for depth-to-Moho estimates in a continental-scale study.
+A straightforward way to circumvent this hindrance is to adapt one of the
+methods developed for rectangular prisms to use tesseroids (spherical prisms).
 One of the difficulties of this approach is that the forward problem for a
 tesseroid must be solved numerically.
 Two alternatives proposed in the literature to the numerical solution are
@@ -165,20 +173,21 @@ is close to the tesseroid \citep{asgharzadeh2007}.
 To overcome the numerical instability, \citet{li2011} proposed an adaptive
 discretization algorithm which was later improved upon by \citet{uieda2016}.
 
-In any gravity inversion for the relief of an interface, two hyper-parameters
-control the inversion results: the density-contrast between the two mediums
-and the reference level around which the interface undulates.
-The reference level is the depth of the Normal Earth Moho in the case of the
-anomalous Moho.
+In any gravity inversion for estimating the relief of an interface, two
+hyper-parameters control the inversion results: the density-contrast between
+the two media and the reference level around which the interface undulates.
+The reference level is the constant depth of the Normal Earth Moho in the case
+of the anomalous Moho.
 For regularized inversions, an additional hyper-parameter is the regularization
-parameter that balances data-misfit and regularization.
+parameter that balances the relative importance between the data-misfit measure
+and the regularizing function.
 The two most commonly used methods for estimating the regularization parameter
 are the L-curve criterion and Generalized Cross Validation (GCV).
 \citet{farquharson2004} provide for a thorough comparison of both methods.
 Estimating the density-contrast in a sedimentary basin context has been tackled
 by \citet{silva2006} and \citet{martins2010} when the basement depth is known
 at a few points.
-To the authors knowledge no attempt has been made to estimate the reference
+To the authors' knowledge no attempt has been made to estimate the reference
 level.
 
 We present a non-linear gravity inversion to estimate the Moho depth in
@@ -195,7 +204,7 @@ to estimate the regularization parameter.
 Additionally, we estimate the density-contrast and reference level
 simultaneously in a second cross-validation.
 Similarly to \citet{silva2006} and \citet{martins2010}, this cross-validation
-procedure uses knowledge of the Moho depth at certain points.
+procedure uses knowledge of the Moho depths at certain points.
 Finally, we apply the proposed method to estimate the Moho depth for South
 America using gravity data from the GOCO5S model \citep{mayer-guerr2015} and
 the seismological data of \citet{assumpcao2013a}.
