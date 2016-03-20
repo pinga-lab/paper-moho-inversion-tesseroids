@@ -1373,8 +1373,8 @@ The cross-validation Mean Square Error curve in Fig.~\ref{fig:simple-results}e
 has a well-defined minimum, indicating a value of the regularization parameter
 ($\mu$) whose corresponding estimate best predicts data that were not included
 in the inversion.
-Using this value of $\mu$ in the inversion leads to a smooth Moho relief and
-acceptable data misfit.
+Using this value of $\mu$ in the inversion leads to a stable solution
+characterized by a smooth Moho relief with an acceptable data misfit.
 
 The source code profiling results presented in Table~\ref{profiling}
 confirm the efficiency of the proposed method.
@@ -1383,11 +1383,11 @@ multiplications together account for a mere 0.067\% of the total computation
 time required for a single inversion.
 The majority of the computation time (99.824\%) is spent on forward modeling.
 Thus, we are able to retain the high computational efficiency of Bott's method
-while using a classic Tikhonov regularization formulation.
+and use a classic Tikhonov regularization formulation.
 This approach could, in theory, be extended to other types of regularization
-(e.g., Total Variation) and misfit functions (e.g., re-weighted least squares)
+(e.g., total variation) and misfit functions (e.g., re-weighted least squares)
 already available in the literature.
-For example, the Total Variation approach used by \citet{martins2011} could
+For example, the total variation approach used by \citet{martins2011} could
 potentially be implemented in a more straight forward manner than done by
 \citet{santos2015}.
 
@@ -1403,8 +1403,11 @@ This phenomenon is particularly strong in the region below the Andes.
 A likely explanation is that the smoothness regularization
 is intrinsically unable to produce sharp variations in Moho depth.
 These effects might be mitigated with the use of sharpness-inducing
-regularization, like Total Variation \citep{martins2011},
+regularization, like
+the weighted smoothness inversion \citep{barbosa1999a},
 Cauchy norm regularization \citep{sacchi1996, pilkington2008},
+entropic regularization \citep{silva2010},
+total variation regularization \citep{martins2011},
 or an adaptive mixed smoothness-sharpness regularization \citep{sun2014}.
 
 We applied the method proposed here to estimate the Moho depth for South
@@ -1442,7 +1445,6 @@ Coordenação de Aperfeiçoamento de Pessoal de Nível Superior
 (CAPES).
 V.C.F. Barbosa was supported by a fellowship from
 Conselho Nacional de Desenvolvimento Científico e Tecnológico (CNPq).
-\todo{Coloco o projeto da FAPERJ também?}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
