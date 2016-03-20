@@ -495,25 +495,28 @@ of the goal function $\Gamma(\mathbf{p})$.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Bott's method}
 
-\citet{bott1960} developed an efficient method to determined the basement
-relief of a sedimentary basin from gravity observations.
+\citet{bott1960} developed an efficient method to determined the depth of the
+basement of a sedimentary basin from gravity observations.
 The method requires data on a regular grid of $N_x \times N_y = N$
 observations.
 The basement relief is then discretized into an equal grid of $M_x \times
 M_y = M$ elements with $M_x = N_x$ and $M_y = N_y$.
-Bott's iterative method starts with an initial estimate of the basement relief
-$\mathbf{p}^0$ equal to the null vector and updates the estimate using the formula
+Bott's iterative method starts with an initial approximation of the basement
+depths $\mathbf{p}^0$ equal to the null vector.
+The method updates the approximation by calculating a parameter perturbation
+vector $\mathbf{\Delta p}^k$ using the formula
 
 \begin{equation}
-    \mathbf{\Delta p} = \dfrac{\mathbf{d}^o - \mathbf{d}(\mathbf{p}^k)}{2\pi G \Delta \rho},
+    \mathbf{\Delta p}^k =
+        \dfrac{\mathbf{d}^o - \mathbf{d}(\mathbf{p}^k)}{2\pi G \Delta \rho},
     \label{eq:bott}
 \end{equation}
 
 \noindent
-in which $G$ is the gravitational constant and $\Delta \rho$ is the basin
-density contrast.
+in which $G$ is the gravitational constant and $\Delta \rho$ is the
+contrast between the density of the sediments and the reference density.
 The iterative process stops when the inversion residuals
-$\mathbf{r} = \mathbf{d}^o - \mathbf{d}(\mathbf{p}^k)$ fall below the assumed noise level
+$\mathbf{r}^k = \mathbf{d}^o - \mathbf{d}(\mathbf{p}^k)$ fall below the assumed noise level
 of the data.
 
 \citet{silva2014} showed that Bott's method can be formulated as
@@ -526,7 +529,7 @@ by setting the Jacobian matrix (Eq.~\ref{eq:jacobian}) to
 \end{equation}
 
 \noindent
-in which $\mathbf{I}$ is the identity matrix.
+where $\mathbf{I}$ is the identity matrix.
 In this framework,
 Bott's method uses a Bouguer plate approximation of the gravitational effect of
 the relief, $d_i = 2\pi G \Delta\rho z_i$.
@@ -535,19 +538,9 @@ $2\pi G \Delta \rho$, thus linearizing the Jacobian matrix.
 However, the non-linearity of the predicted data $\mathbf{d}(\mathbf{p}^k)$ is
 preserved.
 
-We propose that Bott's method can also be formulated as a special case of the
-Steepest Descent method (Eq.~\ref{eq:steepest}) by setting the Jacobian matrix to
-
-\begin{equation}
-    \mathbf{A} = \dfrac{1}{4 \pi G \Delta \rho}\mathbf{I}.
-    \label{eq:bott-steepest}
-\end{equation}
-
-\noindent
-In practice, both formulations lead to Eq.~\ref{eq:bott}.
 One of the advantages of Bott's method over the traditional Gauss-Newton or
-Steepest Descent is eliminating the computation and storage of the dense
-Jacobian matrix $\mathbf{A}$.
+Steepest Descent is the elimination of the computation and storage of the dense
+Jacobian matrix $\mathbf{A}^k$.
 Furthermore, Bott's method also does not require the solution of equation
 systems.
 However, a disadvantage of Bott's method is that it suffers from instability
