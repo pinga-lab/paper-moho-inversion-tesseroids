@@ -312,7 +312,7 @@ scheme of \citet{uieda2016}.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Parametrization}
+\subsection{Parametrization and the forward problem}
 
 We parameterize the forward problem by discretizing the anomalous Moho
 into a grid of $M_{lon} \times M_{lat} = M$ juxtaposed tesseroids
@@ -321,7 +321,7 @@ The true (real Earth) Moho varies in depth
 with respect to the Moho of the Normal Earth.
 Hereafter we will refer to the depth of the Normal Earth Moho as $z_{ref}$
 (see Fig.~\ref{fig:anomalysketch}b).
-In cases where the true Moho is above $z_{ref}$,
+If the true Moho is above $z_{ref}$,
 the top of the $k$th tesseroid is the Moho depth $z_{k}$,
 the bottom is $z_{ref}$, and the density-contrast ($\Delta\rho$) is positive
 (red tesseroids in Fig~\ref{fig:anomalysketch}f).
@@ -353,12 +353,13 @@ of the tesseroid Moho model.
 \subsection{Inverse problem}
 
 We wish to estimate the parameter vector $\mathbf{p}$ from a set of observed
-gravity anomaly data $\mathbf{d}^o$.
+gravity data $\mathbf{d}^o$.
 The least-squares estimate is the one that minimizes the data-misfit function
 
 \begin{equation}
     \phi(\mathbf{p}) =
-    [\mathbf{d}^o - \mathbf{d}(\mathbf{p})]^T[\mathbf{d}^o - \mathbf{d}(\mathbf{p})].
+        [\mathbf{d}^o - \mathbf{d}(\mathbf{p})]^T
+        [\mathbf{d}^o - \mathbf{d}(\mathbf{p})].
     \label{eq:data-misfit}
 \end{equation}
 
@@ -366,16 +367,20 @@ Function $\phi(\mathbf{p})$ is non-linear with respect to $\mathbf{p}$.
 Thus, we can determine its minimum using gradient-based
 iterative optimization
 methods like Gauss-Newton or Steepest Descent.
-Such methods start from an initial estimate $\mathbf{p}^0$ and iteratively
-update the estimate until a minimum is reached.
+Such methods start from an initial approximation to the model parameter vector
+$\mathbf{p}^0$ and estimate a parameter perturbation vector
+$\mathbf{\Delta p}^0$.
+The perturbation vector is used to update $\mathbf{p}^0$ to
+$\mathbf{p}^1 =  \mathbf{p}^0 + \mathbf{\Delta p}^0$.
+This procedure is repeated until a minimum of function $\phi(\mathbf{p})$
+(Eq.~\ref{eq:data-misfit}) is reached.
 
 For the Gauss-Newton method,
-the update at the $k$th iteration,
-$\mathbf{\Delta p} = \mathbf{p}^{k+1} - \mathbf{p}^k$,
-is the solution of the linear system
+the parameter perturbation vector at the $k$th iteration $\mathbf{\Delta p}^k$
+is obtained by solving the linear system
 
 \begin{equation}
-    \mathbf{H}^k\mathbf{\Delta p} = -\mathbf{\nabla\phi}^k,
+    \mathbf{H}^k\mathbf{\Delta p}^k = -\mathbf{\nabla\phi}^k,
     \label{eq:gaussnewton}
 \end{equation}
 
@@ -383,28 +388,11 @@ is the solution of the linear system
 $\mathbf{\nabla\phi}^k$ and $\mathbf{H}^k$ are, respectively,
 the gradient vector and the Hessian matrix of $\phi(\mathbf{p})$.
 
-The Steepest Descent method uses only the gradient direction
-to update the initial estimate \citep{kelley1987}.
-The update at the $k$th iteration is achieved by equating the Hessian
-in Eq.~\ref{eq:gaussnewton} to the identity matrix,
-
-\begin{equation}
-    \mathbf{\Delta p} = -\mathbf{\nabla\phi}^k.
-    \label{eq:steepest}
-\end{equation}
-
-\noindent
-Thus, it does not require the computation and storage of the Hessian matrix
-nor the solution of linear systems.
-However, the Steepest Descent method has poor convergence when the
-current solution is close to the minimum of the goal function
-\citep{kelley1987}.
-
 The gradient vector and the Gauss-Newton approximation of the Hessian matrix
 of $\phi(\mathbf{p})$ are, respectively,
 
 \begin{equation}
-    \mathbf{\nabla\phi}^k = -2\mathbf{A}^T[\mathbf{d}^o - \mathbf{d}(\mathbf{p}^k)],
+    \mathbf{\nabla\phi}^k = -2{\mathbf{A}^k}^T[\mathbf{d}^o - \mathbf{d}(\mathbf{p}^k)],
     \label{eq:gradient}
 \end{equation}
 
@@ -412,15 +400,16 @@ of $\phi(\mathbf{p})$ are, respectively,
 and
 
 \begin{equation}
-    \mathbf{H}^k \approx 2\mathbf{A}^T\mathbf{A},
+    \mathbf{H}^k \approx 2{\mathbf{A}^k}^T{\mathbf{A}^k},
     \label{eq:hessian}
 \end{equation}
 
 \noindent in which
-$\mathbf{A}$ is the Jacobian or sensitivity matrix,
+$\mathbf{A}^k$ is the $N \times M$ Jacobian or sensitivity matrix
+whose elements are
 
 \begin{equation}
-    A_{ij} = \dfrac{\partial f_i}{\partial p_j}(\mathbf{p^k}).
+    A_{ij}^k = \dfrac{\partial f_i}{\partial p_j}(\mathbf{p}^k).
     \label{eq:jacobian}
 \end{equation}
 
