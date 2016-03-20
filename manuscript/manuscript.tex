@@ -418,11 +418,11 @@ whose elements are
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Regularization}
 
-Non-linear inversions for the relief of an interface (like the Moho)
-are ill-posed and require additional constraints in the form of
-regularization \citep{silva2001b}.
-A common approach is to use the first-order Tikhonov regularization to impose
-smoothness on the solution.
+Non-linear gravity inversions for estimating the relief of an interface
+separating two media (like the Moho) are ill-posed and require additional
+constraints in the form of regularization \citep{silva2001b}.
+A common approach is to use the first-order Tikhonov regularization
+\citep{tikhonov1977} to impose smoothness on the solution.
 The cost function for smoothness regularization is given by
 
 \begin{equation}
@@ -431,10 +431,12 @@ The cost function for smoothness regularization is given by
 \end{equation}
 
 \noindent where $\mathbf{R}$ is an $L \times M$ finite-difference matrix
-representing the $L$ first-order differences between adjacent tesseroids.
+representing $L$ first-order differences between adjacent tesseroids.
 
-The solution $\hat{\mathbf{p}}$ to the regularized inverse problem is the one that
-minimizes the goal function
+To transform the ill-posed inverse problem into a well-posed one via Tikhonov
+regularization, we adopted the well-established procedure
+of formulating a constrained inverse problem that is solved by minimizing an
+unconstrained goal function
 
 \begin{equation}
     \Gamma(\mathbf{p}) = \phi(\mathbf{p}) + \mu\theta(\mathbf{p}),
@@ -443,16 +445,16 @@ minimizes the goal function
 
 \noindent
 in which $\mu$ is the regularization parameter that controls the balance
-between fitting the observed data and obeying the smoothness constraint.
+between fitting the observed data and obeying the smoothness constraint imposed
+by the regularizing function $\theta(\mathbf{p})$ (Eq.~\ref{eq:regul}).
 
 The goal function $\Gamma(\mathbf{p})$ is also non-linear with respect to
-$\mathbf{p}$ and can be minimized using the Gauss-Newton or Steepest Descent
-methods.
+$\mathbf{p}$ and can be minimized using the Gauss-Newton method.
 The gradient vector and Hessian matrix of the goal function are, respectively,
 
 \begin{equation}
     \mathbf{\nabla\Gamma}^k =
-        -2\mathbf{A}^T[\mathbf{d}^o - \mathbf{d}(\mathbf{p}^k)] +
+        -2{\mathbf{A}^k}^T[\mathbf{d}^o - \mathbf{d}(\mathbf{p}^k)] +
         2\mu\mathbf{R}^T\mathbf{R}\mathbf{p}^k,
     \label{eq:gradient-regul}
 \end{equation}
@@ -460,41 +462,34 @@ The gradient vector and Hessian matrix of the goal function are, respectively,
 \noindent and
 
 \begin{equation}
-    \mathbf{H}^k = 2\mathbf{A}^T\mathbf{A} + 2\mu\mathbf{R}^T\mathbf{R}.
+    \mathbf{H}^k = 2{\mathbf{A}^k}^T{\mathbf{A}^k}
+                   + 2\mu\mathbf{R}^T\mathbf{R}.
     \label{eq:hessian-regul}
 \end{equation}
 
-\noindent The parameter updates for the regularized Gauss-Newton and Steepest
-Descent methods, respectively, then become
+At the $k$th iteration, the parameter perturbation vector
+$\mathbf{\Delta p}^k$ is obtained by solving the linear equation system
 
 \begin{equation}
-    \left[\mathbf{A}^T\mathbf{A} + \mu\mathbf{R}^T\mathbf{R}\right]
-    \mathbf{\Delta p} =
-        \mathbf{A}^T[\mathbf{d}^o - \mathbf{d}(\mathbf{p}^k)] -
-        \mu\mathbf{R}^T\mathbf{R}\mathbf{p}^k,
+    \left[{\mathbf{A}^k}^T{\mathbf{A}^k} + \mu\mathbf{R}^T\mathbf{R}\right]
+    \mathbf{\Delta p}^k =
+    {\mathbf{A}^k}^T[\mathbf{d}^o - \mathbf{d}(\mathbf{p}^k)] -
+    \mu\mathbf{R}^T\mathbf{R}\mathbf{p}^k.
     \label{eq:gaussnewton-regul}
 \end{equation}
 
-\noindent and
-
-\begin{equation}
-    \mathbf{\Delta p} =
-        \mathbf{A}^T[\mathbf{d}^o - \mathbf{d}(\mathbf{p}^k)] -
-        \mu\mathbf{R}^T\mathbf{R}\mathbf{p}^k,
-    \label{eq:steepest-regul}
-\end{equation}
-
-Producing the regularized solution using the above equations is computationally
+Estimating the Moho depths using the above equations is computationally
 costly because of two main factors:
 (1) the evaluation and storage of the dense $N \times M$ Jacobian matrix
-$\mathbf{A}$
+${\mathbf{A}^k}$
 and (2) the solution of the resulting $M \times M$ equation system
 (not required for Steepest Descent).
 In practice, the derivatives in the Jacobian (Eq.~\ref{eq:jacobian})
 are often calculated through a first-order finite-difference approximation.
-Thus, evaluating $\mathbf{A}$ requires $2\times M \times N$ forward modeling
+Thus, evaluating ${\mathbf{A}^k}$ requires $2\times M \times N$ forward modeling
 operations for each iteration of the gradient descent algorithm.
-These computations are performed for each iteration of the optimization.
+These computations are performed for each iteration of the optimization
+of the goal function $\Gamma(\mathbf{p})$.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
