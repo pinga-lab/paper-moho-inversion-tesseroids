@@ -1209,9 +1209,9 @@ Fig.~\ref{fig:sam-corrections}d to obtain
 the sediment-free Bouguer disturbance (Fig.~\ref{fig:sam-data}a),
 which will be used as input for the inversion.
 
-The seismic point estimates of Moho depth used in the cross-validation
-procedure are from the data set of \citet{assumpcao2013a}.
-The 937 data points in this data set are shown in Fig.~\ref{fig:sam-data}b.
+Fig.~\ref{fig:sam-data}b shows the 937 known Moho depths (colored dots) which
+were estimated from seismological data by \citet{assumpcao2013a}.
+This data set is used in the cross-validation procedure.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1252,8 +1252,8 @@ Second, we use the estimated $\mu$ to run the cross-validation
 to estimate $z_{ref}$ and $\Delta\rho$,
 thus obtaining the final estimated Moho depth model.
 
-We split the sediment-free gravity data into the training and testing data
-sets.
+We split the sediment-free gravity disturbance (Fig.~\ref{fig:sam-data}a) into
+the training and testing data sets.
 The training data set is a regular grid with $0.4^\circ$ grid spacing
 (twice the spacing of the original data grid)
 and $N_{lat} \times N_{lon} = 201 \times 151$ grid points,
@@ -1269,12 +1269,12 @@ suggesting that little or no regularization is required.
 We proceed with the second cross-validation using $\mu = 10^{-10}$ in all
 inversions.
 We test all combinations of
-seven values of $z_{ref}$, from 20 to 35 km with 2.5 km intervals,
+seven values of $z_{ref}$, from 20 to 40 km with 2.5 km intervals,
 and seven values of $\Delta\rho$, from 200 to 500 $kg/m^3$
 with 50 $kg/m^3$ intervals.
 Fig.~\ref{fig:sam-cv}b shows a map of the MSE
 with respect to the \citet{assumpcao2013a} data set.
-The MSE has a well defined minimum, indicated by the red triangle,
+The MSE has a well-defined minimum, indicated by the red triangle,
 at $z_{ref} = 35\ km$ and $\Delta\rho = 400\ kg/m^3$.
 
 
