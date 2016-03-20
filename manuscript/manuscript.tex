@@ -963,9 +963,9 @@ show that the time spent on forward modeling accounts for approximately
         Each pixel in the pseudo-color image corresponds to a tesseroid of the
         model.
         (b) Noise-corrupted synthetic gravity data generated from the model.
-        (c) Synthetic seismic data simulating point estimates of Moho depth.
-        The point estimates were obtained by interpolating
-        the Moho depth in (a).
+        (c) Simulated points where the Moho depths are known from seismological
+        estimates (color dots).  Here, these point were obtained by
+        interpolating the Moho depth in (a).
     }
     \label{fig:crust1-data}
 \end{figure*}
@@ -1021,8 +1021,8 @@ requires knowledge of the Moho depth at certain points
 usually from seismic experiments.
 Thus, we must also generate synthetic seismic data about the Moho depth.
 We produce such data by interpolating the Moho depth shown in
-Fig.~\ref{fig:crust1-data}a on the same geographic coordinates
-as the 937 points from the \citet{assumpcao2013a} data set.
+Fig.~\ref{fig:crust1-data}a on the same 937 geographic coordinates
+pinpointed in the data set of \citet{assumpcao2013a}.
 The resulting synthetic seismic data is shown in Fig.~\ref{fig:crust1-data}c.
 
 We perform the cross-validation procedures in two parts.
@@ -1051,7 +1051,7 @@ equally spaced in a logarithmic scale between $10^{-7}$ and $10^{-2}$.
 For each of the 16 estimates we compute the MSE (Eq.~\ref{eq:msemu}),
 shown in Fig.~\ref{fig:crust1-results}a as function of $\mu$.
 The optimal regularization parameter that minimizes the MSE is $\mu = 10^{-4}$
-(indicated by the red triangle).
+(red triangle in Fig.~\ref{fig:crust1-results}a).
 
 In the second cross-validation,
 we use the estimated value of $\mu$ in all inversions.
@@ -1074,7 +1074,7 @@ The recovered model is smooth, indicating that the cross-validation procedure
 was effective in estimating an optimal regularization parameter.
 Fig.~\ref{fig:crust1-results}d shows the difference between
 the true Moho depths (Fig.~\ref{fig:crust1-data}a)
-and the estimated depths.
+and the estimated depths (Fig.~\ref{fig:crust1-results}c).
 The maximum and minimum differences are, respectively,
 9.8 and -8.2 km.
 The largest absolute differences are located along the central and northern
@@ -1084,11 +1084,11 @@ Positive differences (indicating a too shallow estimate)
 appear along the central portion of the Andes,
 flanked by regions of negative differences (indicating a too deep estimate)
 on the continental and Pacific sides.
-Figs.~\ref{fig:crust1-results}e and g show the inversion residuals (difference
-between the observed and predicted data).
-The inversion residuals appear normally distributed,
+Figs.~\ref{fig:crust1-results}e and g show the gravity residuals,
+defined as the difference between the observed and predicted gravity data.
+The residuals appear normally distributed,
 with 0.03 mGal mean and a standard deviation of 4.10 mGal.
-The residuals follow a similar, though reversed, pattern
+The gravity residuals follow a similar, though reversed, pattern
 to the differences shown in Fig.~\ref{fig:crust1-results}d.
 The largest residuals (in absolute value) are along the Andes,
 with the central portion being dominated by negative residuals
