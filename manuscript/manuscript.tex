@@ -1,5 +1,5 @@
-%\documentclass[extra,mreferee]{gji}
-\documentclass[extra]{gji}
+\documentclass[extra,mreferee]{gji}
+%\documentclass[extra]{gji}
 \usepackage{timet}
 \usepackage{amsmath}
 \usepackage{graphicx}
@@ -590,7 +590,9 @@ established formalism of Tikhonov regularization.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Estimating the regularization parameter}
+\subsection{Estimating the inversion hyper-parameters}
+
+\subsubsection{The regularization parameter}
 
 \begin{figure}
     \centering
@@ -618,19 +620,24 @@ and a testing set $\mathbf{d}^o_{test}$.
 The training set is used in the inversion
 while the testing set is kept back
 and used to judge the quality of the chosen value of $\mu$.
-For a value of the regularization parameter $\mu_k$,
-the training set is inverted using $\mu_k$
-to obtain an estimate $\mathbf{\hat{p}}^k$.
+For a value of the regularization parameter $\mu_n$,
+the training set is inverted using $\mu_n$
+to obtain an estimate $\mathbf{\hat{p}}^n$.
 This estimate is used to calculate predicted data
 on the same points as the testing set
 via forward modeling
-($\mathbf{d}_{test}^k = \mathbf{f}(\mathbf{\hat{p}}^k$)).
-The metric chosen to evaluate $\mu_k$ is
+
+\begin{equation}
+    \mathbf{d}_{test}^n = \mathbf{f}(\mathbf{\hat{p}}^n).
+    \label{eq:predicted_testing}
+\end{equation}
+
+The metric chosen to evaluate $\mu_n$ is
 the mean square error (MSE) of the misfit
 between the observed and predicted testing data sets,
 
 \begin{equation}
-    MSE_k = \dfrac{\|\mathbf{d}^o_{test} - \mathbf{d}^k_{test}\|^2}{N_{test}},
+    MSE_n = \dfrac{\|\mathbf{d}^o_{test} - \mathbf{d}^n_{test}\|^2}{N_{test}},
     \label{eq:msemu}
 \end{equation}
 
@@ -646,16 +653,16 @@ The algorithm for the hold-out cross-validation is summarized as follows:
     \item Divide the observed data into
         the training ($\mathbf{d}^o_{inv}$)
         and testing ($\mathbf{d}^o_{test}$) sets.
-    \item For each $\mu_k \in [\mu_1, \mu_2, \ldots, \mu_{N_{\mu}}]$:
+    \item For each $\mu_n \in [\mu_1, \mu_2, \ldots, \mu_{N_{\mu}}]$:
     \begin{enumerate}
-        \item Estimate $\mathbf{\hat{p}}^k$ by inverting the training set
+        \item Estimate $\mathbf{\hat{p}}^n$ by inverting the training set
             $\mathbf{d}^o_{inv}$.
-        \item Use $\mathbf{\hat{p}}^k$ to calculate the predicted testing set
-            $\mathbf{d}^k_{test}$.
-        \item Calculate the mean square error $MSE_k$ using Eq.~\ref{eq:msemu}.
+        \item Use $\mathbf{\hat{p}}^n$ to calculate the predicted testing set
+            $\mathbf{d}^n_{test}$ using Eq.~\ref{eq:predicted_testing}.
+        \item Calculate the mean square error $MSE_n$ using Eq.~\ref{eq:msemu}.
     \end{enumerate}
-    \item The final solution is the $\mathbf{\hat{p}}^k$ corresponding to the
-        smallest $MSE_k$.
+    \item The final solution is the $\mathbf{\hat{p}}^n$ corresponding to the
+        smallest $MSE_n$.
 \end{enumerate}
 
 The separation of the training and testing data sets is commonly done by taking
@@ -678,8 +685,7 @@ or from a spherical harmonic model.
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Estimating $z_{ref}$ and $\Delta\rho$}
+\subsubsection{$z_{ref}$ and $\Delta\rho$}
 
 The depth of the Normal Earth Moho ($z_{ref}$)
 and the density-contrast of the anomalous Moho ($\Delta\rho$)
@@ -700,7 +706,7 @@ experiments.
 
 Let $\mathbf{z}_s^o$ be a vector of $N_s$ known Moho depths.
 We use the mean square error (MSE)
-as a measure of how well a given inversion output $\mathbf{\hat{p}}^k$
+as a measure of how well a given inversion output $\mathbf{\hat{p}}^{l,m}$
 fits the know depths.
 The optimal values of $z_{ref}$ and $\Delta\rho$
 are the ones that best fit the independent known Moho depths
@@ -708,12 +714,12 @@ are the ones that best fit the independent known Moho depths
 However, the points do not necessarily coincide
 with the model elements of the inversion.
 Before computing the MSE,
-we interpolate $\mathbf{\hat{p}}^k$ on the known points
-to obtain the predicted depths $\mathbf{z}_s^k$.
+we interpolate $\mathbf{\hat{p}}^{l,m}$ on the known points
+to obtain the predicted depths $\mathbf{z}_s^{l,m}$.
 The MSE is defined as
 
 \begin{equation}
-    MSE = \dfrac{\|\mathbf{z}^o_s - \mathbf{z}^k_{s}\|^2}{N_s}.
+    MSE = \dfrac{\|\mathbf{z}^o_s - \mathbf{z}^{l,m}_{s}\|^2}{N_s}.
     \label{eq:msehyper}
 \end{equation}
 
