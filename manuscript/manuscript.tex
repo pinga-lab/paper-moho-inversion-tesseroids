@@ -592,7 +592,28 @@ established formalism of Tikhonov regularization.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Estimating the inversion hyper-parameters}
 
-\subsubsection{The regularization parameter}
+Parameters that influence the inversion result but are not estimated directly
+in the inversion are known as hyper-parameters.
+In the case of our regularized Moho depth inversion, the hyper-parameters are
+the regularization parameter $\mu$ (Eq.~\ref{eq:goalfunction}),
+the Moho density-contrast $\Delta \rho$ (Eq.~\ref{eq:bott-gaussnewton}),
+and the depth of the Normal Earth Moho, or reference level, $z_{ref}$
+(Fig.~\ref{fig:anomalysketch}b).
+
+We estimate these hyper-parameters in two steps.
+First, we assume fixed values for
+$z_{ref}$ and $\Delta\rho$ and perform a cross-validation procedure
+\citep{hansen1992} to estimate an optimal value for $\mu$.
+Our investigations suggest that the outcome of this round of cross-validation
+does not depend on the particular values of $z_{ref}$ and $\Delta\rho$ used.
+Second, we use the estimated $\mu$ to perform a second cross-validation
+procedure to estimate $z_{ref}$ and $\Delta\rho$.
+The outcome of both cross-validations is not only the values of the three
+hyper-parameters but the final estimated Moho depths.
+
+
+
+\subsubsection{Estimating the regularization parameter}
 
 \begin{figure}
     \centering
@@ -645,7 +666,7 @@ between the observed and predicted testing data sets,
 in which $N_{test}$ is the number of data in the testing set.
 The optimal value of $\mu$ will be the one that minimizes the MSE,
 i.e. the one that best predicts the testing data.
-We emphasize that the inversion is performed only on the training data set.
+We emphasize that the inversion is performed on the training data set only.
 
 The algorithm for the hold-out cross-validation is summarized as follows:
 
@@ -672,7 +693,7 @@ Bott's method requires data on a regular grid as well as having model elements
 directly below each data point.
 Thus, we take as our training set the points from the observed data grid that
 fall on a similar grid but with twice the grid spacing
-(white dots with black outlines in Fig.~\ref{fig:grid_separation}).
+(open circles in Fig.~\ref{fig:grid_separation}).
 All other points from the original data grid
 make up the testing data set
 (black dots in Fig.~\ref{fig:grid_separation}).
@@ -685,7 +706,7 @@ or from a spherical harmonic model.
 
 
 
-\subsubsection{$z_{ref}$ and $\Delta\rho$}
+\subsubsection{Estimating $z_{ref}$ and $\Delta\rho$}
 
 The depth of the Normal Earth Moho ($z_{ref}$)
 and the density-contrast of the anomalous Moho ($\Delta\rho$)
@@ -1039,8 +1060,6 @@ The starting estimate for all inversions is
 For this cross-validation,
 we keep $z_{ref}$ and $\Delta\rho$ fixed to
 $20\ km$ and $500\ kg/m^3$, respectively.
-Our investigations suggest that the outcome of this round of cross-validation
-does not depend on the particular values of $z_{ref}$ and $\Delta\rho$ used.
 Second, we use the estimated $\mu$ to run the cross-validation
 to estimate $z_{ref}$ and $\Delta\rho$,
 thus obtaining the final estimated Moho depths.
