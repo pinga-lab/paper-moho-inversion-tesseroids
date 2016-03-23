@@ -10,11 +10,11 @@ Defines the classes:
 
 * `TesseroidRelief`: Class to represent a relief undulating around a reference
   level and discretized into tesseroids.
-  
+
 See the Jupyter notebooks 'moho-inversion-example.ipynb' and
 'tesseroid-relief-example.ipynb' for instructions and example usage of these
 classes.
-  
+
 Also defines utility functions for cross-validation:
 
 * `fit_all`: Call the fit method of a list of solvers in parallel
@@ -41,7 +41,7 @@ import warnings
 def score_all(solutions, test_data, points, njobs=1):
     """
     Get the cross-validation score for all solutions using *njobs* processes.
-    
+
     If points is True, will assume test_data are the seismic point constraints.
     Otherwise, will assume it's the test data set.
     """
@@ -59,7 +59,7 @@ def score_all(solutions, test_data, points, njobs=1):
 def _call_score(args):
     """
     Call score_test_set or score_seismic_constraints on the solution.
-    
+
     Needed because multiprocessing.Pool.map only allows functions with
     a single argument.
     """
@@ -76,16 +76,16 @@ def _call_score(args):
 
 def predict_seismic(moho, lat, lon):
     """
-    Calculate the predicted Moho depth at the seismic points 
+    Calculate the predicted Moho depth at the seismic points
     from the estimated model.
-    
+
     Values are interpolated onto (lat, lon) from the given 'moho'.
     """
-    estimated = gridder.interp_at(moho.clat.ravel(), moho.clon.ravel(), moho.relief, 
+    estimated = gridder.interp_at(moho.clat.ravel(), moho.clon.ravel(), moho.relief,
                                   lat, lon, extrapolate=True)
     return estimated
 
-    
+
 def score_seismic_constraints(moho, lat, lon, height):
     """
     Return the MSE between the moho estimate and the point constraints.
@@ -95,10 +95,10 @@ def score_seismic_constraints(moho, lat, lon, height):
     return score
 
 
-def fit_all(solvers, njobs=1): 
+def fit_all(solvers, njobs=1):
     """
     Run ``fit`` for all solvers using *njobs* processes.
-    
+
     Utility function for cross-validation.
     """
     if njobs > 1:
@@ -114,9 +114,9 @@ def fit_all(solvers, njobs=1):
 def _call_fit(solver):
     """
     Call the ``fit`` method of a solver object.
-    
+
     Needed to run the map method of a multiprocessing.Pool object.
-    
+
     If any exceptions arise, returns None.
     """
     try:
@@ -130,9 +130,9 @@ def score_test_set(model, lat, lon, height, data, njobs=1):
     """
     Score a given tesseroid model based on the Mean Square Error
     between the given data and the one predicted by the model.
-    
+
     Parameters:
-    
+
     * model : list of Tesseroids or TesseroidRelief
         The model to score
     * lat, lon, height : 1d-arrays
@@ -141,12 +141,12 @@ def score_test_set(model, lat, lon, height, data, njobs=1):
         The observed data that will be compared to the predicted data
     * njobs : int
         The number of processes to use for the forward modeling
-        
+
     Returns:
-    
+
     * score : float
         The MSE
-        
+
     """
     predicted = tesseroid.gz(lon, lat, height, model, njobs=njobs)
     score = np.sum((predicted - data)**2)/data.size
@@ -156,25 +156,25 @@ def score_test_set(model, lat, lon, height, data, njobs=1):
 def split_data(data, shape, every_other):
     """
     Split the data into inversion and test datasets
-    
+
     Parameters:
-    
+
     * data : list of 1d-arrays
-        List with the data arrays that will be divided (like lon, lat, 
+        List with the data arrays that will be divided (like lon, lat,
         gravity, etc)
     * shape : tuple = (nlat, nlon)
         The original shape of the data grid
     * every_other : int
         Will divide by taking every other "every_other" grid point
-        for the inversion dataset. The remaining points will be the 
+        for the inversion dataset. The remaining points will be the
         test data.
-        
+
     Returns:
-    
+
     * inversion_set, test_set, inversion_shape:
         The inversion_set and test_set are lists in the same order as "data".
         inversion_shape is the shape of the new inversion dataset
-        
+
     """
     data = [i.reshape(shape) for i in data]
     # Take "every_other" point for the inversion
@@ -231,11 +231,33 @@ def make_mesh(area, shape, relief=None, reference=None):
 class MohoGravityInvSpherical(Misfit):
     """
     Gravity inversion for the relief of the Moho using tesseroids.
+
+    Uses the 'fatiando.inversion' package to implement the inversion.
+    This class defines the methods to calculate the predicted data (through
+    tesseroid forward modeling) and the Jacobian matrix (the diagonal
+    approximation of Bott's method). Solving the inverse problem through
+    Gauss-Newton is handled by the 'Misfit' class of 'fatiando.inversion'.
+    Smoothness regularization is handled by the 'Smoothness2D' class of
+    'fatiando.inversion'.
+
+    Parameters:
+
+    * lat, lon, height : 1d-arrays
+        The latitude, longitude, and height coordinates of the data points.
+    * data : 1d-array
+        The observed gravity data
+    * mesh : TesseroidRelief
+        The mesh (interpretative model) of the inversion as a TesseroidRelief
+        object.
+    * njobs : int
+        The number of processes to use during forward modeling. Use a value > 1
+        to run in parallel.
+
     """
 
     def __init__(self, lat, lon, height, data, mesh, njobs=1, field='gz'):
-        super(MohoGravityInvSpherical, self).__init__(data=data, nparams=mesh.size,
-                                                      islinear=False, cache=False)
+        super(MohoGravityInvSpherical, self).__init__(
+            data=data, nparams=mesh.size, islinear=False, cache=False)
         # Not caching the Jacobian and Hessian because
         # the Jacobian (and thus the Hessian) change depending
         # on the optimization method used. This will not be
@@ -319,7 +341,7 @@ class MohoGravityInvSpherical(Misfit):
 
     def set_density(self, density):
         """
-        Set the density constrast along the mesh.
+        Set the density contrast along the mesh.
         """
         self.mesh.props['density'] = np.ones(self.mesh.size)*density
         self.fix_density(self.mesh)
@@ -332,7 +354,7 @@ class MohoGravityInvSpherical(Misfit):
         # Create the process pool if using more than one job.
         # Need to to this here so that I can reuse the pool object
         # on every call to *predicted*. Otherwise, would have to
-        # create a pull everytime and that has a large overhead.
+        # create a pool every time and that has a large overhead.
         if self.njobs > 1:
             self.pool = multiprocessing.Pool(self.njobs)
         super(MohoGravityInvSpherical, self).fit()
@@ -361,7 +383,27 @@ class MohoGravityInvSpherical(Misfit):
 
 class TesseroidRelief(object):
     """
-    Implements a relief ondulating around a reference level using tesseroids.
+    Implements a tesseroid model of an interface undulating around a reference
+    level.
+
+    This class behaves like a sequence of 'Tesseroid' objects, so you can pass
+    it along to any function that iterates over tesseroids (like the forward
+    modeling function of 'fatiando.gravmag.tesseroid').
+
+    Parameters:
+
+    * area : [s, n, w, e]
+        The south, north, west, and east limits of the mesh in degrees.
+    * shape : (nlat, nlon)
+        The number of tesseroids in the latitude and longitude directions. Will
+        discretize *area* into this number of tesseroids.
+    * relief : 1d-array
+        The height-coordinates of the relief
+    * reference : float
+        The height-coordinate of the reference level.
+    * props : dict
+        Dictionary with the physical properties of the mesh.
+
     """
 
     def __init__(self, area, shape, relief, reference, props=None):
