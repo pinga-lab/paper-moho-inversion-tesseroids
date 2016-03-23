@@ -1,4 +1,4 @@
-# Fast non-linear gravity inversion in spherical coordinates with application to the South American Moho
+# Fast non-linear gravity inversion in spherical coordinates
 
 [Leonardo Uieda](http://www.leouieda.com)
 and
@@ -18,8 +18,14 @@ The inversions and figure generation are performed in
 You can view static (non-executable) versions of these files in
 [the nbviewer webservice](http://nbviewer.jupyter.org/github/pinga-lab/paper-moho-inversion-tesseroids/tree/master/code/).
 PDF versions of the notebooks are also available in the `code` folder.
+
+The method was used to estimate the Moho depth of South America.
 The final estimated Moho model for South America is available the file
 `model/south-american-moho.txt` in ASCII xyz format.
+`model/south-american-moho.jpg` is a preview of what the model looks like
+(figure `manscript/figures/south-america-moho.eps` from the paper):
+
+![Preview of the estimated Moho depth for South America](https://raw.githubusercontent.com/pinga-lab/paper-moho-inversion-tesseroids/master/model/south-american-moho.jpg?token=AARtIt4v4DyB2aGd81JkbfVlM7sbFqq5ks5W_ClzwA%3D%3D)
 
 
 ## Reproducing the results
