@@ -10,5 +10,5 @@ pdf: $(NOTEBOOK_PDFS)
 	jupyter nbconvert --to pdf $<
 
 clean:
-	rm -rf *.png profiling.txt *~ .*~ *.pdf
+	rm -rf *.png profiling.txt *~ .*~
 	find . -name "*.pyc" -exec rm -v {} \;
