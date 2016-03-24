@@ -7,6 +7,12 @@
 
 for f in *.eps
 do
-    convert -density 400 $f "$(basename "$f" .eps).png"
+    echo "Converting "$f
+    # Convert first to highres PNG because converting the Moho estimates to
+    # lowres is ugly. White lines appear between the model tiles.
+    convert -density 1200 $f tmp.png
+    # Now I can resample the highres PNG to a lower DPI without the ugly white
+    # lines.
+    convert -units PixelsPerInch tmp.png -resample 300 "$(basename "$f" .eps).png"
+    rm tmp.png
 done
-convert -density 800 south-america-moho.eps south-america-moho.png

@@ -68,7 +68,6 @@ wc: all
 clean::
 	rm -rf $(OUTPUT)/ *.aux
 	rm -rf $(FIGS)/*-eps-converted-to.pdf
-	rm -rf $(FIGS)/*.png
 
 # Remove embedded fonts from the figure EPS files. The GJI system doesn't like
 # them.
