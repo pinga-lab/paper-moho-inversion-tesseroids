@@ -483,8 +483,7 @@ Estimating the Moho depths using the above equations is computationally
 costly because of two main factors:
 (1) the evaluation and storage of the dense $N \times M$ Jacobian matrix
 ${\mathbf{A}^k}$
-and (2) the solution of the resulting $M \times M$ equation system
-(not required for Steepest Descent).
+and (2) the solution of the resulting $M \times M$ equation system.
 In practice, the derivatives in the Jacobian (Eq.~\ref{eq:jacobian})
 are often calculated through a first-order finite-difference approximation.
 Thus, evaluating ${\mathbf{A}^k}$ requires $2\times M \times N$ forward modeling
