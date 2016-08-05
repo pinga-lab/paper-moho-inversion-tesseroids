@@ -12,29 +12,23 @@
 # The name of the main .tex file to build.
 # Other files can be included into this one.
 PROJECT = manuscript
-
-# Folder with the Latex source files
-SRC = .
-
+R1 = $(PROJECT)-marked-R1
 # Folder where the figure files are (will assume they are EPS format)
-FIGS = figures
-
+FIGDIR = figures
 # Folder where the BibTex .bib files are
-BIB = .
-
+BIBDIR = .
 # Folder where the .cls .bst and .sty style files are
-STYLES = $(SRC)
-
+STYLEDIR = .
 # Folder where output will be placed
 OUTPUT = output
 
 ### File Types (for dependencies)
-TEX_FILES = $(shell find $(SRC) -maxdepth 1 -name '*.tex')
-BIB_FILES = $(shell find $(BIB) -maxdepth 1 -name '*.bib')
-STY_FILES = $(shell find $(STYLES) -maxdepth 1 -name '*.sty')
-CLS_FILES = $(shell find $(STYLES) -maxdepth 1 -name '*.cls')
-BST_FILES = $(shell find $(STYLES) -maxdepth 1 -name '*.bst')
-EPS_FILES = $(shell find $(FIGS) -name '*.eps')
+BIB = $(shell find $(BIBDIR) -maxdepth 1 -name '*.bib')
+STY = $(shell find $(STYLEDIR) -maxdepth 1 -name '*.sty')
+CLS = $(shell find $(STYLEDIR) -maxdepth 1 -name '*.cls')
+BST = $(shell find $(STYLEDIR) -maxdepth 1 -name '*.bst')
+EPS = $(shell find $(FIGDIR) -name '*.eps')
+EXTRA = profiling.tex
 
 ### Compilation Flags
 LATEX_FLAGS  = -halt-on-error -output-directory $(OUTPUT)/
@@ -78,6 +72,7 @@ stripfonts:
 pngs:
 	cd $(FIGS); bash topng.sh
 
+
 # BUILD THE SOURCES
 ###############################################################################
 # Performs the typical build process for latex generations so that all
@@ -93,16 +88,24 @@ pngs:
 $(OUTPUT)/:
 	mkdir -p $(OUTPUT)/
 
-$(OUTPUT)/$(PROJECT).aux: $(TEX_FILES) $(STY_FILES) $(CLS_FILES) $(EPS_FILES) | $(OUTPUT)/
-	pdflatex $(LATEX_FLAGS) $(SRC)/$(PROJECT)
-	cp $@ .
+$(OUTPUT)/%.aux: %.tex $(STY) $(CLS) $(EPS) $(EXTRA) | $(OUTPUT)/
+	pdflatex $(LATEX_FLAGS) $<
 	# Copy the aux file next to the tex file for Vim completion purposes
+	cp $@ .
 
-$(OUTPUT)/$(PROJECT).bbl: $(BIB_FILES) $(BST_FILES) | $(OUTPUT)/$(PROJECT).aux
-	cp $(BIB_FILES) $(OUTPUT)
-	cp $(BST_FILES) $(OUTPUT)
-	cd $(OUTPUT) && bibtex $(PROJECT)
-	pdflatex $(LATEX_FLAGS) $(SRC)/$(PROJECT)
+$(OUTPUT)/%.bbl: %.tex $(OUTPUT)/%.aux $(BIB) $(BST)
+	cp $(BIB) $(OUTPUT)
+	cp $(BST) $(OUTPUT)
+	cd $(OUTPUT) && bibtex $(patsubst %.tex,%,$<)
+	pdflatex $(LATEX_FLAGS) $<
 
-$(OUTPUT)/$(PROJECT).pdf: $(OUTPUT)/$(PROJECT).aux $(OUTPUT)/$(PROJECT).bbl
-	pdflatex $(LATEX_FLAGS) $(SRC)/$(PROJECT) 1>/dev/null
+$(OUTPUT)/%.pdf: %.tex $(OUTPUT)/%.aux $(OUTPUT)/%.bbl
+	pdflatex $(LATEX_FLAGS) $< 1>/dev/null
+
+
+# MAKE THE VERSION WITH MARKED DIFFERENCES
+###############################################################################
+r1: $(OUTPUT)/$(R1).pdf
+
+$(R1).tex: $(PROJECT).tex $(STY) $(CLS) $(EPS) $(EXTRA) | $(OUTPUT)/
+	git ldiff submission $< > $@
