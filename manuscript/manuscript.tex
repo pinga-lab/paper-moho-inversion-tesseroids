@@ -957,7 +957,7 @@ the execution of a program.
 We ran the profiler on a single inversion of the training data set
 using the estimated regularization parameter.
 We tracked the total time spent inside each of the three functions
-that represent the largest computational bottlenecks of the inversion:
+that represent the potential bottlenecks of the inversion:
 solving the linear system in Eq.~\ref{eq:gaussnewton-regul}
 using the conjugate gradient method,
 performing the dot products required to compute
@@ -1146,7 +1146,8 @@ are not available, like in South America and Africa.
 Hence, for the purposes of this study, we will assume to be negligible all
 other crustal and mantle sources, including lateral variations in density along
 the Moho.
-
+All tesseroid models are defined with respect to a spherical Earth of radius
+6,378.137 km.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Gravity and seismic data}
