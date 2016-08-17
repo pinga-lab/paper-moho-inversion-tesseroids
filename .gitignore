@@ -4,6 +4,7 @@
 *.swp
 manuscript/output/
 manuscript/*.aux
+manuscript/*-marked-*.tex
 manuscript/figures/*-eps-converted-to.pdf
 manuscript/figures/*.png
 code/*.png

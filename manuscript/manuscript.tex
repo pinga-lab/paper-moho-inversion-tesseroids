@@ -40,7 +40,7 @@
     pdfsubject={},
     pdfkeywords={\Keywords},
     pdfcreator={pdfTeX},
-    allcolors=blue,
+    allcolors=black,
 }
 
 
@@ -431,7 +431,8 @@ The cost function for smoothness regularization is given by
 \end{equation}
 
 \noindent where $\mathbf{R}$ is an $L \times M$ finite-difference matrix
-representing $L$ first-order differences between adjacent tesseroids.
+representing $L$ first-order differences between the depths of adjacent
+tesseroids.
 
 To transform the ill-posed inverse problem into a well-posed one via Tikhonov
 regularization, we adopted the well-established procedure
@@ -482,8 +483,7 @@ Estimating the Moho depths using the above equations is computationally
 costly because of two main factors:
 (1) the evaluation and storage of the dense $N \times M$ Jacobian matrix
 ${\mathbf{A}^k}$
-and (2) the solution of the resulting $M \times M$ equation system
-(not required for Steepest Descent).
+and (2) the solution of the resulting $M \times M$ equation system.
 In practice, the derivatives in the Jacobian (Eq.~\ref{eq:jacobian})
 are often calculated through a first-order finite-difference approximation.
 Thus, evaluating ${\mathbf{A}^k}$ requires $2\times M \times N$ forward modeling
@@ -551,7 +551,7 @@ the inversion to the unstable estimate, as in \citet{silva2014}.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Regularized Bott's method in spherical coordinates}
+\subsection{Combining Bott's method, regularization, and tesseroids}
 
 We propose a regularized version of Bott's method to invert gravity data for
 estimating the depth of the Moho in spherical coordinates.
@@ -568,8 +568,16 @@ but replaces the full Jacobian matrix with the Bouguer plate approximation
 Here, the Jacobian matrix is a diagonal matrix whose elements are invariant
 along successive iterations.
 Using this approximation eliminates the cost of computing and storing
-the full Jacobian matrix $\mathbf{A}^k$ at each iteration
+the full $N \times M$-dimensional Jacobian matrix $\mathbf{A}^k$ at each
+iteration
 (Eq.~\ref{eq:jacobian}).
+Traditionally, the Jacobian matrix is computed using a first-order finite
+difference scheme,
+which requires $2 \times N \times M$ forward modeling operations per iteration.
+Using Eq.~\ref{eq:bott-gaussnewton} requires $N$ multiplications that need only
+be performed once.
+This provides a considerable speed gain.
+
 Matrix arithmetic operations can be performed efficiently by taking advantage
 of the sparse nature of matrices $\mathbf{A}$ and $\mathbf{R}$
 (respectively, Eq.~\ref{eq:bott-gaussnewton} and \ref{eq:regul}).
@@ -583,7 +591,8 @@ because of the numerical integration and adaptive discretization
 We show later in this article that sparse matrix multiplications and solving
 the sparse linear system in Eq.~\ref{eq:gaussnewton-regul} account for less
 than 0.1\% of the computation time required for a single inversion.
-Hence, by employing the use of sparse matrices, our formulation retains the
+
+The main computational advantage of our formulation is that it retains the
 efficiency of Bott's method while stabilizing the solution through the well
 established formalism of Tikhonov regularization.
 
@@ -957,7 +966,7 @@ the execution of a program.
 We ran the profiler on a single inversion of the training data set
 using the estimated regularization parameter.
 We tracked the total time spent inside each of the three functions
-that represent the largest computational bottlenecks of the inversion:
+that represent the potential bottlenecks of the inversion:
 solving the linear system in Eq.~\ref{eq:gaussnewton-regul}
 using the conjugate gradient method,
 performing the dot products required to compute
@@ -1146,7 +1155,8 @@ are not available, like in South America and Africa.
 Hence, for the purposes of this study, we will assume to be negligible all
 other crustal and mantle sources, including lateral variations in density along
 the Moho.
-
+All tesseroid models are defined with respect to a spherical Earth of radius
+6,378.137 km.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Gravity and seismic data}
@@ -1418,10 +1428,13 @@ estimates can reach 10 km or more.
 We have developed a computationally efficient gravity inversion method in
 spherical coordinates.
 Our method extends the Gauss-Newton formulation of Bott's method
-\citep{silva2014} to use tesseroids as model elements and smoothness
+\citep{silva2014} to use tesseroids as model elements and Tikhonov
 regularization.
-We retain the computational efficiency of Bott's method by taking advantage of
-the sparse nature of all matrices involved.
+The computational efficiency of our method is due to
+using Bott's approximation for the Jacobian matrix
+(Eq.~\ref{eq:bott-gaussnewton})
+and using sparse matrix algorithms for arithmetic operations and the solution
+of linear systems..
 We employ two cross-validation techniques to estimate the hyper-parameters of
 the inversion: the regularization parameter, the Moho density-contrast, and the
 Normal Earth Moho depth.
