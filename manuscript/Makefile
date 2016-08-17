@@ -28,6 +28,7 @@ STY = $(shell find $(STYLEDIR) -maxdepth 1 -name '*.sty')
 CLS = $(shell find $(STYLEDIR) -maxdepth 1 -name '*.cls')
 BST = $(shell find $(STYLEDIR) -maxdepth 1 -name '*.bst')
 EPS = $(shell find $(FIGDIR) -name '*.eps')
+PNGS = $(patsubst %.eps,%.png,$(EPS))
 EXTRA = profiling.tex
 
 ### Compilation Flags
@@ -69,9 +70,10 @@ stripfonts:
 	cd $(FIGS); bash strip-fonts.sh
 
 # Convert images to PNG
-pngs:
-	cd $(FIGS); bash topng.sh
+pngs: $(PNGS)
 
+%.png: %.eps
+	bash $(FIGDIR)/topng.sh $<
 
 # BUILD THE SOURCES
 ###############################################################################
