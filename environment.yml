@@ -3,14 +3,13 @@ dependencies:
     - python=2.7
     - pip
     - future
-    - numpy=1.9.3
-    - scipy=0.16.0
-    - matplotlib=1.4.3
-    - basemap=1.0.7
-    - pillow=3.0.0
-    - numba=0.18.2
-    - jupyter=1.0.0
-    - mayavi=4.4.0
-    - seaborn=0.6.0
+    - numpy
+    - scipy
+    - matplotlib
+    - basemap
+    - pillow
+    - numba
+    - jupyter
+    - seaborn
     - pip:
-        - https://github.com/fatiando/fatiando/archive/master.zip
+        - fatiando==0.4
