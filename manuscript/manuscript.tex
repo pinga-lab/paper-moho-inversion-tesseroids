@@ -1436,7 +1436,11 @@ The computational efficiency of our method is due to
 using Bott's approximation for the Jacobian matrix
 (Eq.~\ref{eq:bott-gaussnewton})
 and using sparse matrix algorithms for arithmetic operations and the solution
-of linear systems..
+of linear systems.
+The Bouguer plate approximation in Eq.~\ref{eq:bott-gaussnewton} is adequate
+and the method converges
+even when the data are at higher altitudes and the model is not outcropping,
+as shown by the applications to synthetic data.
 We employ two cross-validation techniques to estimate the hyper-parameters of
 the inversion: the regularization parameter, the Moho density-contrast, and the
 Normal Earth Moho depth.
