@@ -1447,6 +1447,22 @@ We employ hold-out cross-validation to estimate the regularization parameter
 and a validation procedure using seismological data to estimate the Moho
 density-contrast and the Normal Earth Moho depth.
 
+There are two main advantages of the proposed method over previous works.
+First, unlike the Parker-Oldenburg method \citep{oldenburg1974} or methods
+using rectangular prisms, our inversion method does not require the data to be
+projected onto a plane.
+Second, the Parker-Oldenburg method and methods derived from \citet{bott1960}
+\citep[e.g., ][]{silva2014,santos2015} cannot apply the
+traditional methodology for constraining inverse problems
+described in \citet{silva2001b}.
+Our method has no such restriction because we use the formalism of traditional
+Tikhonov inversion.
+However, the proposed method is not without limitations.
+It requires data on a regular grid and restricts the
+model to be a regular mesh tied to the data grid.
+There is also the limitation that, like \citet{bott1960},
+our method only works for gravity disturbances and not the gravity gradients.
+
 The test on simple synthetic data shows that our inversion method is able to
 recover a smooth Moho relief with a homogeneous density-contrast.
 The inversion was not able to fully recover the shortest wavelength feature in
