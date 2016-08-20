@@ -115,8 +115,9 @@ such as the sediment-basement interface of a sedimentary basin or the
 crust-mantle interface (Moho).
 Several methods have been developed over the years to solve this inverse
 problem, for example
-\citet{bott1960, barbosa1999b, barbosa1999a, barnes2012, leao1996, martins2010,
-martins2011, oldenburg1974, reguzzoni2013, santos2015, silva2006, silva2014},
+\citet{bott1960, barbosa1997, barbosa1999b, barbosa1999a, barnes2012, leao1996,
+martins2010, martins2011, oldenburg1974, reguzzoni2013, santos2015, silva2006,
+silva2014},
 to name a few.
 Solving the inverse problem is computationally demanding because it requires
 the construction of large dense matrices and the solution of large linear
@@ -150,14 +151,15 @@ Another approach is to use
 non-spectral (space domain) gravity inversion methods.
 Many such methods were developed for estimating the basement relief of a
 sedimentary basin
-\citep[e.g., ][]{barbosa1999a, barbosa1999b, martins2010, martins2011, sun2014}.
+\citep[e.g., ][]{barbosa1997, barbosa1999a, barbosa1999b, martins2010,
+martins2011, sun2014}.
 These methods approximate the sedimentary pack by a set of juxtaposed
 right-rectangular prisms.
 The top of the prisms coincide with the Earth's surface and the prisms'
 thicknesses represent the depths to the basement and are the parameters to be
 estimated in the inversion.
 The use of rectangular prisms implies a planar Earth approximation and may not
-be adequate for depth-to-Moho estimates in a continental-scale study.
+be adequate for depth-to-Moho estimates in continental- or global-scale study.
 A straightforward way to circumvent this hindrance is to adapt one of the
 methods developed for rectangular prisms to use tesseroids (spherical prisms).
 One of the difficulties of this approach is that the forward problem for a
@@ -531,8 +533,8 @@ by setting the Jacobian matrix (Eq.~\ref{eq:jacobian}) to
 where $\mathbf{I}$ is the identity matrix.
 In this framework,
 Bott's method uses a Bouguer plate approximation of the gravitational effect of
-the relief, $d_i = 2\pi G \Delta\rho z_i$.
-The derivative of $d_i$ with respect to the parameter $z_i$ is
+the relief, $d_i = 2\pi G \Delta\rho\ p_i$.
+The derivative of $d_i$ with respect to the parameter $p_i$ is
 $2\pi G \Delta \rho$, thus linearizing the Jacobian matrix.
 However, the non-linearity of the predicted data $\mathbf{d}(\mathbf{p}^k)$ is
 preserved.
@@ -562,15 +564,15 @@ The tesseroid forward modeling uses the adaptive discretization algorithm
 of \citet{uieda2016} to achieve accurate results.
 Furthermore, our formulation maintains the regularized solution
 for the Gauss-Newton method (Eq.~\ref{eq:gaussnewton-regul})
-but replaces the full Jacobian matrix with the Bouguer plate approximation
-(Eq.~\ref{eq:bott-gaussnewton}).
-Here, the Jacobian matrix is a diagonal matrix whose elements are invariant
-along successive iterations.
+but replaces the full Jacobian matrix with the Bouguer plate approximation.
+Here, the Jacobian matrix is replaced by a diagonal matrix
+(Eq.~\ref{eq:bott-gaussnewton}) whose elements are invariant along successive
+iterations.
 Using this approximation eliminates the cost of computing and storing
 the full $N \times M$-dimensional Jacobian matrix $\mathbf{A}^k$ at each
 iteration
 (Eq.~\ref{eq:jacobian}).
-Traditionally, the Jacobian matrix is computed using a first-order finite
+Traditionally, the full Jacobian matrix is computed using a first-order finite
 difference scheme,
 which requires $2 \times N \times M$ forward modeling operations per iteration.
 Using Eq.~\ref{eq:bott-gaussnewton} requires $N$ multiplications that need only
@@ -591,9 +593,12 @@ We show later in this article that sparse matrix multiplications and solving
 the sparse linear system in Eq.~\ref{eq:gaussnewton-regul} account for less
 than 0.1\% of the computation time required for a single inversion.
 
-The main computational advantage of our formulation is that it retains the
+The main advantage of our formulation is that it retains the
 efficiency of Bott's method while stabilizing the solution through the well
 established formalism of Tikhonov regularization.
+For example, the total variation approach used by \citet{martins2011} could
+potentially be implemented in a more straight forward manner than done by
+\citet{santos2015}.
 
 
 
@@ -937,7 +942,7 @@ for each estimate and chose as the final estimated Moho model
 the one that minimizes the MSE.
 
 Fig.~\ref{fig:simple-results}a shows the final estimated Moho depth
-after cross-validation.
+after the cross-validation.
 The recovered model is smooth, indicating that the cross-validation procedure
 was effective in estimating an optimal regularization parameter.
 Fig.~\ref{fig:simple-results}b shows difference between the true Moho depth
@@ -1047,7 +1052,7 @@ In our model, the Normal Earth Moho is $z_{ref} = 30\ km$ and
 the density-contrast is $\Delta\rho = 350\ kg/m^3$.
 We produce the synthetic data at a constant height of 50 km
 and on a regular grid of $N_{lat} \times N_{lon} = 159 \times 119$ points
-(a total of 18921 observations).
+(a total of 18,921 observations).
 We contaminate the synthetic data with normally distributed pseudo-random noise
 with zero mean and 5 mGal standard deviation (Fig.~\ref{fig:crust1-data}b).
 
@@ -1204,7 +1209,7 @@ The GOCO5S model combines data from 15 satellites, including the complete
 mission data from the GOCE satellite.
 The data were downloaded from the
 International Centre for Global Earth Models (ICGEM) web-service
-\citep[][ \url{http://icgem.gfz-potsdam.de/ICGEM/})]{barthelmes2012}
+\citep[][ \url{http://icgem.gfz-potsdam.de/ICGEM/}]{barthelmes2012}
 in the form of the complete gravity field
 on a regular grid with $0.2^\circ$ grid spacing at ellipsoidal height 50 km.
 We calculate the gravity disturbance
@@ -1451,7 +1456,8 @@ if the input data includes effects other than the anomalous Moho.
 
 In the Amazon and Paraná Basins, our model fits the gravity data but
 underestimates the seismological data by up to 15 km.
-This indicates that a mass excess is present in the crust or upper mantle.
+This indicates that a mass excess may be present in the crust or in the upper
+mantle.
 A body with positive density contrast whose gravitational effect was not
 removed from the data during processing will make the observed gravity
 disturbance greater than it would be otherwise.
@@ -1490,15 +1496,13 @@ is corroborated by a single seismological data point.
 We have developed a computationally efficient gravity inversion method in
 spherical coordinates.
 Our method extends the Gauss-Newton formulation of Bott's method
-\citep{silva2014} to use tesseroids as model elements and Tikhonov
+to use tesseroids as model elements and Tikhonov
 regularization.
 The computational efficiency of our method is due to
 using Bott's approximation for the Jacobian matrix
-(Eq.~\ref{eq:bott-gaussnewton})
 and using sparse matrix algorithms for arithmetic operations and the solution
 of linear systems.
-The Bouguer plate approximation in Eq.~\ref{eq:bott-gaussnewton} is adequate
-and the method converges
+This approximation for the Jacobian matrix is adequate and the method converges
 even when the data are at higher altitudes and the model is not outcropping,
 as shown by the applications to synthetic data.
 We employ hold-out cross-validation to estimate the regularization parameter
@@ -1506,50 +1510,41 @@ and a validation procedure using seismological data to estimate the Moho
 density-contrast and the Normal Earth Moho depth.
 
 There are two main advantages of the proposed method over previous works.
-First, unlike the Parker-Oldenburg method \citep{oldenburg1974} or methods
+First, unlike the Parker-Oldenburg method or methods
 using rectangular prisms, our inversion method does not require the data to be
 projected onto a plane.
-Second, the Parker-Oldenburg method and methods derived from \citet{bott1960}
-\citep[e.g., ][]{silva2014,santos2015} cannot apply the
-traditional methodology for constraining inverse problems
-described in \citet{silva2001b}.
+Second, the Parker-Oldenburg method and methods derived from Bott's method
+cannot apply the traditional methodology for constraining inverse problems.
 Our method has no such restriction because we use the formalism of traditional
 Tikhonov inversion.
 However, the proposed method is not without limitations.
 It requires data on a regular grid and restricts the
 model to be a regular mesh tied to the data grid.
-There is also the limitation that, like \citet{bott1960},
-our method only works for gravity disturbances and not the gravity gradients.
+Like Bott's method, our method only works for gravity disturbances and not for
+the gravity gradients.
 
 The test on simple synthetic data shows that our inversion method is able to
-recover a smooth Moho relief with a homogeneous density-contrast.
+recover a smooth Moho relief with a homogeneous density-contrast distribution.
 The inversion was not able to fully recover the shortest wavelength feature in
 the model, possibly due to the smoothness constraints which tends to soften
 high-frequency (sharp) variations.
-The cross-validation Mean Square Error curve in Fig.~\ref{fig:simple-results}e
-has a well-defined minimum, indicating a value of the regularization parameter
-($\mu$) whose corresponding estimate best predicts data that were not included
-in the inversion.
+The cross-validation Mean Square Error curve has a well-defined minimum,
+indicating a value of the regularization parameter ($\mu$) whose corresponding
+estimate best predicts data that were not included in the inversion.
 Using this value of $\mu$ in the inversion leads to a stable solution
 characterized by a smooth Moho relief with an acceptable data misfit.
 
-The source code profiling results presented in Table~\ref{profiling}
-confirm the efficiency of the proposed method.
-When using sparse matrices, solving linear systems and performing matrix
-multiplications together account for a mere 0.067\% of the total computation
-time required for a single inversion.
+The efficiency of the proposed method is because solving linear systems and
+performing matrix multiplications together account for a mere 0.067\% of the
+total computation time required for a single inversion.
 The majority of the computation time (99.824\%) is spent on forward modeling.
 Thus, we are able to retain the high computational efficiency of Bott's method
 and use a classic Tikhonov regularization formulation.
 This approach could, in theory, be extended to other types of regularization
 (e.g., total variation) and misfit functions (e.g., re-weighted least squares)
 already available in the literature.
-For example, the total variation approach used by \citet{martins2011} could
-potentially be implemented in a more straight forward manner than done by
-\citet{santos2015}.
 
 The more complex synthetic data test based on CRUST1.0
-(Fig.~\ref{fig:crust1-results})
 shows that the validation using pointwise Moho depth information
 is able to correctly estimate the density-contrast ($\Delta\rho$) and Normal
 Earth Moho depth ($z_{ref}$).
@@ -1561,16 +1556,15 @@ A likely explanation is that the smoothness regularization
 is intrinsically unable to produce sharp variations in Moho depth.
 These effects might be mitigated with the use of sharpness-inducing
 regularization, like
-the weighted smoothness inversion \citep{barbosa1999a},
-Cauchy norm regularization \citep{sacchi1996, pilkington2008},
-entropic regularization \citep{silva2010},
-total variation regularization \citep{martins2011},
-or an adaptive mixed smoothness-sharpness regularization \citep{sun2014}.
+the weighted smoothness inversion,
+Cauchy norm regularization,
+entropic regularization,
+total variation regularization,
+or an adaptive mixed smoothness-sharpness regularization.
 
 We applied the method proposed here to estimate the Moho depth for South
 America.
-Our estimated Moho depth model is in accordance with previous results by
-\citet{vandermeijde2013}.
+Our estimated Moho depth model is in accordance with previous results.
 The model fits well the gravity and seismic data in all oceanic regions, the
 central portion of the Andean foreland, Patagonia, and coastal and central
 parts of Brazil.
@@ -1587,9 +1581,8 @@ the data corrections.
 In the Guyana Basin on the coastal region of Venezuela, along the central
 Amazonas and Solimões Basins, and in the Paraná Basin, our Moho depth model is
 able to fit the gravity data but differs significantly from the seismic data.
-\citet{mariani2013} and \citet{nunn1988} explain these discrepancies in the
-Paraná and Amazonas Basins, respectively, as high density rocks in the lower
-crust.
+These discrepancies in the Paraná and Amazonas Basins are interpreted in the
+literature as high density rocks in the lower crust.
 In general, differences between a gravity and a seismically derived Moho model
 may indicate the presence of crustal or mantle density anomalies that were
 unaccounted for in the data processing.
