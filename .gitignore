@@ -2,9 +2,13 @@
 *.pyc
 *~
 *.swp
-manuscript/output/
+manuscript/*.log
+manuscript/*.out
+manuscript/*.bbl
+manuscript/*.blg
 manuscript/*.aux
 manuscript/*-marked-*.tex
+manuscript/*.pdf
 manuscript/figures/*-eps-converted-to.pdf
 manuscript/figures/*.png
 code/*.png
