@@ -8,7 +8,7 @@ dependencies:
     - matplotlib
     - basemap
     - pillow
-    - numba
+    - numba=0.26
     - jupyter
     - seaborn
     - pip:
