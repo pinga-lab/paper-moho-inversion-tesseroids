@@ -8,7 +8,7 @@ and
 
 Click on this button to run the code online: [![run on Binder](http://mybinder.org/badge.svg)](http://mybinder.org:/repo/pinga-lab/paper-moho-inversion-tesseroids)
 
-This repository is archived on [figshare](http://figshare.com/): doi:[10.6084/m9.figshare.3987267](https://dx.doi.org/10.6084/m9.figshare.3987267)
+This repository is archived on [figshare](http://figshare.com/): [doi:10.6084/m9.figshare.3987267](https://dx.doi.org/10.6084/m9.figshare.3987267)
 
 A PDF of the article is available at [leouieda.com/papers/paper-moho-inversion-tesseroids-2016.html](http://www.leouieda.com/papers/paper-moho-inversion-tesseroids-2016.html)
 
