@@ -1,6 +1,8 @@
 Copyright (c) 2016 Leonardo Uieda and Valéria C. F. Barbosa.
 All rights reserved.
 
+All source code is available under the following license.
+
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
 

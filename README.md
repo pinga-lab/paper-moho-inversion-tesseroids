@@ -1,38 +1,68 @@
-# Fast non-linear gravity inversion in spherical coordinates
+# Fast non-linear gravity inversion in spherical coordinates with application to the South American Moho
 
-[Leonardo Uieda](http://www.leouieda.com)
+by [Leonardo Uieda](http://www.leouieda.com)
 and
 [Valéria C. F. Barbosa](http://lattes.cnpq.br/0391036221142471)
 
-**Submitted for publication in the Geophysical Journal International**.
+**Accepted for publication in the Geophysical Journal International**.
 
-This repository contains Python source code that implements the Moho inversion
-method proposed in the paper.  Also included are all data and code required to
-produce the results and figures presented in the paper.  The source code for
-the Moho inversion method is in the file `code/mohoinv.py`.  The file
-`code/datasets.py`  contains utility functions and classes to handle the
-datasets and the CRUST1.0 model used in the paper.  The inversions and figure
-generation are performed in [Jupyter notebooks](http://jupyter.org/), the
-`.ipynb` files in `code`.  You can view static (non-executable) versions of
-these files in [the nbviewer webservice](http://nbviewer.jupyter.org/github/pinga-lab/paper-moho-inversion-tesseroids/tree/master/code/).
+Click on this button to run the code online: [![run on Binder](http://mybinder.org/badge.svg)](http://mybinder.org:/repo/pinga-lab/paper-moho-inversion-tesseroids)
 
-The method was used to estimate the Moho depth of South America.  The final
-estimated Moho model for South America is available the file
-`model/south-american-moho.txt` in ASCII xyz format.
-`model/south-american-moho.jpg` is a preview of what the model looks like
-(figure `manscript/figures/south-america-moho.eps` from the paper):
+This repository is archived on [figshare](http://figshare.com/): doi:[10.6084/m9.figshare.3987267](https://dx.doi.org/10.6084/m9.figshare.3987267)
+
+A PDF of the article is available at [leouieda.com/papers/paper-moho-inversion-tesseroids-2016.html](http://www.leouieda.com/papers/paper-moho-inversion-tesseroids-2016.html)
+
+Contents:
+
+* Python source code that implements the Moho inversion method proposed in the
+  paper (see `code/mohoinv.py`). The modeling code uses the open-source
+  geophysics library [Fatiando a Terra](http://www.fatiando.org/).
+* Data files required to produce all results and figures presented in the paper.  
+* Source code in [Jupyter notebooks](http://jupyter.org/) that produce all
+  results and figures (the `.ipynb` files in `code`). You can view static (not
+  executable) versions of these notebooks through the links provided in
+  `code/README.md`.
+* Latex source to produce the manuscript.
+* The estimated Moho depth model for South America, available in the file
+  `model/south-american-moho.txt` in ASCII xyz format 
+  ([download the file](https://raw.githubusercontent.com/pinga-lab/paper-moho-inversion-tesseroids/master/model/south-american-moho.txt)).
+
+The main result from this publication is the gravity-derived Moho depth model
+for South America:
 
 ![Preview of the estimated Moho depth for South America](https://raw.githubusercontent.com/pinga-lab/paper-moho-inversion-tesseroids/master/model/south-american-moho.jpg?token=AARtIt4v4DyB2aGd81JkbfVlM7sbFqq5ks5W_ClzwA%3D%3D)
 
 
 ## Reproducing the results
 
-You can download a copy of all the files in this repository by cloning the
-[git](https://git-scm.com/) repository:
+
+### Executing the code online
+
+You can run the Jupyter notebooks online without installing anything
+through the free [Binder](http://mybinder.org/) webservice:
+
+[![run on Binder](http://mybinder.org/badge.svg)](http://mybinder.org:/repo/pinga-lab/paper-moho-inversion-tesseroids)
+
+Start by navigating to the `code` folder and choose a notebook to execute.
+Beware that the CRUST1.0 and South American Moho notebooks will probably not
+be able to run on Binder because they take too long (a few days).
+If you want to try out the method start with the `code/synthetic-simple.ipynb`
+notebook or see how the figures for the paper are generated in the
+`code/paper-figures.ipynb` notebook.
+**Tip**: use `Shift + Enter` to execute a code cell.
+
+If you want to run the full inversion on your machine, follow the steps below.
+
+
+### Running things on your machine
+
+First, download a copy of all files in this repository:
+
+* [Download a zip archive](https://github.com/pinga-lab/paper-moho-inversion-tesseroids/archive/master.zip)
+* Or clone the [git](https://git-scm.com/) repository:
 
     git clone https://github.com/pinga-lab/paper-moho-inversion-tesseroids.git
 
-or [click here to download a zip archive](https://github.com/pinga-lab/paper-moho-inversion-tesseroids/archive/master.zip).
 
 ### Setting up your environment
 
@@ -63,6 +93,7 @@ or, if you're on Windows,
 
 This will enable the environment for your current terminal session.
 
+
 ### Running the inversions and generating figures
 
 The inversion and figure generation are all run inside Jupyter notebooks.  To
@@ -88,12 +119,16 @@ whole notebook, run all cells in order.
 All results figures in the paper are generated by the
 `code/paper-figures.ipynb` notebook.
 
+
 ## License
 
 All source code is made available under a BSD 3-clause license.  You can freely
 use and modify the code, without warranty, so long as you provide attribution
 to the authors.  See `LICENSE.md` for the full license text.
 
+The model results in file `model/south-american-moho.txt` are available under
+the [Creative Commons Attribution 4.0 License (CC-BY)](https://creativecommons.org/licenses/by/4.0/).
+
 The manuscript text is not open source. The authors reserve the rights to the
-article content, which is currently submitted for publication in the
-Geophysical Journal International.
+article content, which has been accepted for publication in the Geophysical
+Journal International.
