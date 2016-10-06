@@ -28,9 +28,14 @@ Contents:
   ([download the file](https://raw.githubusercontent.com/pinga-lab/paper-moho-inversion-tesseroids/master/model/south-american-moho.txt)).
 
 The main result from this publication is the gravity-derived Moho depth model
-for South America:
+for South America and the differences between it and seismological estimates 
+of [Assumpção et al. (2013)](http://dx.doi.org/10.1016/j.tecto.2012.11.014):
 
-![Preview of the estimated Moho depth for South America](https://raw.githubusercontent.com/pinga-lab/paper-moho-inversion-tesseroids/master/model/south-american-moho.jpg?token=AARtIt4v4DyB2aGd81JkbfVlM7sbFqq5ks5W_ClzwA%3D%3D)
+![The estimated Moho depth for South America and differences with seismological estimates](https://raw.githubusercontent.com/pinga-lab/paper-moho-inversion-tesseroids/master/model/south-american-moho.png)
+
+> Dotted lines represent the boundaries between major geologic provinces.  AD: Andean Province, AFB: Andean foreland basins, AM: Amazonas Basin, BR: Brazilian Shield, BO: Borborema province, CH: Chaco Basin, GB: Guyana Basin, GU: Guyana Shield, PB: Parnaíba Basin, PC: Parecis Basin, PR: Paraná Basin, PT: Patagonia province, SF: São Francisco Craton, SM: Solimões Basin.
+> Solid orange lines mark the limits of the main lithospheric plates. AF: Africa Plate, AN: Antarctica Plate, CA: Caribbean Plate, CO: Cocos Plate, SA: South America Plate, SC: Scotia Plate, NZ: Nazca Plate.
+> The solid light grey line is the 35 km Moho depth contour.
 
 
 ## Abstract
