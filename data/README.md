@@ -9,9 +9,6 @@ folder.
   the [ICGEM](http://icgem.gfz-potsdam.de/) webservice.
 * `crust1.0.tar.gz` is the CRUST1.0 model downloaded from
   [igppweb.ucsd.edu/~gabi/crust1.html](http://igppweb.ucsd.edu/~gabi/crust1.html)
-* `GMSA12.xyz` is the gravity-derived Moho model of
-  [van der Meijde et al. (2013)](http://dx.doi.org/10.1016/j.tecto.2013.03.023),
-  downloaded from the paper supplementary data.
 * `Moho_Map_SAm2013_data.tar.gz` is the seismological Moho depth model and
   point estimates of
   [Assumpção et al. (2013)](http://dx.doi.org/10.1016/j.tecto.2012.11.014),
