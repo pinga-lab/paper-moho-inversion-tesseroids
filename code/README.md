@@ -34,10 +34,3 @@ notebooks in this folder:
   Run the inversion to estimate the Moho depth for South America.
 * [paper-figures.ipynb](http://nbviewer.jupyter.org/github/pinga-lab/paper-moho-inversion-tesseroids/blob/master/code/paper-figures.ipynb):
   Make all the results figures in the paper.
-
-PDF versions of the notebooks are also available. They were generated using:
-
-	jupyter nbconvert --to pdf NAME_OF_NOTEBOOK.ipynb
-
-The `Makefile` makes the conversion of all notebooks in case the `.ipynb` files
-change.

@@ -15,7 +15,6 @@ datasets and the CRUST1.0 model used in the paper.  The inversions and figure
 generation are performed in [Jupyter notebooks](http://jupyter.org/), the
 `.ipynb` files in `code`.  You can view static (non-executable) versions of
 these files in [the nbviewer webservice](http://nbviewer.jupyter.org/github/pinga-lab/paper-moho-inversion-tesseroids/tree/master/code/).
-PDF versions of the notebooks are also available in the `code` folder.
 
 The method was used to estimate the Moho depth of South America.  The final
 estimated Moho model for South America is available the file
