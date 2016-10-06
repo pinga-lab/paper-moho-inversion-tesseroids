@@ -70,19 +70,20 @@ You'll need a working Python **2.7** environment with all the standard
 scientific packages installed (numpy, scipy, matplotlib, etc).  The easiest
 (and recommended) way to get this is to download and install the
 [Anaconda Python distribution](http://continuum.io/downloads#all).
-Make sure you get the **Python 2.7** version.  All the packages that you'll
-need are specified in the `environmet.yml` file.  You'll also need to install
-the latest development version of the
-[Fatiando a Terra](http://www.fatiando.org/) library.
+Make sure you get the **Python 2.7** version.  
 
-Unzip the contents of this repository (if you've downloaded the zip file) and
-`cd` into the root of the repository.  You can use `conda` package manager
-(included in Anaconda) to create a virtual environment with all the required
-packages installed (including Fatiando). Run the following command in the
-repository folder (where `environment.yml` is located):
+All required dependencies are specified in the `environmet.yml` file.  
+
+You can use `conda` package manager (included in Anaconda) to create a virtual
+environment with all the required packages installed. First, unzip the contents
+of this repository (if you've downloaded the zip file) and `cd` into the root
+of the repository. Next, run the following command in the repository folder
+(where `environment.yml` is located):
 
     conda env create
 
+This will create the virtual environment based on the specifications in 
+`environment.yml` and install all required dependencies.
 To activate the conda environment, run
 
     source activate moho
