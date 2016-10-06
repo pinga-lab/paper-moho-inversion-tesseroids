@@ -61,7 +61,7 @@ First, download a copy of all files in this repository:
 * [Download a zip archive](https://github.com/pinga-lab/paper-moho-inversion-tesseroids/archive/master.zip)
 * Or clone the [git](https://git-scm.com/) repository:
 
-    git clone https://github.com/pinga-lab/paper-moho-inversion-tesseroids.git
+        git clone https://github.com/pinga-lab/paper-moho-inversion-tesseroids.git
 
 
 ### Setting up your environment
