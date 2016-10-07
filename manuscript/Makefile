@@ -59,12 +59,12 @@ wc: all
 clean:
 	rm -rf *.aux *.log *.bbl *.blg *.out
 	rm -rf $(PROJECT).pdf
-	rm -rf $(FIGS)/*-eps-converted-to.pdf
+	rm -rf $(FIGDIR)/*-eps-converted-to.pdf
 
 # Remove embedded fonts from the figure EPS files. The GJI system doesn't like
 # them.
 stripfonts:
-	cd $(FIGS); bash strip-fonts.sh
+	cd $(FIGDIR); bash strip-fonts.sh
 
 # Convert images to PNG
 pngs: $(PNGS)
