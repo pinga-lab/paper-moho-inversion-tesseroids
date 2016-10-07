@@ -8,7 +8,9 @@ and
 
 Click on this button to run the code online: [![run on Binder](http://mybinder.org/badge.svg)](http://mybinder.org:/repo/pinga-lab/paper-moho-inversion-tesseroids)
 
-An archived version of this repository is available at doi:[10.6084/m9.figshare.3987267](https://dx.doi.org/10.6084/m9.figshare.3987267)
+An archived snapshot of this repository is available on figshare 
+at doi:[10.6084/m9.figshare.3987267](https://dx.doi.org/10.6084/m9.figshare.3987267)
+(the manuscript LaTeX sources are not included).
 
 A PDF of the article is available at [leouieda.com/papers/paper-moho-inversion-tesseroids-2016.html](http://www.leouieda.com/papers/paper-moho-inversion-tesseroids-2016.html)
 
@@ -22,7 +24,8 @@ Contents:
   results and figures (the `.ipynb` files in `code`). You can view static (not
   executable) versions of these notebooks through the links provided in
   `code/README.md`.
-* Latex source to produce the manuscript.
+* All figures in EPS format for the paper.
+* Latex source to produce the manuscript (not included in the figshare archive).
 * The estimated Moho depth model for South America, available in the file
   `model/south-american-moho.txt` in ASCII xyz format 
   ([download the file](https://raw.githubusercontent.com/pinga-lab/paper-moho-inversion-tesseroids/master/model/south-american-moho.txt)).
