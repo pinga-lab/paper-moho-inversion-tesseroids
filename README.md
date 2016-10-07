@@ -36,14 +36,8 @@ of [Assumpção et al. (2013)](http://dx.doi.org/10.1016/j.tecto.2012.11.014):
 
 ![The estimated Moho depth for South America and differences with seismological estimates](https://raw.githubusercontent.com/pinga-lab/paper-moho-inversion-tesseroids/master/model/south-american-moho.png)
 
-> Dotted lines represent the boundaries between major geologic provinces.  
-> AD: Andean Province, AFB: Andean foreland basins, AM: Amazonas Basin, 
-> BR: Brazilian Shield, BO: Borborema province, CH: Chaco Basin, 
-> GB: Guyana Basin, GU: Guyana Shield, PB: Parnaíba Basin, PC: Parecis Basin, 
-> PR: Paraná Basin, PT: Patagonia province, SF: São Francisco Craton, SM: Solimões Basin.
-> Solid orange lines mark the limits of the main lithospheric plates. 
-> AF: Africa Plate, AN: Antarctica Plate, CA: Caribbean Plate, CO: Cocos Plate, 
-> SA: South America Plate, SC: Scotia Plate, NZ: Nazca Plate.
+> Dotted lines represent the boundaries between major geologic provinces. AD: Andean Province, AFB: Andean foreland basins, AM: Amazonas Basin, BR: Brazilian Shield, BO: Borborema province, CH: Chaco Basin, GB: Guyana Basin, GU: Guyana Shield, PB: Parnaíba Basin, PC: Parecis Basin, PR: Paraná Basin, PT: Patagonia province, SF: São Francisco Craton, SM: Solimões Basin.
+> Solid orange lines mark the limits of the main lithospheric plates. AF: Africa Plate, AN: Antarctica Plate, CA: Caribbean Plate, CO: Cocos Plate, SA: South America Plate, SC: Scotia Plate, NZ: Nazca Plate.
 > The solid light grey line is the 35 km Moho depth contour.
 
 
@@ -86,7 +80,7 @@ for during gravity data processing.
 You can run the Jupyter notebooks online without installing anything
 through the free [Binder](http://mybinder.org/) webservice:
 
-[![run on Binder](http://mybinder.org/badge.svg)](http://mybinder.org:/repo/pinga-lab/paper-moho-inversion-tesseroids)
+[mybinder.org/repo/pinga-lab/paper-moho-inversion-tesseroids](http://mybinder.org:/repo/pinga-lab/paper-moho-inversion-tesseroids)
 
 Start by navigating to the `code` folder and choose a notebook to execute.
 Beware that the CRUST1.0 and South American Moho notebooks will probably not
