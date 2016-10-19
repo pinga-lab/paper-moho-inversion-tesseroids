@@ -4,7 +4,7 @@ by [Leonardo Uieda](http://www.leouieda.com)
 and
 [Valéria C. F. Barbosa](http://lattes.cnpq.br/0391036221142471)
 
-**Accepted for publication in the Geophysical Journal International**.
+**Published in the Geophysical Journal International**: doi:[10.1093/gji/ggw390](http://dx.doi.org/10.1093/gji/ggw390)
 
 Click on this button to run the code online: [![run on Binder](http://mybinder.org/badge.svg)](http://mybinder.org:/repo/pinga-lab/paper-moho-inversion-tesseroids)
 
