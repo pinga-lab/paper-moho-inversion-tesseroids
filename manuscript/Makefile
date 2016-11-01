@@ -21,11 +21,11 @@ BIBDIR = .
 STYLEDIR = .
 
 ### File Types (for dependencies)
-BIB = $(shell ls $(BIBDIR)/'*.bib')
-STY = $(shell ls $(STYLEDIR)/'*.sty')
-CLS = $(shell ls $(STYLEDIR)/'*.cls')
-BST = $(shell ls $(STYLEDIR)/'*.bst')
-EPS = $(shell ls $(FIGDIR)/'*.eps')
+BIB = $(wildcard $(BIBDIR)/'*.bib')
+STY = $(wildcard $(STYLEDIR)/'*.sty')
+CLS = $(wildcard $(STYLEDIR)/'*.cls')
+BST = $(wildcard $(STYLEDIR)/'*.bst')
+EPS = $(wildcard $(FIGDIR)/'*.eps')
 PNGS = $(patsubst %.eps,%.png,$(EPS))
 EXTRA = profiling.tex
 
@@ -79,7 +79,7 @@ pngs: $(PNGS)
 	pdflatex $(LATEX_FLAGS) $< 1>/dev/null
 	bibtex $(patsubst %.tex,%,$<)
 	pdflatex $(LATEX_FLAGS) $< 1>/dev/null
-	pdflatex $(LATEX_FLAGS) $< 
+	pdflatex $(LATEX_FLAGS) $<
 
 
 # MAKE THE VERSION WITH MARKED DIFFERENCES
