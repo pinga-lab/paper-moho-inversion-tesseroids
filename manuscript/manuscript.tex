@@ -1,14 +1,13 @@
-\documentclass[extra,mreferee]{gji}
-%\documentclass[extra]{gji}
-\usepackage{timet}
-\usepackage{amsmath}
+\documentclass[twocolumn]{article}
 \usepackage{graphicx}
-\usepackage{url}
+\usepackage{amsmath}
+\usepackage[left=0.7in,right=0.7in,top=1.3in,bottom=1in]{geometry}
 \usepackage[utf8]{inputenc}
-% To make two column figures appear in the correct order
+\usepackage[round]{natbib}
 \usepackage{fixltx2e}
-% To make annotations on the sides
-\usepackage{todonotes}
+\usepackage{url}
+\usepackage[pdftex,colorlinks=true]{hyperref}
+\usepackage{fancyhdr}
 
 % Document metadata
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -22,71 +21,97 @@
     Satellite gravity;
     South America;
 }
-\title[]{\Title}
-\author[]{
-    Leonardo Uieda$^{1,2}$,
-    Valéria C. F. Barbosa$^{2}$
+\newcommand{\Author}{Uieda, L. and Barbosa, V.C.F.}
+\newcommand{\AuthorAffil}{
+    {\large
+        Leonardo Uieda$^{1,2,*}$
+        and
+        Val\'eria C. F. Barbosa$^{2}$
+    }
+    \\[0.4cm]
+    {\small $^1$ Universidade do Estado do Rio de Janeiro, Rio de Janeiro, Brazil.}
     \\
-    $^1$Universidade do Estado do Rio de Janeiro, Rio de Janeiro, Brazil.
-    e-mail: leouieda@gmail.com
+    {\small $^2$ Observat\'orio Nacional, Rio de Janeiro, Brazil.}
     \\
-    $^2$Observatório Nacional, Rio de Janeiro, Brazil.
+    {\small $^*$ e-mail: leouieda@gmail.com}
 }
-% Metadata for the generated PDF
-\usepackage[pdftex,colorlinks=true]{hyperref}
+\newcommand{\Journal}{Geophysical Journal International}
+\newcommand{\Year}{2017}
+\newcommand{\DOI}{10.1093/gji/ggw390}
+\newcommand{\DOILink}{\href{https://doi.org/\DOI}{doi.org/\DOI}}
+
+\setlength{\columnsep}{2\columnsep}
 \hypersetup{
+    allcolors=blue,
     pdftitle={\Title},
-    pdfauthor={Leonardo Uieda (leouieda@gmail.com)},
-    pdfsubject={},
+    pdfauthor={\Author},
     pdfkeywords={\Keywords},
-    pdfcreator={pdfTeX},
-    allcolors=black,
 }
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{
+    \fontsize{9pt}{12pt}\selectfont
+    \Author{}, \Year{}, doi:\DOI{}
+}
+\rhead{\fontsize{9pt}{12pt}\selectfont \thepage}
+\renewcommand{\headrulewidth}{0pt}
 
 
 \begin{document}
 
 
-\label{firstpage}
+\title{\Title}
+\author{\AuthorAffil}
+\date{
+    \normalsize
+    Accepted 2016 October 13. Received in original form 2016 March 24.
+    \\[0.4cm]
+    This is a pre-copyedited, author-produced PDF of an article
+    published in \textit{\Journal} following peer review.
+    The version of record
+    ``\textit{\Author{} (\Year{}). \Title{}. \Journal{}. doi:\DOI{}}''
+    is available online at: \DOILink{}.
+}
+
 \maketitle
 
-
 \begin{abstract}
-    Estimating the relief of the Moho from gravity data is a computationally
-    intensive non-linear inverse problem.
-    What is more, the modeling must take the Earths curvature into account when
-    the study area is of regional scale or greater.
-    We present a regularized non-linear gravity inversion method that has a low
-    computational footprint and employs a spherical Earth approximation.
-    To achieve this, we combine the highly efficient Bott's method with
-    smoothness regularization and a discretization of the anomalous Moho into
-    tesseroids (spherical prisms).
-    The computational efficiency of our method is attained by harnessing the
-    fact that all matrices involved are sparse.
-    The inversion results are controlled by three hyper-parameters: the
-    regularization parameter, the anomalous Moho density-contrast, and the
-    reference Moho depth.
-    We estimate the regularization parameter using the method of hold-out
-    cross-validation.
-    Additionally, we estimate the density-contrast and the reference depth
-    using knowledge of the Moho depth at certain points.
-    We apply the proposed method to estimate the Moho depth for the South
-    American continent using satellite gravity data and seismological data.
-    The final Moho model is in accordance with previous gravity-derived models
-    and seismological data.
-    The misfit to the gravity and seismological data is worse in the Andes and
-    best in oceanic areas, central Brazil and Patagonia, and along the Atlantic
-    coast.
-    Similarly to previous results, the model suggests a thinner crust of 30-35
-    km under the Andean foreland basins.
-    Discrepancies with the seismological data are greatest in the Guyana
-    Shield, the central Solimões and Amazonas Basins, the Paraná Basin, and the
-    Borborema province.
-    These differences suggest the existence of crustal or mantle density
-    anomalies that were unaccounted for during gravity data processing.
+Estimating the relief of the Moho from gravity data is a computationally
+intensive non-linear inverse problem.
+What is more, the modeling must take the Earths curvature into account when
+the study area is of regional scale or greater.
+We present a regularized non-linear gravity inversion method that has a low
+computational footprint and employs a spherical Earth approximation.
+To achieve this, we combine the highly efficient Bott's method with
+smoothness regularization and a discretization of the anomalous Moho into
+tesseroids (spherical prisms).
+The computational efficiency of our method is attained by harnessing the
+fact that all matrices involved are sparse.
+The inversion results are controlled by three hyper-parameters: the
+regularization parameter, the anomalous Moho density-contrast, and the
+reference Moho depth.
+We estimate the regularization parameter using the method of hold-out
+cross-validation.
+Additionally, we estimate the density-contrast and the reference depth
+using knowledge of the Moho depth at certain points.
+We apply the proposed method to estimate the Moho depth for the South
+American continent using satellite gravity data and seismological data.
+The final Moho model is in accordance with previous gravity-derived models
+and seismological data.
+The misfit to the gravity and seismological data is worse in the Andes and
+best in oceanic areas, central Brazil and Patagonia, and along the Atlantic
+coast.
+Similarly to previous results, the model suggests a thinner crust of 30-35
+km under the Andean foreland basins.
+Discrepancies with the seismological data are greatest in the Guyana
+Shield, the central Solimões and Amazonas Basins, the Paraná Basin, and the
+Borborema province.
+These differences suggest the existence of crustal or mantle density
+anomalies that were unaccounted for during gravity data processing.
 \end{abstract}
 
 
+\vspace{0.4cm}
 \noindent\textbf{Key words:} \Keywords
 
 
@@ -278,7 +303,7 @@ scheme of \citet{uieda2016}.
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.5\columnwidth]{figures/problem-concept}
+    \includegraphics[width=\columnwidth]{figures/problem-concept}
     \caption{
         Sketch of the stages in gravity data correction and
         the discretization of the anomalous Moho relief using tesseroids.
@@ -301,7 +326,7 @@ scheme of \citet{uieda2016}.
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.5\columnwidth]{figures/tesseroid-coord-sys}
+    \includegraphics[width=\columnwidth]{figures/tesseroid-coord-sys}
     \caption{Sketch of a tesseroid (spherical prism) in a geocentric coordinate
         system (X, Y, Z).
         Observations are made at point P with respect to it's local
@@ -630,7 +655,7 @@ and the final estimated Moho depths.
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.5\columnwidth]{figures/cv-grid-separation}
+    \includegraphics[width=\columnwidth]{figures/cv-grid-separation}
     \caption{Sketch of a data grid separated into
         the training (open circles)
         and testing (black dots) data sets.
@@ -855,7 +880,7 @@ with more fidelity the real data application.
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.5\columnwidth]{figures/synthetic-simple-data}
+    \includegraphics[width=\columnwidth]{figures/synthetic-simple-data}
     \caption{
         A simple Moho model made of tesseroids for synthetic data application.
         (a) The Moho depth of the model in kilometers.
@@ -869,30 +894,6 @@ with more fidelity the real data application.
     }
     \label{fig:simple-data}
 \end{figure}
-
-\begin{figure*}
-    \centering
-    \includegraphics[width=\textwidth]{figures/synthetic-simple-results}
-    \caption{
-        Results from the inversion of the simple synthetic data.
-        (a) The estimated Moho depth.
-        (b) The Moho depth residuals (difference between the true and estimated
-        Moho depths).
-        (c) The gravity residuals (difference between the observed and
-        predicted gravity data).
-        (d) Histogram of the gravity residuals shown in c, with the calculated
-        mean and standard deviation (std) of the residuals in mGal.
-        (e) Cross-validation curve used to determine the optimal regularization
-        parameter (Eq.~\ref{eq:goalfunction}).
-        Both axis are in logarithmic scale.
-        The minimum Mean Square Error (Eq.~\ref{eq:msemu}) is found at
-        $\mu = 0.00046$ (red triangle).
-        (f) Goal function value (Eq.~\ref{eq:goalfunction}) per Gauss-Newton
-        iteration showing the convergence of the gradient descent.
-        The y-axis is in logarithmic scale.
-    }
-    \label{fig:simple-results}
-\end{figure*}
 
 We simulate the transition from a continental-type Moho to an oceanic-type Moho
 using a model composed of $M_{lat} \times M_{lon} = 40 \times 50$ grid of
@@ -917,6 +918,30 @@ The data grid spacing is half the grid spacing of the tesseroid model
 so that, when separating the training and testing data sets
 (Fig.~\ref{fig:grid_separation}),
 the training data set points will fall directly above each model element.
+
+\begin{figure*}
+    \centering
+    \includegraphics[width=\textwidth]{figures/synthetic-simple-results}
+    \caption{
+        Results from the inversion of the simple synthetic data.
+        (a) The estimated Moho depth.
+        (b) The Moho depth residuals (difference between the true and estimated
+        Moho depths).
+        (c) The gravity residuals (difference between the observed and
+        predicted gravity data).
+        (d) Histogram of the gravity residuals shown in c, with the calculated
+        mean and standard deviation (std) of the residuals in mGal.
+        (e) Cross-validation curve used to determine the optimal regularization
+        parameter (Eq.~\ref{eq:goalfunction}).
+        Both axis are in logarithmic scale.
+        The minimum Mean Square Error (Eq.~\ref{eq:msemu}) is found at
+        $\mu = 0.00046$ (red triangle).
+        (f) Goal function value (Eq.~\ref{eq:goalfunction}) per Gauss-Newton
+        iteration showing the convergence of the gradient descent.
+        The y-axis is in logarithmic scale.
+    }
+    \label{fig:simple-results}
+\end{figure*}
 
 We separated the synthetic data into training and testing data sets
 following Fig.~\ref{fig:grid_separation}.
@@ -1257,7 +1282,7 @@ data}
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.5\columnwidth]{figures/south-america-cv}
+    \includegraphics[width=\columnwidth]{figures/south-america-cv}
     \caption{
         Cross-validation results for the South American Moho inversion.
         (a) Cross-validation to determine the regularization parameter $\mu$
@@ -1324,7 +1349,7 @@ of South America and the surrounding oceans.
 
 \begin{figure*}
     \centering
-    \includegraphics[width=\textwidth]{figures/south-america-moho}
+    \includegraphics[width=0.9\textwidth]{figures/south-america-moho}
     \caption{
         The estimated Moho depth of South America.
         Dotted lines represent the boundaries between major geologic provinces
@@ -1586,7 +1611,7 @@ unaccounted for in the data processing.
 Such locations warrant further detailed investigation.
 
 Our gravity-derived Moho model for South America
-can be downloaded from the online repository 
+can be downloaded from the online repository
 \url{http://dx.doi.org/10.6084/m9.figshare.3987267}.
 
 
@@ -1595,7 +1620,7 @@ can be downloaded from the online repository
 
 We are indebted to the developers and maintainers of the open-source
 software without which this work would not have been possible.
-We thank 
+We thank
 Marcelo Assumpção for providing the seismological Moho depth estimates,
 Naomi Ussami, Julio C. S. O. Lyrio, Cosme F. P. Neto, and Daniel R. Franco
 for their constructive feedback,
