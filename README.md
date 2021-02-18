@@ -8,7 +8,7 @@ and
 
 Click on this button to run the code online: [![run on Binder](http://mybinder.org/badge.svg)](http://mybinder.org:/repo/pinga-lab/paper-moho-inversion-tesseroids)
 
-An archived snapshot of this repository is available on figshare 
+An archived snapshot of this repository is available on figshare
 at doi:[10.6084/m9.figshare.3987267](https://dx.doi.org/10.6084/m9.figshare.3987267)
 (the manuscript LaTeX sources are not included).
 
@@ -19,7 +19,7 @@ Contents:
 * Python source code that implements the Moho inversion method proposed in the
   paper (see `code/mohoinv.py`). The modeling code uses the open-source
   geophysics library [Fatiando a Terra](http://www.fatiando.org/).
-* Data files required to produce all results and figures presented in the paper.  
+* Data files required to produce all results and figures presented in the paper.
 * Source code in [Jupyter notebooks](http://jupyter.org/) that produce all
   results and figures (the `.ipynb` files in `code`). You can view static (not
   executable) versions of these notebooks through the links provided in
@@ -27,11 +27,11 @@ Contents:
 * All figures in EPS format for the paper.
 * Latex source to produce the manuscript (not included in the figshare archive).
 * The estimated Moho depth model for South America, available in the file
-  `model/south-american-moho.txt` in ASCII xyz format 
+  `model/south-american-moho.txt` in ASCII xyz format
   ([download the file](https://raw.githubusercontent.com/pinga-lab/paper-moho-inversion-tesseroids/master/model/south-american-moho.txt)).
 
 The main result from this publication is the gravity-derived Moho depth model
-for South America and the differences between it and seismological estimates 
+for South America and the differences between it and seismological estimates
 of [Assumpção et al. (2013)](http://dx.doi.org/10.1016/j.tecto.2012.11.014):
 
 ![The estimated Moho depth for South America and differences with seismological estimates](https://raw.githubusercontent.com/pinga-lab/paper-moho-inversion-tesseroids/master/model/south-american-moho.png)
@@ -109,19 +109,23 @@ You'll need a working Python **2.7** environment with all the standard
 scientific packages installed (numpy, scipy, matplotlib, etc).  The easiest
 (and recommended) way to get this is to download and install the
 [Anaconda Python distribution](http://continuum.io/downloads#all).
-Make sure you get the **Python 2.7** version.  
+Make sure you get the **Python 2.7** version.
 
-All required dependencies are specified in the `environmet.yml` file.  
+All required dependencies are specified in the `environmet.yml` file.
+The exact versions of every dependency are also specified in the `conda-*.lock`
+files. The lock files can be used to create an exact version of the environment
+used in the paper for Linux, Mac, and Windows.
 
 You can use `conda` package manager (included in Anaconda) to create a virtual
 environment with all the required packages installed. First, unzip the contents
 of this repository (if you've downloaded the zip file) and `cd` into the root
-of the repository. Next, run the following command in the repository folder
-(where `environment.yml` is located):
+of the repository (where `environment.yml` and the `conda-*.lock` files are
+located). Next, run the following command in a terminal (substituting the
+appropriate lock file for your operating system):
 
-    conda env create
+    conda create -n moho --file conda-linux-64.lock
 
-This will create the virtual environment based on the specifications in 
+This will create the virtual environment based on the specifications in
 `environment.yml` and install all required dependencies.
 To activate the conda environment, run
 
